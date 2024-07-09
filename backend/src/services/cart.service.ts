@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Res } from "../interfaces/res";
-import { Product } from "../interfaces/product";
+import { Product } from "../interfaces/event";
 import { CartServices } from "../interfaces/cart_service";
 import { Cart, CartItem } from "../interfaces/cart";
 

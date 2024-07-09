@@ -1,5 +1,5 @@
 import { UserDetails } from "./auth";
-import { Product, ProductImagesArray } from "./product";
+import { Product, ProductImagesArray } from "./event";
 
 export interface Order {
   id: string;

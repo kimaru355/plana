@@ -21,34 +21,58 @@ model User {
 }
 
 model Organizer {
-  id           String         @id @unique
-  name         String
-  email        String
-  phoneNumber  String
-  password     String
-  isVerified   Boolean        @default(false)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @default(now()) @updatedAt
-  Event        Event[]
-  DeletedEvent DeletedEvent[]
-  PastEvent    PastEvent[]
+  id            String         @id @unique
+  name          String
+  email         String         @unique
+  phoneNumber   String         @unique
+  country       String
+  password      String
+  isDeactivated Boolean        @default(false)
+  isVerified    Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  Event         Event[]
+  DeletedEvent  DeletedEvent[]
 }
 
 model Admin {
-  id          String   @id @unique
-  name        String
-  email       String   @unique
-  phoneNumber String
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id            String          @id @unique
+  name          String
+  email         String          @unique
+  phoneNumber   String          @unique
+  country       String
+  password      String
+  isDeactivated Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  EventCategory EventCategory[]
 }
 
 model Event {
   id          String        @id @unique
   title       String
   description String        @db.VarChar(8000)
-  category    String
+  dateTime    DateTime
+  country     String
+  city        String
+  location    String
+  capacity    Int
+  images      String        @db.VarChar(MAX)
+  isDeleted   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  organizerId String
+  categoryId  String
+  organizer   Organizer     @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  category    EventCategory @relation(fields: [categoryId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  EventTicket EventTicket[]
+  Ticket      Ticket[]
+}
+
+model DeletedEvent {
+  id          String        @id @unique
+  title       String
+  description String        @db.VarChar(8000)
   dateTime    DateTime
   country     String
   city        String
@@ -58,73 +82,56 @@ model Event {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now()) @updatedAt
   organizerId String
+  categoryId  String
   organizer   Organizer     @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  category    EventCategory @relation(fields: [categoryId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   EventTicket EventTicket[]
   Ticket      Ticket[]
 }
 
-model DeletedEvent {
-  id          String    @id @unique
-  title       String
-  description String    @db.VarChar(8000)
-  category    String
-  dateTime    DateTime
-  country     String
-  city        String
-  location    String
-  capacity    Int
-  images      String    @db.VarChar(MAX)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  organizerId String
-  organizer   Organizer @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-}
-
-model PastEvent {
-  id          String    @id @unique
-  title       String
-  description String    @db.VarChar(8000)
-  category    String
-  dateTime    DateTime
-  country     String
-  city        String
-  location    String
-  capacity    Int
-  images      String    @db.VarChar(MAX)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  organizerId String
-  organizer   Organizer @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+model EventCategory {
+  id           String         @id @unique
+  name         String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  adminId      String
+  admin        Admin          @relation(fields: [adminId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  Event        Event[]
+  DeletedEvent DeletedEvent[]
 }
 
 model EventTicket {
-  id        String   @id @unique
-  name      String
-  type      String
-  price     Float
-  persons   Int
-  quantity  Int?
-  capacity  Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  eventId   String
-  event     Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  Ticket    Ticket[]
+  id             String        @id @unique
+  name           String
+  type           String
+  price          Float
+  persons        Int
+  quantity       Int?
+  capacity       Int?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  eventId        String
+  event          Event         @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  Ticket         Ticket[]
+  DeletedEvent   DeletedEvent? @relation(fields: [deletedEventId], references: [id])
+  deletedEventId String?
 }
 
 model Ticket {
-  id            String          @id @unique
-  names         String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
-  ticketId      String
-  eventId       String
-  userId        String
-  event         Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  eventTicket   EventTicket     @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  user          User            @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  Review        Review[]
-  DeletedReview DeletedReview[]
+  id             String          @id @unique
+  names          String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
+  ticketId       String
+  eventId        String
+  userId         String
+  event          Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  eventTicket    EventTicket     @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  user           User            @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  Review         Review[]
+  DeletedReview  DeletedReview[]
+  DeletedEvent   DeletedEvent?   @relation(fields: [deletedEventId], references: [id])
+  deletedEventId String?
 }
 
 model Review {

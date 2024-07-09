@@ -4,7 +4,7 @@ import { ReviewServices } from "../interfaces/review_service";
 import { Review } from "../interfaces/review";
 import { Res } from "../interfaces/res";
 import { Order } from "../interfaces/order";
-import { Product } from "../interfaces/product";
+import { Product } from "../interfaces/event";
 
 export class ReviewService implements ReviewServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}

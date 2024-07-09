@@ -1,4 +1,4 @@
-import { Product, ProductImagesArray } from "./product";
+import { Product, ProductImagesArray } from "./event";
 
 export interface CartItem {
   id: string;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Res } from "../interfaces/res";
 import { ProductService } from "../services/product.service";
-import { Product, ProductImagesArray } from "../interfaces/product";
+import { Product, ProductImagesArray } from "../interfaces/event";
 import { v4 } from "uuid";
 
 export const createProduct = async (

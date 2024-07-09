@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Product } from "../interfaces/product";
-import { ProductServices } from "../interfaces/product_service";
+import { Product } from "../interfaces/event";
+import { ProductServices } from "../interfaces/event_service";
 import { Res } from "../interfaces/res";
 
 export class ProductService implements ProductServices {
