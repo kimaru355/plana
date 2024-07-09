@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @unique
+  email         String          @unique
+  name          String
+  phoneNumber   String          @unique
+  country       String
+  password      String
+  isDeactivated Boolean         @default(false)
+  Ticket        Ticket[]
+  Review        Review[]
+  DeletedReview DeletedReview[]
+}
+
+model Organizer {
+  id           String         @id @unique
+  name         String
+  email        String
+  phoneNumber  String
+  password     String
+  isVerified   Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  Event        Event[]
+  DeletedEvent DeletedEvent[]
+  PastEvent    PastEvent[]
+}
+
+model Admin {
+  id          String   @id @unique
+  name        String
+  email       String   @unique
+  phoneNumber String
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Event {
+  id          String        @id @unique
+  title       String
+  description String        @db.VarChar(8000)
+  category    String
+  dateTime    DateTime
+  country     String
+  city        String
+  location    String
+  capacity    Int
+  images      String        @db.VarChar(MAX)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  organizerId String
+  organizer   Organizer     @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  EventTicket EventTicket[]
+  Ticket      Ticket[]
+}
+
+model DeletedEvent {
+  id          String    @id @unique
+  title       String
+  description String    @db.VarChar(8000)
+  category    String
+  dateTime    DateTime
+  country     String
+  city        String
+  location    String
+  capacity    Int
+  images      String    @db.VarChar(MAX)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  organizerId String
+  organizer   Organizer @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model PastEvent {
+  id          String    @id @unique
+  title       String
+  description String    @db.VarChar(8000)
+  category    String
+  dateTime    DateTime
+  country     String
+  city        String
+  location    String
+  capacity    Int
+  images      String    @db.VarChar(MAX)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  organizerId String
+  organizer   Organizer @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model EventTicket {
+  id        String   @id @unique
+  name      String
+  type      String
+  price     Float
+  persons   Int
+  quantity  Int?
+  capacity  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  Ticket    Ticket[]
+}
+
+model Ticket {
+  id            String          @id @unique
+  names         String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  ticketId      String
+  eventId       String
+  userId        String
+  event         Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  eventTicket   EventTicket     @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  user          User            @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  Review        Review[]
+  DeletedReview DeletedReview[]
+}
+
+model Review {
+  id          String   @id @unique
+  rating      Int
+  comment     String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  userId      String
+  ticketId    String
+  user        User     @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  ticket      Ticket   @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model DeletedReview {
+  id          String   @id @unique
+  rating      Int
+  comment     String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  userId      String
+  ticketId    String
+  user        User     @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  ticket      Ticket   @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
