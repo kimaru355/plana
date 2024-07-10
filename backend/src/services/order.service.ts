@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { OrderServices } from "../interfaces/order_service";
-import { Order, Orders } from "../interfaces/order";
+import { OrderServices } from "../interfaces/ticket_service";
+import { Order, Orders } from "../interfaces/ticket";
 import { Res } from "../interfaces/res";
 import { v4 } from "uuid";
 

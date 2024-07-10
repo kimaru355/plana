@@ -1,26 +1,19 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Product } from "../interfaces/event";
-import { ProductServices } from "../interfaces/event_service";
+import { Event } from "../interfaces/event";
+import { EventServices } from "../interfaces/event_service";
 import { Res } from "../interfaces/res";
 
-export class ProductService implements ProductServices {
+export class EventService implements EventServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
-  async createProduct(product: Product): Promise<Res<null>> {
+  async createEvent(event: Event): Promise<Res<null>> {
     try {
-      if (product.quantity > product.stockLimit) {
-        return {
-          success: false,
-          message: "Quantity cannot be greater than stock limit",
-          data: null,
-        };
-      }
-      await this.prisma.product.create({
-        data: product,
+      await this.prisma.event.create({
+        data: event,
       });
       return {
         success: true,
-        message: "Product successfully created",
+        message: "event successfully created",
         data: null,
       };
     } catch (error: any) {
@@ -32,14 +25,14 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async createProducts(products: Product[]): Promise<Res<null>> {
+  async createEvents(events: Event[]): Promise<Res<null>> {
     try {
-      await this.prisma.product.createMany({
-        data: products,
+      await this.prisma.event.createMany({
+        data: events,
       });
       return {
         success: true,
-        message: "Products successfully created",
+        message: "events successfully created",
         data: null,
       };
     } catch (error: any) {
@@ -51,24 +44,17 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async updateProduct(product: Product): Promise<Res<null>> {
+  async updateEvent(event: Event): Promise<Res<null>> {
     try {
-      if (product.quantity > product.stockLimit) {
-        return {
-          success: false,
-          message: "Quantity cannot be greater than stock limit",
-          data: null,
-        };
-      }
-      await this.prisma.product.update({
+      await this.prisma.event.update({
         where: {
-          id: product.id,
+          id: event.id,
         },
-        data: product,
+        data: event,
       });
       return {
         success: true,
-        message: "Product successfully updated",
+        message: "event successfully updated",
         data: null,
       };
     } catch (error: any) {
@@ -80,44 +66,43 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async deleteProduct(id: string): Promise<Res<null>> {
+  async deleteEvent(id: string): Promise<Res<null>> {
     try {
-      const product = await this.prisma.product.findUnique({
+      const event = await this.prisma.event.findUnique({
         where: {
           id: id,
         },
       });
-      if (!product) {
+      if (!event) {
         return {
           success: false,
-          message: "product does not exist",
+          message: "event does not exist",
           data: null,
         };
       }
-      const orders = await this.prisma.order.findMany({
+      const orders = await this.prisma.ticket.findMany({
         where: {
-          productId: id,
-          isOrderCompleted: false,
+          eventId: id,
         },
       });
       if (orders.length > 0) {
         return {
           success: false,
-          message: "There are orders for this product that are not completed",
+          message: "There are orders for this event that are not completed",
           data: null,
         };
       }
-      await this.prisma.product.delete({
+      await this.prisma.event.delete({
         where: {
           id: id,
         },
       });
-      await this.prisma.deletedProduct.create({
-        data: product,
+      await this.prisma.deletedEvent.create({
+        data: event,
       });
       return {
         success: true,
-        message: "Product successfully deleted",
+        message: "event successfully deleted",
         data: null,
       };
     } catch (error: unknown) {
@@ -125,7 +110,7 @@ export class ProductService implements ProductServices {
         if (error.message.includes("Record to update not found")) {
           return {
             success: false,
-            message: "Product not found",
+            message: "event not found",
             data: null,
           };
         }
@@ -139,24 +124,24 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async getProduct(productId: string): Promise<Res<Product | null>> {
+  async getEvent(eventId: string): Promise<Res<Event | null>> {
     try {
-      const product: Product | null = await this.prisma.product.findUnique({
+      const event: Event | null = await this.prisma.event.findUnique({
         where: {
-          id: productId,
+          id: eventId,
         },
       });
-      if (!product) {
+      if (!event) {
         return {
           success: false,
-          message: "Product not found",
+          message: "event not found",
           data: null,
         };
       }
       return {
         success: true,
-        message: "Product found",
-        data: product,
+        message: "event found",
+        data: event,
       };
     } catch (error: any) {
       return {
@@ -167,57 +152,19 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async getAllProducts(): Promise<Res<Product[] | null>> {
+  async getAllEvents(): Promise<Res<Event[] | null>> {
     try {
-      const products: Product[] = await this.prisma.product.findMany();
-      return {
-        success: true,
-        message: "Products found",
-        data: products,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async getProductsByType(type: string): Promise<Res<Product[] | null>> {
-    try {
-      const products = await this.prisma.product.findMany({
+      const events: Event[] = await this.prisma.event.findMany({
         where: {
-          type: type,
-        },
-      });
-      return {
-        success: true,
-        message: "Products found",
-        data: products,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async getProductsByName(productName: string): Promise<Res<Product[] | null>> {
-    try {
-      const products = await this.prisma.product.findMany({
-        where: {
-          name: {
-            contains: productName,
+          dateTime: {
+            gt: new Date(),
           },
         },
       });
       return {
         success: true,
-        message: "Products found",
-        data: products,
+        message: "events found",
+        data: events,
       };
     } catch (error: any) {
       return {
@@ -228,17 +175,20 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async getProductsBySize(size: string): Promise<Res<Product[] | null>> {
+  async getEventsByCategory(categoryId: string): Promise<Res<Event[] | null>> {
     try {
-      const products = await this.prisma.product.findMany({
+      const events = await this.prisma.event.findMany({
         where: {
-          size: size,
+          categoryId: categoryId,
+          dateTime: {
+            gt: new Date(),
+          },
         },
       });
       return {
         success: true,
-        message: "Products found",
-        data: products,
+        message: "events found",
+        data: events,
       };
     } catch (error: any) {
       return {
@@ -249,12 +199,62 @@ export class ProductService implements ProductServices {
     }
   }
 
-  async getProductsByPrice(
+  async getEventsByName(eventName: string): Promise<Res<Event[] | null>> {
+    try {
+      const events = await this.prisma.event.findMany({
+        where: {
+          title: {
+            contains: eventName,
+          },
+          dateTime: {
+            gt: new Date(),
+          },
+        },
+      });
+      return {
+        success: true,
+        message: "events found",
+        data: events,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getEventsByCountry(country: string): Promise<Res<Event[] | null>> {
+    try {
+      const events = await this.prisma.event.findMany({
+        where: {
+          country: country,
+          dateTime: {
+            gt: new Date(),
+          },
+        },
+      });
+      return {
+        success: true,
+        message: "events found",
+        data: events,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getEventsByTicketPrice(
     min: number,
     max: number
-  ): Promise<Res<Product[] | null>> {
+  ): Promise<Res<Event[] | null>> {
     try {
-      const products = await this.prisma.product.findMany({
+      const eventTickets = await this.prisma.eventTicket.findMany({
         where: {
           price: {
             gte: min,
@@ -262,10 +262,50 @@ export class ProductService implements ProductServices {
           },
         },
       });
+      const events = await this.prisma.event.findMany({
+        where: {
+          dateTime: {
+            gt: new Date(),
+          },
+          id: {
+            in: eventTickets.map((ticket) => ticket.eventId),
+          },
+        },
+        include: {
+          Ticket: {},
+        },
+      });
       return {
         success: true,
-        message: "Products found",
-        data: products,
+        message: "events found",
+        data: events,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getEventsByTimeRange(
+    min: Date,
+    max: Date
+  ): Promise<Res<Event[] | null>> {
+    try {
+      const events = await this.prisma.event.findMany({
+        where: {
+          dateTime: {
+            gte: min,
+            lte: max,
+          },
+        },
+      });
+      return {
+        success: true,
+        message: "events found",
+        data: events,
       };
     } catch {
       return {

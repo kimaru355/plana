@@ -8,7 +8,7 @@ export interface EventServices {
   deleteEvent(id: string): Promise<Res<null>>;
   getEvent(eventId: string): Promise<Res<Event | null>>;
   getAllEvents(): Promise<Res<Event[] | null>>;
-  getEventsByCategory(category: string): Promise<Res<Event[] | null>>;
+  getEventsByCategory(categoryId: string): Promise<Res<Event[] | null>>;
   getEventsByCountry(country: string): Promise<Res<Event[] | null>>;
   getEventsByTimeRange(min: Date, max: Date): Promise<Res<Event[] | null>>;
   getEventsByTicketPrice(

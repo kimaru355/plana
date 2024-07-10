@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ReviewServices } from "../interfaces/review_service";
 import { Review } from "../interfaces/review";
 import { Res } from "../interfaces/res";
-import { Order } from "../interfaces/order";
+import { Order } from "../interfaces/ticket";
 import { Product } from "../interfaces/event";
 
 export class ReviewService implements ReviewServices {

@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import { OrderService } from "../services/order.service";
 import { Request, Response } from "express";
-import { Order, Orders } from "../interfaces/order";
+import { Order, Orders } from "../interfaces/ticket";
 import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 import { Cart, CartItem } from "../interfaces/cart";

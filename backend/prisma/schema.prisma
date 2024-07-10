@@ -58,7 +58,6 @@ model Event {
   location    String
   capacity    Int
   images      String        @db.VarChar(MAX)
-  isDeleted   Boolean       @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now()) @updatedAt
   organizerId String
@@ -92,6 +91,7 @@ model DeletedEvent {
 model EventCategory {
   id           String         @id @unique
   name         String
+  imageUrl     String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now()) @updatedAt
   adminId      String
@@ -106,15 +106,15 @@ model EventTicket {
   type           String
   price          Float
   persons        Int
-  quantity       Int?
-  capacity       Int?
+  quantity       Int
+  capacity       Int
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @default(now()) @updatedAt
   eventId        String
-  event          Event         @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  Ticket         Ticket[]
-  DeletedEvent   DeletedEvent? @relation(fields: [deletedEventId], references: [id])
   deletedEventId String?
+  event          Event         @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  DeletedEvent   DeletedEvent? @relation(fields: [deletedEventId], references: [id])
+  Ticket         Ticket[]
 }
 
 model Ticket {
@@ -122,11 +122,11 @@ model Ticket {
   names          String
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @default(now()) @updatedAt
-  ticketId       String
+  eventTicketId  String
   eventId        String
   userId         String
   event          Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  eventTicket    EventTicket     @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  eventTicket    EventTicket     @relation(fields: [eventTicketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   user           User            @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   Review         Review[]
   DeletedReview  DeletedReview[]

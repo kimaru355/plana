@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Res } from "../interfaces/res";
-import { ProductService } from "../services/product.service";
+import { ProductService } from "../services/event.service";
 import { Product, ProductImagesArray } from "../interfaces/event";
 import { v4 } from "uuid";
 
