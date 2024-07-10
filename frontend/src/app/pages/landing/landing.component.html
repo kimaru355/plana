@@ -1,0 +1,36 @@
+<section class="space-y-6">
+  <div
+    class="bg-[url('/hero.jpg')] w-full h-[40vh] bg-cover bg-no-repeat bg-center"
+  >
+    <div>
+      <h2>Discover Events that match your Interests</h2>
+    </div>
+  </div>
+  <div class="px-4">
+    <h2 class="text-2xl font-bold pb-4">Browse By Category</h2>
+    <div class="flex gap-4 text-semibold">
+      <div *ngFor="let category of categories" class="w-64 h-48">
+        <img
+          src="{{ category.imageUrl }}"
+          alt="{{ category.name }} image"
+          class="w-full h-40 object-center"
+        />
+        <h3>{{ category.name }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="px-4">
+    <h2 class="text-2xl font-bold pb-4">Popular Events</h2>
+    <div class="flex gap-4 text-semibold w-full">
+      <div *ngFor="let event of events" class="h-48">
+        <img
+          src="{{ event.imagesUrl[0] }}"
+          alt="{{ event.name }} image"
+          class="w-full h-full object-center"
+        />
+        <h3>{{ event.name }}</h3>
+        <h3 class="font-semibold">{{ event.city }}</h3>
+      </div>
+    </div>
+  </div>
+</section>
