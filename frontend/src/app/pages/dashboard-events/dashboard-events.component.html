@@ -1,0 +1,49 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">EVENTS</h1>
+  </div>
+  <div class="flex justify-between px-4 py-4">
+    <select name="category" id="category" class="px-8 py-2 rounded-2xl">
+      <option value="tech">Tech</option>
+    </select>
+    <input
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search Events"
+      class="bg-white1 px-8 py-2 rounded-3xl w-80"
+    />
+    <button class="bg-white1 px-8 py-2 rounded-2xl">Create Event</button>
+  </div>
+  <div class="px-4">
+    <table class="bg-white1 p-2 w-full">
+      <thead>
+        <th class="border-stroke border text-start">Title</th>
+        <th class="border-stroke border text-start">Capacity</th>
+        <th class="border-stroke border text-start">Date</th>
+        <th class="border-stroke border text-start">Country</th>
+        <th class="border-stroke border text-start">Actions</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td class="border-stroke border">{{ event.title }}</td>
+          <td class="border-stroke border">{{ event.capacity }}</td>
+          <td class="border-stroke border">{{ event.date }}</td>
+          <td class="border-stroke border">{{ event.country }}</td>
+          <td class="flex gap-2 border-stroke px-2 border">
+            <img
+              class="w-8 h-8 hover:cursor-pointer"
+              src="/icons/edit.png"
+              alt="edit button"
+            />
+            <img
+              class="w-8 h-8 hover:cursor-pointer"
+              src="/icons/delete.png"
+              alt="delete button"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

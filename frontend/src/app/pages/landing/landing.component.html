@@ -1,15 +1,19 @@
 <section class="space-y-6">
   <div
-    class="bg-[url('/hero.jpg')] w-full h-[40vh] bg-cover bg-no-repeat bg-center"
+    class="bg-[url('/images/hero.jpg')] bg-cover bg-no-repeat bg-center w-full h-[40vh]"
   >
     <div>
       <h2>Discover Events that match your Interests</h2>
     </div>
   </div>
   <div class="px-4">
-    <h2 class="text-2xl font-bold pb-4">Browse By Category</h2>
+    <h2 class="pb-4 font-bold text-2xl">Browse By Category</h2>
     <div class="flex gap-4 text-semibold">
-      <div *ngFor="let category of categories" class="w-64 h-48">
+      <div
+        *ngFor="let category of categories"
+        class="w-64 h-48"
+        routerLink="event/{{ category.id }}"
+      >
         <img
           src="{{ category.imageUrl }}"
           alt="{{ category.name }} image"
@@ -20,9 +24,13 @@
     </div>
   </div>
   <div class="px-4">
-    <h2 class="text-2xl font-bold pb-4">Popular Events</h2>
-    <div class="flex gap-4 text-semibold w-full">
-      <div *ngFor="let event of events" class="h-48">
+    <h2 class="pb-4 font-bold text-2xl">Popular Events</h2>
+    <div class="flex gap-4 w-full text-semibold">
+      <div
+        *ngFor="let event of events"
+        class="w-96 h-56"
+        routerLink="events/{{ event.id }}"
+      >
         <img
           src="{{ event.imagesUrl[0] }}"
           alt="{{ event.name }} image"

@@ -1,0 +1,86 @@
+<header
+  class="top-0 bottom-0 left-0 fixed bg-[#024DDF] p-2 xl:pl-12 w-[20vw] min-w-40 text-white text-xl"
+>
+  <nav>
+    <h2 class="font-bold text-3xl">PLANA</h2>
+    <menu class="flex flex-col gap-4 mt-8">
+      <a
+        routerLink="analytics"
+        (click)="currentRoute = 'analytics'"
+        class="{{
+          currentRoute === 'analytics' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'analytics' ? 'analytics_active' : 'analytics'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Analytics</a
+      >
+      <a
+        routerLink="events"
+        (click)="currentRoute = 'events'"
+        class="{{
+          currentRoute === 'events' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'events' ? 'events_active' : 'events'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Events</a
+      >
+      <a
+        routerLink="bookings"
+        (click)="currentRoute = 'bookings'"
+        class="{{
+          currentRoute === 'bookings' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'bookings' ? 'ticket_active' : 'ticket'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Bookings</a
+      >
+      <a
+        routerLink="clients"
+        (click)="currentRoute = 'clients'"
+        class="{{
+          currentRoute === 'clients' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'clients' ? 'clients_active' : 'clients'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Clients</a
+      >
+      <a
+        routerLink="profile"
+        (click)="currentRoute = 'profile'"
+        class="{{
+          currentRoute === 'profile' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'profile' ? 'profile_active' : 'profile'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Profile</a
+      >
+      <a routerLink="" class="flex items-center gap-1"
+        ><img
+          src="/icons/logout.png"
+          alt="logout button"
+          class="w-8 h-8"
+        />Logout</a
+      >
+    </menu>
+  </nav>
+</header>

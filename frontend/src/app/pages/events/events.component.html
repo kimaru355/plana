@@ -1,1 +1,28 @@
-<p>events works!</p>
+<section class="space-y-6">
+  <div
+    class="relative bg-[url('/images/events_hero.jpg')] bg-cover bg-no-repeat bg-center w-full h-[40vh]"
+  >
+    <div class="top-[20vh] absolute flex justify-center">
+      <h2 class="text-center">Our Events</h2>
+    </div>
+  </div>
+  <div class="px-4 md:px-8 xl:px-12">
+    <h2 class="pb-4 font-bold text-2xl">Events</h2>
+    <div class="flex flex-wrap gap-4 w-full text-semibold">
+      <div
+        *ngFor="let event of events"
+        class="w-[24rem] h-[22rem]"
+        routerLink="events/{{ event.id }}"
+      >
+        <img
+          src="{{ event.imagesUrl[0] }}"
+          alt="{{ event.name }} image"
+          class="w-full h-[16rem] object-center"
+        />
+        <h3>{{ event.name }}</h3>
+        <h3 class="font-bold">Ksh. {{ event.price }}</h3>
+        <h3 class="font-semibold">{{ event.city }}</h3>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">CLIENTS</h1>
+  </div>
+  <div class="relative flex justify-center px-4 py-4">
+    <select
+      name="event"
+      id="event"
+      class="left-4 absolute px-8 py-2 rounded-2xl"
+    >
+      <option value="all">All</option>
+    </select>
+    <input
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search Name"
+      class="bg-white1 px-8 py-2 rounded-3xl w-80"
+    />
+  </div>
+  <div class="px-4">
+    <table class="bg-white1 p-2 w-full">
+      <thead>
+        <th class="border-stroke border text-start">Title</th>
+        <th class="border-stroke border text-start">Capacity</th>
+        <th class="border-stroke border text-start">Phone Number</th>
+        <th class="border-stroke border text-start">Profile Photo</th>
+        <th class="border-stroke border text-start">Country</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td class="border-stroke border">{{ client.name }}</td>
+          <td class="border-stroke border">{{ client.email }}</td>
+          <td class="border-stroke border">{{ client.phoneNumber }}</td>
+          <td class="border-stroke border">
+            <img
+              src="{{ client.imageUrl }}"
+              alt=""
+              class="rounded-full w-8 h-8"
+            />
+          </td>
+          <td class="border-stroke border">{{ client.country }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

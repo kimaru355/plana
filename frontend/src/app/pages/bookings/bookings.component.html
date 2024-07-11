@@ -1,0 +1,43 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">BOOKINGS</h1>
+  </div>
+  <div class="relative flex justify-center px-4 py-4">
+    <select
+      name="event"
+      id="event"
+      class="left-4 absolute px-8 py-2 rounded-2xl"
+    >
+      <option value="tech">Tech</option>
+    </select>
+    <input
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search Client Name"
+      class="bg-white1 px-8 py-2 rounded-3xl w-80"
+    />
+  </div>
+  <div class="px-4">
+    <table class="bg-white1 p-2 w-full">
+      <thead>
+        <th class="border-stroke border text-start">Ticket Type</th>
+        <th class="border-stroke border text-start">Event Name</th>
+        <th class="border-stroke border text-start">Client Name</th>
+        <th class="border-stroke border text-start">Client Email</th>
+        <th class="border-stroke border text-start">Ticket price</th>
+        <th class="border-stroke border text-start">Date</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td class="border-stroke border">{{ booking.ticketName }}</td>
+          <td class="border-stroke border">{{ booking.eventName }}</td>
+          <td class="border-stroke border">{{ booking.clientName }}</td>
+          <td class="border-stroke border">{{ booking.clientEmail }}</td>
+          <td class="border-stroke border">{{ booking.price }}</td>
+          <td class="border-stroke border">{{ booking.createdAt }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

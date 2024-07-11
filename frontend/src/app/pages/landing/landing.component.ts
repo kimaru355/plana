@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
 })
@@ -13,22 +14,22 @@ export class LandingComponent {
     {
       id: 1,
       name: 'TECH EVENTS',
-      imageUrl: '/tech_category.jpg',
+      imageUrl: '/images/tech_category.jpg',
     },
     {
       id: 1,
       name: 'MUSIC EVENTS',
-      imageUrl: '/music_category.jpg',
+      imageUrl: '/images/music_category.jpg',
     },
     {
       id: 1,
       name: 'MOVIE EVENTS',
-      imageUrl: '/movies_category.jpg',
+      imageUrl: '/images/movies_category.jpg',
     },
     {
       id: 1,
       name: 'SPORT EVENTS',
-      imageUrl: '/sports_category.jpg',
+      imageUrl: '/images/sports_category.jpg',
     },
   ];
   events = [
@@ -36,25 +37,25 @@ export class LandingComponent {
       id: 1,
       name: 'TECH EVENTS',
       city: 'Nairobi',
-      imagesUrl: ['/music1.jpg'],
+      imagesUrl: ['/images/music1.jpg'],
     },
     {
       id: 1,
       name: 'TECH EVENTS',
       city: 'Nairobi',
-      imagesUrl: ['/music1.jpg'],
+      imagesUrl: ['/images/music1.jpg'],
     },
     {
       id: 1,
       name: 'TECH EVENTS',
       city: 'Nairobi',
-      imagesUrl: ['/music1.jpg'],
+      imagesUrl: ['/images/music1.jpg'],
     },
     {
       id: 1,
       name: 'TECH EVENTS',
       city: 'Nairobi',
-      imagesUrl: ['/music1.jpg'],
+      imagesUrl: ['/images/music1.jpg'],
     },
   ];
 }

@@ -1,0 +1,77 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">PROFILE</h1>
+  </div>
+  <div class="space-y-12 p-4 max-w-[80rem]">
+    <form class="flex flex-col">
+      <h2 class="text-2xl text-center">Manage Account Details</h2>
+      <label for="number">Name:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="text"
+        name="name"
+        id="name"
+        [value]="userDetails.name"
+      />
+      <label for="email">Email:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="email"
+        name="email"
+        id="email"
+        [value]="userDetails.email"
+      />
+      <label for="number">Phone Number:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="number"
+        number="number"
+        id="number"
+        [value]="userDetails.phoneNumber"
+      />
+      <div class="flex justify-center">
+        <button
+          type="button"
+          class="bg-blue mt-8 px-8 py-1 rounded-md text-white"
+        >
+          Update Profile
+        </button>
+      </div>
+    </form>
+    <form class="flex flex-col">
+      <h2 class="text-2xl text-center">Manage Password</h2>
+      <label for="oldPassword">Old Password:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="password"
+        name="oldPassword"
+        id="oldPassword"
+        placeholder="********"
+      />
+      <label for="password">New Password:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="********"
+      />
+      <label for="confirmPassword">Confirm Password:</label>
+      <input
+        class="mb-4 px-4 py-1"
+        type="password"
+        name="confirmPassword"
+        id="confirmPassword"
+        placeholder="********"
+      />
+      <div class="flex justify-center">
+        <button
+          type="button"
+          class="bg-blue mt-8 px-8 py-1 rounded-md text-white"
+        >
+          Update Password
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
