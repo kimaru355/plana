@@ -1,19 +1,82 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-event',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './event.component.html',
   styleUrl: './event.component.css',
 })
 export class EventComponent {
+  token: string = localStorage.getItem('token') || '';
+  selectedTicketId = 1;
+  currentImageUrl = '/images/hosts_hero.jpg';
+  selectedTicket = { id: 1, type: 'REGULAR', price: 1000, quantity: 200 };
+  numberOfTickets = 1;
   event = {
     id: 1,
-    name: 'TECH EVENTS',
-    city: 'Nairobi',
+    name: 'BURNING BOY: THE REVENGE OF THE FALLEN',
+    description:
+      'The most anticipated movie of the year is here! Maddox Enga is back with a bang! Burning Boy is a TV-MA drama series that ran from 2015 to 2019 and follows Elliot Alderson, a young cybersecurity engineer and vigilante hacker who struggles with social anxiety, dissociative identity disorder, and clinical depression. Elliot works for the cybersecurity company Allsafe during the day, but at night he connects with people by hacking them, which often leads him to act as a cyber-vigilante. When Elliot is recruited by an underground hacker group led by the mysterious insurrectionary anarchist "Mr. Robot" to help bring down corporate America, he must decide whether to resist or take the chance to take down the multinational CEOs he believes are ruining the world.',
     country: 'Kenya',
-    imagesUrl: ['/images/music1.jpg'],
-    price: 6000,
+    city: 'Nairobi',
+    date: '17th July 2024',
+    time: '4:00 PM',
+    address: 'Mlimani City Conference Hall',
+    imagesUrl: [
+      '/images/hosts_hero.jpg',
+      '/images/music1.jpg',
+      '/images/movies_category.jpg',
+      '/images/event.jpg',
+    ],
+    host: {
+      name: 'Maddox Enga',
+      imageUrl: '/images/profile.jpg',
+      country: 'Kenya',
+    },
+    tickets: [
+      {
+        id: 1,
+        type: 'Regular',
+        price: 3000,
+        quantity: 200,
+      },
+      {
+        id: 2,
+        type: 'VIP',
+        price: 6000,
+        quantity: 100,
+      },
+      {
+        id: 3,
+        type: 'Economy',
+        price: 1500,
+        quantity: 300,
+      },
+    ],
   };
+
+  increment() {
+    if (this.numberOfTickets < this.selectedTicket.quantity) {
+      this.numberOfTickets++;
+    }
+  }
+
+  decrement() {
+    if (this.numberOfTickets > 1) {
+      this.numberOfTickets--;
+    }
+  }
+
+  onTicketChange() {
+    const ticket = this.event.tickets.find(
+      (ticket) => ticket.id === +this.selectedTicketId
+    );
+    if (ticket) {
+      this.selectedTicket = ticket;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,4 +11,9 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
   token: string = localStorage.getItem('token') || '';
+  constructor(private router: Router) {}
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
 }

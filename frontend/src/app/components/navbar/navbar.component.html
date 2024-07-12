@@ -1,5 +1,5 @@
 <header class="space-y-2 bg-[#024DDF] px-4 sm:px-8 py-2 text-white">
-  <div class="flex justify-end items-center gap-4">
+  <div *ngIf="!token" class="flex justify-end items-center gap-4">
     <a routerLink="/login">LOGIN</a>
     <a routerLink="/register" class="bg-[#C4C4C4] px-4 py-1 text-black"
       >SIGN UP</a
@@ -11,9 +11,13 @@
       <a routerLink="/">Home</a>
       <a routerLink="/events">Events</a>
       <a routerLink="/hosts">Hosts</a>
-      <a routerLink="/about">About</a>
+      <a *ngIf="!token" routerLink="/about-us">About</a>
       <a *ngIf="token" routerLink="/reservations">Reservations</a>
-      <a routerLink="/contact-us">Contact Us</a>
+      <a *ngIf="!token" routerLink="/contact-us">Contact Us</a>
+      <a *ngIf="token" routerLink="/profile">Profile</a>
+      <a *ngIf="token" (click)="logout()" class="hover:cursor-pointer"
+        >Logout</a
+      >
     </menu>
   </nav>
 </header>

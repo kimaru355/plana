@@ -19,6 +19,21 @@
         />Analytics</a
       >
       <a
+        *ngIf="token === 'organizer'"
+        routerLink="event/create"
+        (click)="currentRoute = 'event/create'"
+        class="{{
+          currentRoute === 'event/create' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'event/create' ? 'events_active' : 'events'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Create Event</a
+      >
+      <a
         routerLink="events"
         (click)="currentRoute = 'events'"
         class="{{
@@ -61,6 +76,38 @@
         />Clients</a
       >
       <a
+        *ngIf="token === 'admin'"
+        routerLink="hosts"
+        (click)="currentRoute = 'hosts'"
+        class="{{
+          currentRoute === 'hosts' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'hosts' ? 'clients_active' : 'clients'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Hosts</a
+      >
+      <a
+        *ngIf="token === 'organizer'"
+        routerLink="notifications"
+        (click)="currentRoute = 'notifications'"
+        class="{{
+          currentRoute === 'notifications' ? 'text-[#FF1074]' : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === 'notifications'
+              ? 'notifications_active'
+              : 'notifications'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Notifications</a
+      >
+      <a
         routerLink="profile"
         (click)="currentRoute = 'profile'"
         class="{{
@@ -74,7 +121,7 @@
           class="mr-1 xl:mr-4 h-8"
         />Profile</a
       >
-      <a routerLink="" class="flex items-center gap-1"
+      <a class="flex items-center gap-1 hover:cursor-pointer" (click)="logout()"
         ><img
           src="/icons/logout.png"
           alt="logout button"

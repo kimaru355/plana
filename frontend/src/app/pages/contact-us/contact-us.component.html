@@ -1,0 +1,117 @@
+<section class="bg-gray-bg w-full">
+  <div
+    class="relative bg-[url('/images/plana.jpg')] bg-cover bg-no-repeat bg-center w-full h-[50vh]"
+  >
+    <div
+      class="top-[10rem] absolute flex flex-col justify-center items-center w-full text-red1"
+    >
+      <h2 class="text-6xl text-center">We are Plana</h2>
+      <p class="text-2xl">We help you</p>
+      <p class="text-4xl">Discover Events That Match Your Interests</p>
+    </div>
+  </div>
+  <div class="flex px-12 xl:px-20 py-4">
+    <div class="w-1/2">
+      <div class="bg-white shadow-lg p-6 rounded-lg w-96 xl:w-[40rem]">
+        <form [formGroup]="contactUsForm" (ngSubmit)="onSubmit()">
+          <div class="mb-4">
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="John Doe"
+              class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+            />
+            <div *ngIf="name?.dirty && name?.invalid">
+              <small *ngIf="name?.errors?.['required']" class="text-red-500"
+                >Name is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-4">
+            <input
+              type="number"
+              formControlName="phoneNumber"
+              placeholder="07xxxxxxxx"
+              class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+            />
+            <div *ngIf="phoneNumber?.dirty && phoneNumber?.invalid">
+              <small
+                *ngIf="phoneNumber?.errors?.['required']"
+                class="text-red-500"
+                >Phone Number is required.</small
+              >
+            </div>
+          </div>
+          <div class="mb-4">
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="example@mail.com"
+              class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+            />
+            <div *ngIf="email?.dirty && email?.invalid">
+              <small *ngIf="email?.errors?.['required']" class="text-red-500"
+                >Email is required.</small
+              >
+              <small *ngIf="email?.errors?.['email']" class="text-red-500"
+                >Email is invalid.</small
+              >
+            </div>
+          </div>
+          <div class="mb-4">
+            <textarea
+              formControlName="message"
+              placeholder="Message..."
+              rows="10"
+              class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+            ></textarea>
+            <div *ngIf="message?.dirty && message?.invalid">
+              <small *ngIf="message?.errors?.['required']" class="text-red-500"
+                >Message is required.</small
+              >
+            </div>
+          </div>
+          <button
+            type="submit"
+            [disabled]="contactUsForm.invalid"
+            class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full text-white"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="space-y-8 w-1/2">
+      <div>
+        <h2 class="font-semibold text-2xl">Hosts</h2>
+        If you are a registered host or business looking to promote your event
+        on our platform, please reach out to us at
+        <span class="underline">hosts&#64;plana.com</span>
+      </div>
+      <div>
+        <h2 class="font-semibold text-2xl">Marketing Collaborations</h2>
+        For brand collaborations - sponsored content, social media advertising,
+        etc.. please reach out to us at
+        <span class="underline">marketing&#64;plana.com</span>
+      </div>
+      <div>
+        <h2 class="font-semibold text-2xl">EVENT Submissions</h2>
+        Plana features Events across cultures, styles and budgets. For one time
+        events without registering as a hosts,to host your event, kindly email
+        us at <span class="underline">submissions&#64;company.com</span>
+      </div>
+      <div>
+        <h2 class="font-semibold text-2xl">Careers</h2>
+        We are a team of passionate young minds looking to reinvent the EVENT
+        space. Please check our careers page for current openings and email us
+        at
+        <span class="underline">hr&#64;comany.com</span>
+      </div>
+      <div>
+        <h2 class="font-semibold text-2xl">Customers</h2>
+        We love to hear from our precious users. For any feedback or queries
+        simply write in to <span class="underline">info&#64;company.com</span>
+      </div>
+    </div>
+  </div>
+</section>

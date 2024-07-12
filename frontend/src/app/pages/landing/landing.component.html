@@ -2,8 +2,12 @@
   <div
     class="bg-[url('/images/hero.jpg')] bg-cover bg-no-repeat bg-center w-full h-[40vh]"
   >
-    <div>
-      <h2>Discover Events that match your Interests</h2>
+    <div
+      class="top-[30vh] absolute flex flex-col justify-center items-center gap-2 w-full"
+    >
+      <h2 class="font-bold text-4xl">
+        Discover Events that match your Interests
+      </h2>
     </div>
   </div>
   <div class="px-4">
@@ -12,7 +16,7 @@
       <div
         *ngFor="let category of categories"
         class="w-64 h-48"
-        routerLink="event/{{ category.id }}"
+        routerLink="events"
       >
         <img
           src="{{ category.imageUrl }}"
@@ -28,8 +32,8 @@
     <div class="flex gap-4 w-full text-semibold">
       <div
         *ngFor="let event of events"
-        class="w-96 h-56"
-        routerLink="events/{{ event.id }}"
+        class="w-96 h-56 hover:cursor-pointer"
+        routerLink="/event/{{ event.id }}"
       >
         <img
           src="{{ event.imagesUrl[0] }}"

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -10,8 +10,12 @@ import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './admin-navbar.component.css',
 })
 export class AdminNavbarComponent {
+  token: string = localStorage.getItem('token') || '';
   currentRoute: string = 'analytics';
-  constructor(private activatedRoute: ActivatedRoute) {
-    console.log(this.activatedRoute.snapshot.url);
+  constructor(private router: Router) {}
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
   }
 }

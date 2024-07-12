@@ -2,38 +2,38 @@
   <div class="bg-white1 p-4">
     <h1 class="font-bold text-4xl text-center">ANALYTICS</h1>
   </div>
-  <div class="flex flex-wrap p-4 w-full">
-    <div class="w-full xl:w-1/2">
+  <div class="flex flex-wrap xl:flex-nowrap gap-4 p-4 w-full">
+    <div class="w-full xl:w-5/12">
       <div class="flex flex-wrap gap-4">
         <div
-          class="flex flex-col justify-around items-center bg-white1 rounded-md w-80 h-44"
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
         >
           <p>Total Tickets</p>
           <p>{{ analytics.totalTickets }}</p>
         </div>
         <div
-          class="flex flex-col justify-around items-center bg-white1 rounded-md w-80 h-44"
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
         >
           <p>Total Events</p>
           <p>{{ analytics.totalEvents }}</p>
         </div>
         <div
-          class="flex flex-col justify-around items-center bg-white1 rounded-md w-80 h-44"
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
         >
           <p>Total Sales</p>
           <p>{{ analytics.totalSales }}</p>
         </div>
         <div
-          class="flex flex-col justify-around items-center bg-white1 rounded-md w-80 h-44"
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
         >
           <p>Total Clients</p>
           <p>{{ analytics.totalClients }}</p>
         </div>
       </div>
-      <div>
+      <!-- <div>
         <h2>Most booked events</h2>
-      </div>
-      <div class="bg-white1 p-4 pb-6">
+      </div> -->
+      <div class="bg-white1 mt-4 p-4 pb-6">
         <h2 class="pb-2 font-semibold text-2xl">Recent Bookings</h2>
         <table class="bg-gray1 p-2 w-full">
           <thead>
@@ -51,16 +51,8 @@
         </table>
       </div>
     </div>
-    <div class="w-full xl:w-1/2">
-      <div>
-        <h2>Daily Bookings</h2>
-      </div>
-      <div>
-        <h2>Categories</h2>
-      </div>
-      <div>
-        <h2>Overall Growth</h2>
-      </div>
+    <div class="w-full xl:w-5/12">
+      <app-chart></app-chart>
     </div>
   </div>
 </section>

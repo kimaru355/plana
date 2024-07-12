@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { ChartComponent } from '../../components/chart/chart.component';
 
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChartComponent],
   templateUrl: './analytics.component.html',
   styleUrl: './analytics.component.css',
 })

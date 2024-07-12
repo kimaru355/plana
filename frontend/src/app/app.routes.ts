@@ -11,6 +11,13 @@ import { DashboardEventsComponent } from './pages/dashboard-events/dashboard-eve
 import { ClientsComponent } from './pages/clients/clients.component';
 import { BookingsComponent } from './pages/bookings/bookings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { HostsComponent } from './pages/hosts/hosts.component';
+import { CreateEventComponent } from './pages/create-event/create-event.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { ReservationsComponent } from './pages/reservations/reservations.component';
+import { DashboardHostsComponent } from './pages/dashboard-hosts/dashboard-hosts.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +31,12 @@ export const routes: Routes = [
     children: [
       { path: '', component: LandingComponent },
       { path: 'events', component: EventsComponent },
-      { path: 'event', component: EventComponent },
+      { path: 'hosts', component: HostsComponent },
+      { path: 'event/:id', component: EventComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'about-us', component: AboutUsComponent },
+      { path: 'contact-us', component: ContactUsComponent },
+      { path: 'reservations', component: ReservationsComponent },
     ],
   },
   {
@@ -37,6 +49,10 @@ export const routes: Routes = [
       { path: 'clients', component: ClientsComponent },
       { path: 'bookings', component: BookingsComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'event/create', component: CreateEventComponent },
+      { path: 'event/edit/:id', component: CreateEventComponent },
+      { path: 'notifications', component: NotificationsComponent },
+      { path: 'hosts', component: DashboardHostsComponent },
     ],
   },
 ];

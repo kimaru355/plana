@@ -9,6 +9,7 @@ module.exports = {
         white1: "#EFF0F2",
         gray1: "#d0d0d0",
         stroke: "#5B5B5B",
+        red1: "#FF1074",
       },
     },
   },

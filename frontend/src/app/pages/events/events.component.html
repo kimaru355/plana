@@ -2,8 +2,54 @@
   <div
     class="relative bg-[url('/images/events_hero.jpg')] bg-cover bg-no-repeat bg-center w-full h-[40vh]"
   >
-    <div class="top-[20vh] absolute flex justify-center">
-      <h2 class="text-center">Our Events</h2>
+    <div
+      class="top-[20vh] absolute flex flex-col justify-center items-center gap-2 w-full"
+    >
+      <h2 class="font-bold text-4xl text-center">Our Events</h2>
+      <div class="bg-white rounded-lg">
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Search event name..."
+          class="px-4 py-2 rounded-lg w-96 xl:w-[40rem]"
+        />
+        <button class="bg-[#B8B8B8] px-8 py-2 rounded-lg text-white">
+          Search
+        </button>
+      </div>
+      <div>
+        <select
+          name="category"
+          id="category"
+          class="border-2 border-gray-300 p-2 rounded-lg w-64"
+        >
+          <option value="" disabled selected>Select Category</option>
+          <option *ngFor="let category of categories" value="category">
+            {{ category.name }}
+          </option>
+        </select>
+        <select
+          name="host"
+          id="host"
+          class="border-2 border-gray-300 p-2 rounded-lg w-64"
+        >
+          <option value="" disabled selected>Select Host</option>
+          <option *ngFor="let host of hosts" value="host">
+            {{ host.name }}
+          </option>
+        </select>
+        <select
+          name="country"
+          id="country"
+          class="border-2 border-gray-300 p-2 rounded-lg w-64"
+        >
+          <option value="" disabled selected>Select Country</option>
+          <option *ngFor="let country of countries" value="country">
+            {{ country.name }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
   <div class="px-4 md:px-8 xl:px-12">
@@ -11,8 +57,8 @@
     <div class="flex flex-wrap gap-4 w-full text-semibold">
       <div
         *ngFor="let event of events"
-        class="w-[24rem] h-[22rem]"
-        routerLink="events/{{ event.id }}"
+        class="w-[24rem] h-[22rem] hover:cursor-pointer"
+        routerLink="/event/{{ event.id }}"
       >
         <img
           src="{{ event.imagesUrl[0] }}"

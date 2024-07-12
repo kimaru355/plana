@@ -1,0 +1,158 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">EVENTS</h1>
+  </div>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="Event title"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="title?.dirty && title?.invalid">
+        <small *ngIf="title?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <textarea
+        type="text"
+        formControlName="description"
+        placeholder="Event description..."
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      ></textarea>
+      <div *ngIf="description?.dirty && description?.invalid">
+        <small *ngIf="description?.errors?.['required']" class="text-red-500"
+          >Description is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="date"
+        formControlName="date"
+        placeholder="Event date"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="date?.dirty && date?.invalid">
+        <small *ngIf="date?.errors?.['required']" class="text-red-500"
+          >Date is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="time"
+        formControlName="time"
+        placeholder="Event time"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="time?.dirty && time?.invalid">
+        <small *ngIf="time?.errors?.['required']" class="text-red-500"
+          >Time is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <select
+        name="country"
+        id="country"
+        formControlName="address"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      >
+        <option value="" *ngIf="!isEditing" disabled selected>
+          Event country
+        </option>
+        <option value="kenya" *ngIf="isEditing" selected>Kenya</option>
+        <option value="rwanda">Rwanda</option>
+        <option value="uk">UK</option>
+      </select>
+      <div *ngIf="country?.dirty && country?.invalid">
+        <small *ngIf="country?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="text"
+        formControlName="city"
+        placeholder="Event city"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="city?.dirty && city?.invalid">
+        <small *ngIf="city?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="text"
+        formControlName="address"
+        placeholder="Event address"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="address?.dirty && address?.invalid">
+        <small *ngIf="address?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="number"
+        formControlName="capacity"
+        placeholder="Event capacity"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="capacity?.dirty && capacity?.invalid">
+        <small *ngIf="capacity?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <input
+        type="file"
+        formControlName="image"
+        placeholder="Event image"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="image?.dirty && image?.invalid">
+        <small *ngIf="image?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <select
+        name="category"
+        id="category"
+        formControlName="address"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      >
+        <option *ngIf="!isEditing" value="" disabled selected>
+          Event category
+        </option>
+        <option value="tech" *ngIf="isEditing" selected>Tech</option>
+        <option value="tech">Tech</option>
+        <option value="tech">Tech</option>
+      </select>
+      <div *ngIf="address?.dirty && address?.invalid">
+        <small *ngIf="address?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <button
+      type="submit"
+      [disabled]="eventForm.invalid"
+      class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full text-white"
+    >
+      {{ isEditing ? "Update Event" : "Create Event" }}
+    </button>
+  </form>
+</section>
