@@ -14,6 +14,7 @@
       class="bg-white1 px-8 py-2 rounded-3xl w-80"
     />
     <button
+      *ngIf="token === 'organizer'"
       class="bg-white1 hover:bg-blue px-8 py-2 rounded-2xl"
       routerLink="/dashboard/create-event"
     >

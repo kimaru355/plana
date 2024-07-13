@@ -1,5 +1,5 @@
 import { UserDetails } from "./auth";
-import { Event, EventImagesArray } from "./event";
+import { EventCreate, EventCreateImagesArray } from "./event";
 
 export interface Ticket {
   id: string;

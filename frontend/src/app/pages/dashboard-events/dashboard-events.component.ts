@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './dashboard-events.component.css',
 })
 export class DashboardEventsComponent {
+  token: string = localStorage.getItem('token') || '';
   events = [
     {
       id: 1,

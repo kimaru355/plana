@@ -105,7 +105,9 @@ export class AuthService implements AuthServices {
   async register(
     user_register: UserRegister,
     role: "user" | "organizer" | "admin"
-  ): Promise<Res<{ token: string } | null>> {
+  ): Promise<
+    Res<{ token: string; role: "user" | "organizer" | "admin" } | null>
+  > {
     try {
       const userExists: Res<null> = await this.findUser(user_register);
       if (userExists.success) {
@@ -128,7 +130,7 @@ export class AuthService implements AuthServices {
         });
       }
       const token = jwt.sign(
-        { id: user_register.id },
+        { id: user_register.id, role },
         process.env.JWT_SECRET as string,
         {
           expiresIn: "30m",
@@ -139,6 +141,7 @@ export class AuthService implements AuthServices {
         message: "Account successfully created",
         data: {
           token: token,
+          role,
         },
       };
     } catch {
@@ -153,7 +156,9 @@ export class AuthService implements AuthServices {
   async login(
     user_login: UserLogin,
     role: "user" | "organizer" | "admin"
-  ): Promise<Res<{ token: string } | null>> {
+  ): Promise<
+    Res<{ token: string; role: "user" | "organizer" | "admin" } | null>
+  > {
     try {
       let email: string = "";
       let password: string = "";
@@ -221,7 +226,7 @@ export class AuthService implements AuthServices {
       return {
         success: true,
         message: "User successfully logged in",
-        data: { token: token },
+        data: { token: token, role },
       };
     } catch (error) {
       return {

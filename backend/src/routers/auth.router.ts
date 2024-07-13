@@ -9,9 +9,9 @@ import { verifyToken } from "../middlewares/verifyToken";
 
 const AuthRouter = Router();
 
-AuthRouter.post("/register", register);
-AuthRouter.post("/login", login);
-AuthRouter.put("/update_details", verifyToken, updateDetails);
-AuthRouter.put("/update_password", verifyToken, updatePassword);
+AuthRouter.post("/register/:role", register);
+AuthRouter.post("/login/:role", login);
+AuthRouter.put("/update_details/:role", verifyToken, updateDetails);
+AuthRouter.put("/update_password/:role", verifyToken, updatePassword);
 
 export default AuthRouter;

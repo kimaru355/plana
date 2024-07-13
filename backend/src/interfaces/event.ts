@@ -1,4 +1,4 @@
-export interface Event {
+export interface EventCreate {
   id: string;
   title: string;
   description: string;
@@ -13,7 +13,7 @@ export interface Event {
   organizerId: string;
   categoryId: string;
 }
-export interface EventImagesArray {
+export interface EventCreateImagesArray {
   id: string;
   title: string;
   description: string;

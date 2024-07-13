@@ -15,7 +15,7 @@
     <div class="flex gap-4 text-semibold">
       <div
         *ngFor="let category of categories"
-        class="w-64 h-48"
+        class="w-64 h-48 hover:cursor-pointer"
         routerLink="events"
       >
         <img
@@ -29,10 +29,10 @@
   </div>
   <div class="px-4">
     <h2 class="pb-4 font-bold text-2xl">Popular Events</h2>
-    <div class="flex gap-4 w-full text-semibold">
+    <div class="flex gap-4 mb-16 w-full text-semibold">
       <div
         *ngFor="let event of events"
-        class="w-96 h-56 hover:cursor-pointer"
+        class="bg-[#000] w-96 h-56 hover:cursor-pointer hover:scale-105 hover:shadow-lg"
         routerLink="/event/{{ event.id }}"
       >
         <img
@@ -43,6 +43,28 @@
         <h3>{{ event.name }}</h3>
         <h3 class="font-semibold">{{ event.city }}</h3>
       </div>
+    </div>
+  </div>
+  <div class="flex justify-center gap-4 mt-4 px-4 pt-8 w-full">
+    <img
+      src="/images/event.jpg"
+      alt="event image"
+      class="w-96 h-72 object-cover"
+    />
+    <div class="flex flex-col justify-center items-center">
+      <h2 class="font-bold text-2xl xl:text-4xl">
+        Events That Match Your Interests
+      </h2>
+      <p class="text-xl xl:text-2xl">
+        No matter what interests you have, we have events to give you the best
+        time of your life
+      </p>
+      <button
+        class="bg-blue mt-8 px-12 py-2 text-white xl:text-lg self-end"
+        routerLink="/events"
+      >
+        Browse events
+      </button>
     </div>
   </div>
 </section>

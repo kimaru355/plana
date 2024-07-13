@@ -6,11 +6,15 @@ export interface AuthServices {
   register(
     user_register: UserRegister,
     role: "user" | "organizer" | "admin"
-  ): Promise<Res<{ token: string } | null>>;
+  ): Promise<
+    Res<{ token: string; role: "user" | "organizer" | "admin" } | null>
+  >;
   login(
     user_login: UserLogin,
     role: "user" | "organizer" | "admin"
-  ): Promise<Res<{ token: string } | null>>;
+  ): Promise<
+    Res<{ token: string; role: "user" | "organizer" | "admin" } | null>
+  >;
   updateDetails(
     user_details: UserDetails,
     role: "user" | "organizer" | "admin"

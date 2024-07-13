@@ -125,13 +125,13 @@ model Ticket {
   eventTicketId  String
   eventId        String
   userId         String
+  deletedEventId String?
   event          Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   eventTicket    EventTicket     @relation(fields: [eventTicketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   user           User            @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  DeletedEvent   DeletedEvent?   @relation(fields: [deletedEventId], references: [id])
   Review         Review[]
   DeletedReview  DeletedReview[]
-  DeletedEvent   DeletedEvent?   @relation(fields: [deletedEventId], references: [id])
-  deletedEventId String?
 }
 
 model Review {

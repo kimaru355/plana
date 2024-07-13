@@ -13,6 +13,7 @@ import UserRouter from "./routers/user.router";
 import CartRouter from "./routers/cart.router";
 import AnalyticRouter from "./routers/analytic.router";
 import { createOrder } from "./controllers/order.controller";
+import CategoryRouter from "./routers/category.router";
 
 dotenv.config();
 const app = express();
@@ -53,6 +54,7 @@ app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);
 app.use("/user", verifyToken, UserRouter);
 app.use("/analytics", verifyToken, verifyAdmin, AnalyticRouter);
+app.use("/categories", CategoryRouter);
 
 app.use("**", (req: Request, res: Response) => {
   return res.status(404).json({
