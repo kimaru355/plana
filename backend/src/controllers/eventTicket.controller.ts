@@ -41,7 +41,7 @@ export const createEventTicket = async (
   return res.status(200).json(response);
 };
 
-export const createEvents = async (
+export const createEventTickets = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -106,7 +106,7 @@ export const updateEventTicket = async (
   return res.status(200).json(response);
 };
 
-export const deleteEvent = async (
+export const deleteEventTicket = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -119,7 +119,7 @@ export const deleteEvent = async (
       data: null,
     });
   }
-  const response: Res<null> = await eventTicketService.deleteEvent(id);
+  const response: Res<null> = await eventTicketService.deleteEventTicket(id);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -128,211 +128,46 @@ export const deleteEvent = async (
   return res.status(200).json(response);
 };
 
-export const getEvent = async (
+export const getEventTicket = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const eventTicketService = new EventTicketService();
   const id: string = req.params.id;
-  const organizerId = getIdFromToken(req);
-  const response: Res<Event | null> = await eventTicketService.getEvent(
-    id,
-    organizerId
-  );
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray> = {
-      ...response,
-      data: {
-        ...response.data,
-        images: response.data.images.split(":::::"),
-      },
-    };
-    return res.status(200).json(updatedResponse);
+  const response: Res<EventTicket | null> =
+    await eventTicketService.getEventTicket(id);
+  if (response.success) {
+    return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
   }
   return res.status(200).json(response);
 };
 
-export const getAllEvents = async (
+export const getAllEventTickets = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const eventTicketService = new EventTicketService();
   const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> = await eventTicketService.getAllEvents(
-    organizerId
-  );
+  const response: Res<EventTicket[] | null> =
+    await eventTicketService.getAllEventTickets(organizerId);
   if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
+    return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
   }
   return res.status(200).json(response);
 };
 
-export const getEventsByCategory = async (
+export const getEventTicketsByEventId = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const eventTicketService = new EventTicketService();
-  const eventCategory: string = req.params.eventCategory;
+  const eventId: string = req.params.eventId;
   const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> =
-    await eventTicketService.getEventsByCategory(eventCategory, organizerId);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getEventsByName = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const eventTicketService = new EventTicketService();
-  const eventName: string = req.params.eventName;
-  const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> =
-    await eventTicketService.getEventsByName(eventName, organizerId);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getEventsByCountry = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const eventTicketService = new EventTicketService();
-  const eventCountry: string = req.params.eventCountry;
-  if (!eventCountry) {
-    return res.status(200).json({
-      success: false,
-      message: "Please provide a country to filter events by",
-      data: null,
-    });
-  }
-  const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> =
-    await eventTicketService.getEventsByCountry(eventCountry, organizerId);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getEventsByTicketPrice = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const eventTicketService = new EventTicketService();
-  const { min, max } = req.body as { min: number; max: number };
-  if (!min || !max) {
-    return res.status(200).json({
-      success: false,
-      message: "Please provide a price range",
-      data: null,
-    });
-  }
-  const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> =
-    await eventTicketService.getEventsByTicketPrice(min, max, organizerId);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getEventsByTimeRange = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const eventTicketService = new EventTicketService();
-  const { min, max } = req.body as { min: Date; max: Date };
-  if (!min || !max) {
-    return res.status(200).json({
-      success: false,
-      message: "Please provide a time range",
-      data: null,
-    });
-  }
-  const organizerId = getIdFromToken(req);
-  const response: Res<Event[] | null> =
-    await eventTicketService.getEventsByTimeRange(min, max, organizerId);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
+  const response: Res<EventTicket[] | null> =
+    await eventTicketService.getEventTicketsByEventId(eventId, organizerId);
   return res.status(200).json(response);
 };

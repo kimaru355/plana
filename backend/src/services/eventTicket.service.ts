@@ -14,7 +14,7 @@ export class EventTicketService implements EventTicketServices {
       });
       return {
         success: true,
-        message: "event successfully created",
+        message: "Event ticket successfully created",
         data: null,
       };
     } catch (error: any) {
@@ -33,7 +33,7 @@ export class EventTicketService implements EventTicketServices {
       });
       return {
         success: true,
-        message: "events successfully created",
+        message: "Event tickets successfully created",
         data: null,
       };
     } catch (error: any) {
@@ -55,7 +55,7 @@ export class EventTicketService implements EventTicketServices {
       });
       return {
         success: true,
-        message: "event successfully updated",
+        message: "Event ticket successfully updated",
         data: null,
       };
     } catch (error: any) {
@@ -108,7 +108,7 @@ export class EventTicketService implements EventTicketServices {
         if (error.message.includes("Record to update not found")) {
           return {
             success: false,
-            message: "event not found",
+            message: "Event ticket not found",
             data: null,
           };
         }
