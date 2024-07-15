@@ -15,13 +15,10 @@ export const register = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const role: "user" | "organizer" | "admin" = req.params.role as
-    | "user"
-    | "organizer"
-    | "admin";
+  const role: "user" | "organizer" = req.params.role as "user" | "organizer";
   const user_register: UserRegister = req.body;
   if (
-    !["user", "organizer", "admin"].includes(role) ||
+    !["user", "organizer"].includes(role) ||
     !user_register.email ||
     !user_register.password ||
     !user_register.name ||
@@ -39,6 +36,37 @@ export const register = async (
   const auth = new AuthService();
   const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
     await auth.register(user_register, role);
+  if (response.success) {
+    sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
+    return res.status(201).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const registerAdmin = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const user_register: UserRegister = req.body;
+  user_register.password = user_register.email.split("@")[0];
+  if (
+    !user_register.email ||
+    !user_register.password ||
+    !user_register.name ||
+    !user_register.phoneNumber ||
+    !user_register.country ||
+    Object.keys(user_register).length !== 5
+  ) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  user_register.id = v4();
+  const auth = new AuthService();
+  const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
+    await auth.register(user_register, "admin");
   if (response.success) {
     sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
     return res.status(201).json(response);
@@ -149,8 +177,147 @@ export const updatePassword = async (
     });
   }
   user_passwords.id = id;
-  const response: Res<{ role: "user" | "admin" } | null> =
-    await auth.updatePassword(user_passwords, role);
+  const response: Res<null> = await auth.updatePassword(user_passwords, role);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const verifyOrganizer = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const organizerId: string = req.params.organizerId;
+  if (!organizerId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.verifyOrganizer(organizerId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const activateUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId: string = req.params.userId;
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.activateUser(userId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const deactivateUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId: string = req.params.userId;
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.deactivateUser(userId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const activateOrganizer = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const organizerId: string = req.params.organizerId;
+  if (!organizerId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.activateOrganizer(organizerId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const deactivateOrganizer = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const organizerId: string = req.params.organizerId;
+  if (!organizerId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.deactivateOrganizer(organizerId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const activateAdmin = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const adminId: string = req.params.adminId;
+  if (!adminId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.activateAdmin(adminId);
+  if (response.success) {
+    return res.status(202).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const deactivateAdmin = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const adminId: string = req.params.adminId;
+  if (!adminId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const auth = new AuthService();
+  const response: Res<null> = await auth.deactivateAdmin(adminId);
   if (response.success) {
     return res.status(202).json(response);
   }

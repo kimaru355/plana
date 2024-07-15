@@ -41,7 +41,7 @@ export class UsersService implements UsersServices {
           phoneNumber: true,
           country: true,
         },
-        where: { id },
+        where: { id, isDeactivated: false },
       });
       if (!user) {
         return {

@@ -17,6 +17,8 @@ export class EventService implements EventServices {
         data: null,
       };
     } catch (error: any) {
+      console.log(error.message);
+
       return {
         success: false,
         message: "An Error Occurred",
@@ -124,11 +126,15 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEvent(eventId: string): Promise<Res<Event | null>> {
+  async getEvent(
+    eventId: string,
+    organizerId: string
+  ): Promise<Res<Event | null>> {
     try {
       const event: Event | null = await this.prisma.event.findUnique({
         where: {
           id: eventId,
+          organizerId: organizerId,
         },
       });
       if (!event) {
@@ -152,11 +158,12 @@ export class EventService implements EventServices {
     }
   }
 
-  async getAllEvents(): Promise<Res<Event[] | null>> {
+  async getAllEvents(organizerId: string): Promise<Res<Event[] | null>> {
     try {
       const events: Event[] = await this.prisma.event.findMany({
         where: {
-          dateTime: {
+          organizerId,
+          startTime: {
             gt: new Date(),
           },
         },
@@ -175,12 +182,16 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByCategory(categoryId: string): Promise<Res<Event[] | null>> {
+  async getEventsByCategory(
+    categoryId: string,
+    organizerId: string
+  ): Promise<Res<Event[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
           categoryId: categoryId,
-          dateTime: {
+          organizerId,
+          startTime: {
             gt: new Date(),
           },
         },
@@ -199,14 +210,18 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByName(eventName: string): Promise<Res<Event[] | null>> {
+  async getEventsByName(
+    eventName: string,
+    organizerId: string
+  ): Promise<Res<Event[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
+          organizerId,
           title: {
             contains: eventName,
           },
-          dateTime: {
+          startTime: {
             gt: new Date(),
           },
         },
@@ -225,12 +240,16 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByCountry(country: string): Promise<Res<Event[] | null>> {
+  async getEventsByCountry(
+    country: string,
+    organizerId: string
+  ): Promise<Res<Event[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
+          organizerId,
           country: country,
-          dateTime: {
+          startTime: {
             gt: new Date(),
           },
         },
@@ -251,7 +270,8 @@ export class EventService implements EventServices {
 
   async getEventsByTicketPrice(
     min: number,
-    max: number
+    max: number,
+    organizerId: string
   ): Promise<Res<Event[] | null>> {
     try {
       const eventTickets = await this.prisma.eventTicket.findMany({
@@ -264,7 +284,8 @@ export class EventService implements EventServices {
       });
       const events = await this.prisma.event.findMany({
         where: {
-          dateTime: {
+          organizerId,
+          startTime: {
             gt: new Date(),
           },
           id: {
@@ -291,12 +312,14 @@ export class EventService implements EventServices {
 
   async getEventsByTimeRange(
     min: Date,
-    max: Date
+    max: Date,
+    organizerId: string
   ): Promise<Res<Event[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
-          dateTime: {
+          organizerId,
+          startTime: {
             gte: min,
             lte: max,
           },

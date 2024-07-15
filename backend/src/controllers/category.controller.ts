@@ -30,16 +30,14 @@ export const updateEventCategory = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const id = req.params.id;
   const category: EventCategory = req.body;
+  category.id = req.params.id;
   category.adminId = getIdFromToken(req);
   if (
     !category.id ||
     !category.adminId ||
     !category.imageUrl ||
-    !category.name ||
-    !id ||
-    id !== category.id
+    !category.name
   ) {
     return res.status(200).json({
       success: false,

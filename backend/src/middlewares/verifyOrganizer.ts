@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export const verifyAdmin = async (
+export const verifyOrganizer = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -23,7 +23,7 @@ export const verifyAdmin = async (
         .json({ success: false, message: "Access denied", data: null });
     }
     const { role } = payload;
-    if (role === "admin") {
+    if (role === "organizer") {
       next();
     } else {
       return res

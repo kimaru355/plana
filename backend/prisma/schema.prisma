@@ -32,6 +32,7 @@ model Organizer {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   Event         Event[]
+  EventTicket   EventTicket[]
   DeletedEvent  DeletedEvent[]
 }
 
@@ -52,7 +53,8 @@ model Event {
   id          String        @id @unique
   title       String
   description String        @db.VarChar(8000)
-  dateTime    DateTime
+  startTime   DateTime
+  endTime     DateTime
   country     String
   city        String
   location    String
@@ -72,7 +74,8 @@ model DeletedEvent {
   id          String        @id @unique
   title       String
   description String        @db.VarChar(8000)
-  dateTime    DateTime
+  startTime   DateTime
+  endTime     DateTime
   country     String
   city        String
   location    String
@@ -111,8 +114,10 @@ model EventTicket {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @default(now()) @updatedAt
   eventId        String
+  organizerId    String
   deletedEventId String?
   event          Event         @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  organizer      Organizer     @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   DeletedEvent   DeletedEvent? @relation(fields: [deletedEventId], references: [id])
   Ticket         Ticket[]
 }

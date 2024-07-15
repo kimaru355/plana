@@ -32,6 +32,6 @@ CategoryRouter.get(
   verifyAdmin,
   getEventCategoriesByAdminId
 );
-CategoryRouter.get("/:id", verifyToken, verifyAdmin, getEventCategory);
+CategoryRouter.get("/:id", getEventCategory);
 
 export default CategoryRouter;

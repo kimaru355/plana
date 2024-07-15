@@ -1,5 +1,5 @@
 import { UserDetails } from "./auth";
-import { EventCreate, EventCreateImagesArray } from "./event";
+import { Event, EventCreate, EventImagesArray } from "./event";
 
 export interface Ticket {
   id: string;
@@ -30,7 +30,8 @@ export interface EventTicket {
   capacity: number;
   createdAt?: Date;
   updatedAt?: Date;
-  eventId: String;
+  eventId: string;
+  organizerId: string;
 }
 
 export interface TicketFinal {

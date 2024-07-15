@@ -179,10 +179,17 @@ export class AuthService implements AuthServices {
         const user = await this.prisma.organizer.findUnique({
           where: {
             email: user_login.email,
-            isVerified: true,
             isDeactivated: false,
           },
         });
+        if (user && !user.isVerified) {
+          return {
+            success: false,
+            message:
+              "Your Account verification is pending. Contact admin for further assistance.",
+            data: null,
+          };
+        }
         if (user) {
           email = user.email;
           password = user.password;
@@ -378,6 +385,174 @@ export class AuthService implements AuthServices {
         data: null,
       };
     } catch (error: any) {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async verifyOrganizer(organizerId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.organizer.update({
+        where: {
+          id: organizerId,
+        },
+        data: {
+          isVerified: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Organizer verified",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async activateUser(userId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          isDeactivated: false,
+        },
+      });
+      return {
+        success: true,
+        message: "User activated successfully",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async deactivateUser(userId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          isDeactivated: true,
+        },
+      });
+      return {
+        success: true,
+        message: "User deactivated successfully",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async activateOrganizer(organizerId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.organizer.update({
+        where: {
+          id: organizerId,
+        },
+        data: {
+          isDeactivated: false,
+        },
+      });
+      return {
+        success: true,
+        message: "Organizer activated successfully",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async deactivateOrganizer(organizerId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.organizer.update({
+        where: {
+          id: organizerId,
+        },
+        data: {
+          isDeactivated: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Organizer deactivated successfully",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async activateAdmin(adminId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.admin.update({
+        where: {
+          id: adminId,
+        },
+        data: {
+          isDeactivated: false,
+        },
+      });
+      return {
+        success: true,
+        message: "Admin activated successfully",
+        data: null,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  }
+
+  async deactivateAdmin(adminId: string): Promise<Res<null>> {
+    try {
+      await this.prisma.admin.update({
+        where: {
+          id: adminId,
+        },
+        data: {
+          isDeactivated: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Admin deactivated successfully",
+        data: null,
+      };
+    } catch {
       return {
         success: false,
         message: "An error occurred",
