@@ -4,6 +4,7 @@ import { Event, EventCreate, EventImagesArray } from "./event";
 export interface Ticket {
   id: string;
   names: string;
+  quantity: number;
   eventTicketId: string;
   eventId: string;
   userId: string;
@@ -14,6 +15,7 @@ export interface Ticket {
 export interface TicketNamesArray {
   id: string;
   names: string[];
+  quantity: number;
   eventTicketId: string;
   eventId: string;
   userId: string;
@@ -36,9 +38,19 @@ export interface EventTicket {
 
 export interface TicketFinal {
   id: string;
-  names: string[];
+  names: string;
   eventTicket: EventTicket;
   event: Event;
+  user: UserDetails;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
+export interface TicketFinalImagesArray {
+  id: string;
+  names: string[];
+  eventTicket: EventTicket;
+  event: EventImagesArray;
   user: UserDetails;
   createdAt?: Date;
   updateAt?: Date;

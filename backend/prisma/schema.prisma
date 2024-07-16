@@ -125,6 +125,7 @@ model EventTicket {
 model Ticket {
   id             String          @id @unique
   names          String
+  quantity       Int
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @default(now()) @updatedAt
   eventTicketId  String

@@ -1,140 +1,20 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Event } from "../interfaces/event";
-import { EventServices } from "../interfaces/event_service";
+import { EventFinal } from "../interfaces/event";
 import { Res } from "../interfaces/res";
+import { eventServices } from "../interfaces/event_service";
+import { EventTicket } from "../interfaces/ticket";
 
-export class EventService implements EventServices {
+export class EventService implements eventServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
-  async createEvent(event: Event): Promise<Res<null>> {
-    try {
-      await this.prisma.event.create({
-        data: event,
-      });
-      return {
-        success: true,
-        message: "event successfully created",
-        data: null,
-      };
-    } catch (error: any) {
-      console.log(error.message);
-
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async createEvents(events: Event[]): Promise<Res<null>> {
-    try {
-      await this.prisma.event.createMany({
-        data: events,
-      });
-      return {
-        success: true,
-        message: "events successfully created",
-        data: null,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async updateEvent(event: Event): Promise<Res<null>> {
-    try {
-      await this.prisma.event.update({
-        where: {
-          id: event.id,
-        },
-        data: event,
-      });
-      return {
-        success: true,
-        message: "event successfully updated",
-        data: null,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async deleteEvent(id: string): Promise<Res<null>> {
+  async getEvent(eventId: string): Promise<Res<EventFinal | null>> {
     try {
       const event = await this.prisma.event.findUnique({
         where: {
-          id: id,
-        },
-      });
-      if (!event) {
-        return {
-          success: false,
-          message: "event does not exist",
-          data: null,
-        };
-      }
-      const orders = await this.prisma.ticket.findMany({
-        where: {
-          eventId: id,
-        },
-      });
-      if (orders.length > 0) {
-        return {
-          success: false,
-          message: "There are orders for this event that are not completed",
-          data: null,
-        };
-      }
-      await this.prisma.event.delete({
-        where: {
-          id: id,
-        },
-      });
-      await this.prisma.deletedEvent.create({
-        data: event,
-      });
-      return {
-        success: true,
-        message: "event successfully deleted",
-        data: null,
-      };
-    } catch (error: unknown) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.message.includes("Record to update not found")) {
-          return {
-            success: false,
-            message: "event not found",
-            data: null,
-          };
-        }
-      }
-
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: null,
-      };
-    }
-  }
-
-  async getEvent(
-    eventId: string,
-    organizerId: string
-  ): Promise<Res<Event | null>> {
-    try {
-      const event: Event | null = await this.prisma.event.findUnique({
-        where: {
           id: eventId,
-          organizerId: organizerId,
+        },
+        include: {
+          category: true,
         },
       });
       if (!event) {
@@ -144,10 +24,19 @@ export class EventService implements EventServices {
           data: null,
         };
       }
+      const eventTickets = await this.prisma.eventTicket.findMany({
+        where: {
+          eventId: eventId,
+        },
+      });
+      const eventFinal: EventFinal = {
+        ...event,
+        eventTickets,
+      };
       return {
         success: true,
         message: "event found",
-        data: event,
+        data: eventFinal,
       };
     } catch (error: any) {
       return {
@@ -158,20 +47,37 @@ export class EventService implements EventServices {
     }
   }
 
-  async getAllEvents(organizerId: string): Promise<Res<Event[] | null>> {
+  async getAllEvents(): Promise<Res<EventFinal[] | null>> {
     try {
-      const events: Event[] = await this.prisma.event.findMany({
+      const events = await this.prisma.event.findMany({
         where: {
-          organizerId,
           startTime: {
             gt: new Date(),
           },
         },
+        include: {
+          category: true,
+        },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
+
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch (error: any) {
       return {
@@ -183,23 +89,39 @@ export class EventService implements EventServices {
   }
 
   async getEventsByCategory(
-    categoryId: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>> {
+    categoryId: string
+  ): Promise<Res<EventFinal[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
-          categoryId: categoryId,
-          organizerId,
+          categoryId,
           startTime: {
             gt: new Date(),
           },
         },
+        include: {
+          category: true,
+        },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
+
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch (error: any) {
       return {
@@ -210,26 +132,40 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByName(
-    eventName: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>> {
+  async getEventsByName(name: string): Promise<Res<EventFinal[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
-          organizerId,
           title: {
-            contains: eventName,
+            contains: name,
           },
           startTime: {
             gt: new Date(),
           },
         },
+        include: {
+          category: true,
+        },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
+
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch (error: any) {
       return {
@@ -240,24 +176,38 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByCountry(
-    country: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>> {
+  async getEventsByCountry(country: string): Promise<Res<EventFinal[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
-          organizerId,
-          country: country,
+          country,
           startTime: {
             gt: new Date(),
           },
         },
+        include: {
+          category: true,
+        },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
+
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch (error: any) {
       return {
@@ -270,36 +220,62 @@ export class EventService implements EventServices {
 
   async getEventsByTicketPrice(
     min: number,
-    max: number,
-    organizerId: string
-  ): Promise<Res<Event[] | null>> {
+    max: number
+  ): Promise<Res<EventFinal[] | null>> {
     try {
-      const eventTickets = await this.prisma.eventTicket.findMany({
-        where: {
-          price: {
-            gte: min,
-            lte: max,
-          },
-        },
-      });
       const events = await this.prisma.event.findMany({
         where: {
-          organizerId,
           startTime: {
             gt: new Date(),
           },
-          id: {
-            in: eventTickets.map((ticket) => ticket.eventId),
-          },
         },
         include: {
-          Ticket: {},
+          category: true,
         },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+                price: {
+                  gte: min,
+                  lte: max,
+                },
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
+      // const eventTickets = await this.prisma.eventTicket.findMany({
+      //   where: {
+      //     price: {
+      //       gte: min,
+      //       lte: max,
+      //     },
+      //   },
+      // });
+      // const events = await this.prisma.event.findMany({
+      //   where: {
+      //     startTime: {
+      //       gt: new Date(),
+      //     },
+      //     id: {
+      //       in: eventTickets.map((ticket) => ticket.eventId),
+      //     },
+      //   },
+      //   include: {
+      //     category: true,
+      //   },
+      // });
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch {
       return {
@@ -312,23 +288,38 @@ export class EventService implements EventServices {
 
   async getEventsByTimeRange(
     min: Date,
-    max: Date,
-    organizerId: string
-  ): Promise<Res<Event[] | null>> {
+    max: Date
+  ): Promise<Res<EventFinal[] | null>> {
     try {
       const events = await this.prisma.event.findMany({
         where: {
-          organizerId,
           startTime: {
             gte: min,
             lte: max,
           },
         },
+        include: {
+          category: true,
+        },
       });
+      const eventsFinal: EventFinal[] = await Promise.all(
+        events.map(async (event) => {
+          const eventTickets: EventTicket[] =
+            await this.prisma.eventTicket.findMany({
+              where: {
+                eventId: event.id,
+              },
+            });
+          return {
+            ...event,
+            eventTickets: eventTickets,
+          };
+        })
+      );
       return {
         success: true,
         message: "events found",
-        data: events,
+        data: eventsFinal,
       };
     } catch {
       return {

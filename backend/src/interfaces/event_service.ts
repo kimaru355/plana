@@ -1,33 +1,15 @@
-import { Event } from "./event";
+import { EventFinal } from "./event";
 import { Res } from "./res";
 
-export interface EventServices {
-  createEvent(event: Event): Promise<Res<null>>;
-  createEvents(events: Event[]): Promise<Res<null>>;
-  updateEvent(event: Event): Promise<Res<null>>;
-  deleteEvent(id: string): Promise<Res<null>>;
-  getEvent(eventId: string, organizerId: string): Promise<Res<Event | null>>;
-  getAllEvents(organizerId: string): Promise<Res<Event[] | null>>;
-  getEventsByCategory(
-    categoryId: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>>;
-  getEventsByCountry(
-    country: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>>;
-  getEventsByTimeRange(
-    min: Date,
-    max: Date,
-    organizerId: string
-  ): Promise<Res<Event[] | null>>;
+export interface eventServices {
+  getEvent(eventId: string): Promise<Res<EventFinal | null>>;
+  getAllEvents(organizerId: string): Promise<Res<EventFinal[] | null>>;
+  getEventsByCategory(categoryId: string): Promise<Res<EventFinal[] | null>>;
+  getEventsByCountry(country: string): Promise<Res<EventFinal[] | null>>;
+  getEventsByTimeRange(min: Date, max: Date): Promise<Res<EventFinal[] | null>>;
   getEventsByTicketPrice(
     min: number,
-    max: number,
-    organizerId: string
-  ): Promise<Res<Event[] | null>>;
-  getEventsByName(
-    name: string,
-    organizerId: string
-  ): Promise<Res<Event[] | null>>;
+    max: number
+  ): Promise<Res<EventFinal[] | null>>;
+  getEventsByName(name: string): Promise<Res<EventFinal[] | null>>;
 }
