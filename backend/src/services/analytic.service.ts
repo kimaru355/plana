@@ -1,85 +1,70 @@
 import { PrismaClient } from "@prisma/client";
-import { Analytic } from "../interfaces/analytic";
+import { OrganizerAnalytic, AdminAnalytic } from "../interfaces/analytic";
 import { AnalyticServices } from "../interfaces/analytic_service";
 import { Res } from "../interfaces/res";
+import { EventTicket, Ticket } from "../interfaces/ticket";
 
 export class AnalyticService implements AnalyticServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
-  async getAnalytics(): Promise<Res<Analytic | null>> {
+  async getOrganizerAnalytics(
+    organizerId: string
+  ): Promise<Res<OrganizerAnalytic | null>> {
     try {
-      const totalUsers = await this.prisma.user.count();
-      const totalOrders = await this.prisma.order.count();
-      const totalCompleteOrders = await this.prisma.order.count({
+      const eventTickets: EventTicket[] =
+        await this.prisma.eventTicket.findMany({
+          where: {
+            organizerId,
+          },
+        });
+      const tickets: Ticket[] = await this.prisma.ticket.findMany({
         where: {
-          isOrderCompleted: true,
+          eventTicketId: {
+            in: eventTickets.map((eventTicket) => eventTicket.id),
+          },
         },
       });
-      const totalIncompleteOrders = await this.prisma.order.count({
-        where: {
-          isOrderCompleted: false,
-        },
-      });
-      const totalProducts = await this.prisma.product.count();
-      const totalProductsSold = await this.prisma.order.aggregate({
-        _sum: {
-          productNumber: true,
-        },
-      });
-      const orders = await this.prisma.order.findMany({
-        include: {
-          product: true,
-        },
-      });
-      const totalRevenue = orders.reduce((acc, order) => {
-        return acc + order.productNumber * order.product.price;
-      }, 0);
-      const allProducts = await this.prisma.product.findMany();
-      const totalCategories: string[] = [];
-      allProducts.map((product) => {
-        if (!totalCategories.includes(product.type)) {
-          totalCategories.push(product.type);
+      let clientIds: string[] = [];
+      tickets.map((ticket) => {
+        if (!clientIds.includes(ticket.id)) {
+          clientIds.push(ticket.id);
         }
       });
-      const topTenSellingProductsOrders = await this.prisma.order.groupBy({
-        by: ["productId"],
-        _sum: {
-          productNumber: true,
-        },
-        orderBy: {
-          _sum: {
-            productNumber: "desc",
-          },
-        },
-        take: 10,
+      let eventIds: string[] = [];
+      eventTickets.map((eventTicket) => {
+        if (!eventIds.includes(eventTicket.eventId)) {
+          eventIds.push(eventTicket.eventId);
+        }
       });
-      const productIds = topTenSellingProductsOrders.map(
-        (product) => product.productId
-      );
-      const topTenSellingProducts = await this.prisma.product.findMany({
-        where: {
-          id: {
-            in: productIds,
-          },
-        },
+      const totalClients = clientIds.length;
+      const totalTickets = tickets.length;
+      const totalEventTickets: number = eventTickets.length;
+      const totalEvents = eventIds.length;
+      const totalRevenue = tickets.reduce((acc, ticket) => {
+        const eventTickets1 = eventTickets.filter(
+          (eventTicket1) => eventTicket1.id === ticket.eventTicketId
+        );
+        if (eventTickets1.length !== 1) {
+          return acc;
+        }
+        return acc + ticket.quantity * eventTickets1[0].price;
+      }, 0);
+      let eventStats: any = {};
+      tickets.map((ticket) => {
+        if (eventStats[ticket.eventId]) {
+          eventStats[ticket.eventId] += 1;
+        } else {
+          eventStats[ticket.eventId] = 1;
+        }
       });
-      const tenLeastStockProducts = await this.prisma.product.findMany({
-        orderBy: {
-          quantity: "asc",
-        },
-        take: 10,
-      });
-      const analytic: Analytic = {
-        totalUsers,
-        totalOrders,
-        totalProducts,
-        totalCategories: totalCategories.length,
+      const analytic: OrganizerAnalytic = {
+        totalClients,
+        totalTickets,
+        totalEventTickets,
+        totalEvents,
         totalRevenue,
-        totalProductsSold: totalProductsSold._sum.productNumber || 0,
-        totalCompleteOrders,
-        totalIncompleteOrders,
-        tenLeastStockProducts,
-        topTenSellingProducts,
+        // topTenBookedEvents,
+        // topTenRecentBookings,
       };
       return {
         success: true,
