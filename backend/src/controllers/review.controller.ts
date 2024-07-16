@@ -9,16 +9,16 @@ export const createReview = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const reviewService = new ReviewService();
   const review: Review = req.body;
   review.id = v4();
   review.userId = getIdFromToken(req);
   if (
     !review.id ||
-    !review.productId ||
+    !review.ticketId ||
     !review.userId ||
     !review.rating ||
     !review.comment ||
+    !review.description ||
     review.rating < 1 ||
     review.rating > 5
   ) {
@@ -28,54 +28,8 @@ export const createReview = async (
       data: null,
     });
   }
+  const reviewService = new ReviewService();
   const response: Res<null> = await reviewService.createReview(review);
-  if (response.success) {
-    return res.status(200).json(response);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getReviews = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const response: Res<Review[] | null> = await reviewService.getAllReviews();
-  if (response.success) {
-    return res.status(200).json(response);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getReviewsByUserId = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const userId: string = req.params.userId;
-  const response: Res<Review[] | null> = await reviewService.getReviewsByUserId(
-    userId
-  );
-  if (response.success) {
-    return res.status(200).json(response);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const getReviewsByProductId = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const productId: string = req.params.productId;
-  const response: Res<Review[] | null> =
-    await reviewService.getReviewsByProductId(productId);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -131,6 +85,36 @@ export const deleteReview = async (
   }
   const reviewService = new ReviewService();
   const response: Res<null> = await reviewService.deleteReview(id);
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getReviews = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const reviewService = new ReviewService();
+  const response: Res<Review[] | null> = await reviewService.getAllReviews();
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getReviewsByTicketId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const reviewService = new ReviewService();
+  const productId: string = req.params.productId;
+  const response: Res<Review[] | null> =
+    await reviewService.getReviewsByTicketId(productId);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {

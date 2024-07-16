@@ -11,7 +11,7 @@ import { verifyAdmin } from "../middlewares/verifyAdmin";
 
 const TicketRouter = Router();
 
-TicketRouter.put("/create", createTicket);
+TicketRouter.post("/create", createTicket);
 TicketRouter.put("/update", updateTicket);
 TicketRouter.get("/all", verifyAdmin, getTickets);
 TicketRouter.get("/event/:eventId", verifyAdmin, getTicketsByEventId);

@@ -1,4 +1,15 @@
-import { Product, ProductImagesArray } from "./event";
+import { EventFinal, EventFinalImagesArray } from "./event";
+import { TicketFinal, TicketFinalImagesArray } from "./ticket";
+
+export interface OrganizerAnalytic {
+  totalClients: number;
+  totalTickets: number;
+  totalEventTickets: number;
+  totalEvents: number;
+  totalRevenue: number;
+  topTenBookedEvents: EventFinal[] | EventFinalImagesArray[];
+  topTenRecentBookings: TicketFinal[] | TicketFinalImagesArray[];
+}
 
 export interface Analytic {
   totalUsers: number;
@@ -8,7 +19,6 @@ export interface Analytic {
   totalProducts: number;
   totalProductsSold: number;
   totalRevenue: number;
-  topTenSellingProducts: Product[] | ProductImagesArray[];
-  tenLeastStockProducts: Product[] | ProductImagesArray[];
+  topTenBookedEvents: EventFinal[] | EventFinalImagesArray[];
   totalCategories: number;
 }

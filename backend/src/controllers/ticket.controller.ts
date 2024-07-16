@@ -101,13 +101,17 @@ export const getTicket = async (
   const ticketService = new TicketService();
   const response: Res<TicketFinal | null> = await ticketService.getTicket(id);
   if (response.success && response.data) {
-    const updatedResponse: TicketFinalImagesArray = {
+    const data: TicketFinalImagesArray = {
       ...response.data,
       names: response.data.names.split(":::::"),
       event: {
         ...response.data.event,
         images: response.data.event.images.split(":::::"),
       },
+    };
+    const updatedResponse: Res<TicketFinalImagesArray> = {
+      ...response,
+      data,
     };
     return res.status(200).json(updatedResponse);
   }
@@ -122,18 +126,20 @@ export const getTickets = async (
   const response: Res<TicketFinal[] | null> =
     await ticketService.getAllTickets();
   if (response.success && response.data) {
-    const updatedResponse: TicketFinalImagesArray[] = response.data.map(
-      (ticket) => {
-        return {
-          ...ticket,
-          names: ticket.names.split(":::::"),
-          event: {
-            ...ticket.event,
-            images: ticket.event.images.split(":::::"),
-          },
-        };
-      }
-    );
+    const data: TicketFinalImagesArray[] = response.data.map((ticket) => {
+      return {
+        ...ticket,
+        names: ticket.names.split(":::::"),
+        event: {
+          ...ticket.event,
+          images: ticket.event.images.split(":::::"),
+        },
+      };
+    });
+    const updatedResponse: Res<TicketFinalImagesArray[]> = {
+      ...response,
+      data,
+    };
     return res.status(200).json(updatedResponse);
   }
   return res.status(200).json(response);
@@ -155,18 +161,20 @@ export const getTicketsByEventId = async (
   const response: Res<TicketFinal[] | null> =
     await ticketService.getTicketsByEventId(eventId);
   if (response.success && response.data) {
-    const updatedResponse: TicketFinalImagesArray[] = response.data.map(
-      (ticket) => {
-        return {
-          ...ticket,
-          names: ticket.names.split(":::::"),
-          event: {
-            ...ticket.event,
-            images: ticket.event.images.split(":::::"),
-          },
-        };
-      }
-    );
+    const data: TicketFinalImagesArray[] = response.data.map((ticket) => {
+      return {
+        ...ticket,
+        names: ticket.names.split(":::::"),
+        event: {
+          ...ticket.event,
+          images: ticket.event.images.split(":::::"),
+        },
+      };
+    });
+    const updatedResponse: Res<TicketFinalImagesArray[]> = {
+      ...response,
+      data,
+    };
     return res.status(200).json(updatedResponse);
   }
   return res.status(200).json(response);
@@ -188,18 +196,20 @@ export const getTicketsByUserId = async (
   const response: Res<TicketFinal[] | null> =
     await ticketService.getTicketsByUserId(userId);
   if (response.success && response.data) {
-    const updatedResponse: TicketFinalImagesArray[] = response.data.map(
-      (ticket) => {
-        return {
-          ...ticket,
-          names: ticket.names.split(":::::"),
-          event: {
-            ...ticket.event,
-            images: ticket.event.images.split(":::::"),
-          },
-        };
-      }
-    );
+    const data: TicketFinalImagesArray[] = response.data.map((ticket) => {
+      return {
+        ...ticket,
+        names: ticket.names.split(":::::"),
+        event: {
+          ...ticket.event,
+          images: ticket.event.images.split(":::::"),
+        },
+      };
+    });
+    const updatedResponse: Res<TicketFinalImagesArray[]> = {
+      ...response,
+      data,
+    };
     return res.status(200).json(updatedResponse);
   }
   return res.status(200).json(response);
