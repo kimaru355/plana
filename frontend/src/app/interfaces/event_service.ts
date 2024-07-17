@@ -1,15 +1,19 @@
-import { EventFinal } from "./event";
-import { Res } from "./res";
+import { Observable } from 'rxjs';
+import { EventFinal } from './event';
+import { Res } from './res';
 
 export interface eventServices {
-  getEvent(eventId: string): Promise<Res<EventFinal | null>>;
-  getAllEvents(organizerId: string): Promise<Res<EventFinal[] | null>>;
-  getEventsByCategory(categoryId: string): Promise<Res<EventFinal[] | null>>;
-  getEventsByCountry(country: string): Promise<Res<EventFinal[] | null>>;
-  getEventsByTimeRange(min: Date, max: Date): Promise<Res<EventFinal[] | null>>;
+  getEvent(eventId: string): Observable<Res<EventFinal | null>>;
+  getAllEvents(organizerId: string): Observable<Res<EventFinal[] | null>>;
+  getEventsByCategory(categoryId: string): Observable<Res<EventFinal[] | null>>;
+  getEventsByCountry(country: string): Observable<Res<EventFinal[] | null>>;
+  getEventsByTimeRange(
+    min: Date,
+    max: Date
+  ): Observable<Res<EventFinal[] | null>>;
   getEventsByTicketPrice(
     min: number,
     max: number
-  ): Promise<Res<EventFinal[] | null>>;
-  getEventsByName(name: string): Promise<Res<EventFinal[] | null>>;
+  ): Observable<Res<EventFinal[] | null>>;
+  getEventsByName(name: string): Observable<Res<EventFinal[] | null>>;
 }

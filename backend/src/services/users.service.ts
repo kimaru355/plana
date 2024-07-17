@@ -64,32 +64,32 @@ export class UsersService implements UsersServices {
     }
   }
 
-  async isAdmin(id: string): Promise<Res<boolean>> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        select: {
-          role: true,
-        },
-        where: { id },
-      });
-      if (!user) {
-        return {
-          success: false,
-          message: "User not found",
-          data: false,
-        };
-      }
-      return {
-        success: true,
-        message: "User successfully retrieved",
-        data: user.role === "admin" ? true : false,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        message: "An Error Occurred",
-        data: false,
-      };
-    }
-  }
+  // async isAdmin(id: string): Promise<Res<boolean>> {
+  //   try {
+  //     const user = await this.prisma.user.findUnique({
+  //       select: {
+  //         role: true,
+  //       },
+  //       where: { id },
+  //     });
+  //     if (!user) {
+  //       return {
+  //         success: false,
+  //         message: "User not found",
+  //         data: false,
+  //       };
+  //     }
+  //     return {
+  //       success: true,
+  //       message: "User successfully retrieved",
+  //       data: user.role === "admin" ? true : false,
+  //     };
+  //   } catch (error: any) {
+  //     return {
+  //       success: false,
+  //       message: "An Error Occurred",
+  //       data: false,
+  //     };
+  //   }
+  // }
 }

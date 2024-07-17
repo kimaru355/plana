@@ -42,6 +42,25 @@
             >
           </div>
         </div>
+        <div *ngIf="isOrganizer">
+          <select
+            name="role"
+            id="role"
+            (change)="changeRole($event)"
+            class="border-slate-400 my-2 px-4 py-1 border w-full"
+          >
+            <option
+              class="my-2 px-4 py-1 text-center"
+              value="organizer"
+              selected
+            >
+              Organizer
+            </option>
+            <option class="my-2 px-4 py-1 text-center" value="admin">
+              Admin
+            </option>
+          </select>
+        </div>
         <button
           type="submit"
           [disabled]="loginForm.invalid"
@@ -53,7 +72,7 @@
           <p class="mt-4 text-center">
             Don't have an account?
             <a
-              routerLink="/register"
+              routerLink="/register{{ isOrganizer ? '/organizer' : '' }}"
               class="text-blue underline hover:cursor-pointer"
               >Sign Up</a
             >

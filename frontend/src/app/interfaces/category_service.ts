@@ -1,13 +1,12 @@
-import { EventCategory } from "@prisma/client";
-import { Res } from "./res";
+import { Observable } from 'rxjs';
+import { EventCategory } from '../interfaces/category';
+import { Res } from './res';
 
 export interface EventCategoryServices {
-  createEventCategory(category: EventCategory): Promise<Res<null>>;
-  updateEventCategory(category: EventCategory): Promise<Res<null>>;
-  deleteEventCategory(categoryId: string): Promise<Res<null>>;
-  getEventCategory(id: string): Promise<Res<EventCategory | null>>;
-  getAllEventCategories(): Promise<Res<EventCategory[] | null>>;
-  getEventCategoriesByAdminId(
-    adminId: string
-  ): Promise<Res<EventCategory[] | null>>;
+  createEventCategory(category: EventCategory): Observable<Res<null>>;
+  updateEventCategory(category: EventCategory): Observable<Res<null>>;
+  deleteEventCategory(categoryId: string): Observable<Res<null>>;
+  getEventCategory(id: string): Observable<Res<EventCategory | null>>;
+  getAllEventCategories(): Observable<Res<EventCategory[] | null>>;
+  getEventCategoriesByAdminId(): Observable<Res<EventCategory[] | null>>;
 }

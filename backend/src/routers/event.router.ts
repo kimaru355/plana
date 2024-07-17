@@ -12,7 +12,7 @@ import {
 const EventRouter = Router();
 
 EventRouter.get("/all", getAllEvents);
-EventRouter.get("/name/:EventName", getEventsByName);
+EventRouter.get("/name/:eventName", getEventsByName);
 EventRouter.get("/category/:eventCategory", getEventsByCategory);
 EventRouter.get("/country/:eventCountry", getEventsByCountry);
 EventRouter.post("/price", getEventsByTicketPrice);

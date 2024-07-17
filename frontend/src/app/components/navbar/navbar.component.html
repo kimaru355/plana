@@ -1,5 +1,10 @@
 <header class="space-y-2 bg-[#024DDF] px-4 sm:px-8 py-2 text-white">
   <div *ngIf="!token" class="flex justify-end items-center gap-4">
+    <a
+      routerLink="/login/organizer"
+      class="px-4 py-1 text-white text-xl hover:text-lime-400"
+      >Become a Host</a
+    >
     <a routerLink="/login">LOGIN</a>
     <a routerLink="/register" class="bg-[#C4C4C4] px-4 py-1 text-black"
       >SIGN UP</a

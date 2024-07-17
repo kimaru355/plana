@@ -3,7 +3,6 @@ import { UserDetails, UserLogin, UserPasswords, UserRegister } from './auth';
 import { Observable } from 'rxjs';
 
 export interface AuthServices {
-  findUser(user_register: UserRegister): Observable<Res<null>>;
   register(
     user_register: UserRegister,
     role: 'user' | 'organizer' | 'admin'

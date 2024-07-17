@@ -26,6 +26,11 @@ export const routes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   {
+    path: 'login/organizer',
+    component: LoginComponent,
+  },
+  { path: 'register/organizer', component: RegisterComponent },
+  {
     path: '',
     component: HomeComponent,
     children: [

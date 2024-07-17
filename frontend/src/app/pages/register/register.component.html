@@ -43,6 +43,44 @@
           </div>
         </div>
         <div class="mb-4">
+          <label for="phoneNumber">Phone Number</label>
+          <input
+            type="number"
+            formControlName="phoneNumber"
+            placeholder="+2547xxxxxxxx"
+            class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          />
+          <div *ngIf="phoneNumber?.dirty && phoneNumber?.invalid">
+            <small
+              *ngIf="phoneNumber?.errors?.['required']"
+              class="text-red-500"
+              >Phone number is required.</small
+            >
+            <small
+              *ngIf="phoneNumber?.errors?.['phoneNumber']"
+              class="text-red-500"
+              >Phone number is invalid.</small
+            >
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="country">Country</label>
+          <select name="country" id="country" class="w-full">
+            <option value="" disabled selected>Select Country</option>
+            <option *ngFor="let country of countries" value="{{ country }}">
+              {{ country }}
+            </option>
+          </select>
+          <div *ngIf="country?.dirty && country?.invalid">
+            <small *ngIf="country?.errors?.['required']" class="text-red-500"
+              >Country is required.</small
+            >
+            <small *ngIf="country?.errors?.['country']" class="text-red-500"
+              >Country is invalid.</small
+            >
+          </div>
+        </div>
+        <div class="mb-4">
           <label for="password">Password</label>
           <input
             type="password"
@@ -91,7 +129,7 @@
           <p class="mt-4 text-center">
             Already have an account?
             <a
-              routerLink="/login"
+              routerLink="/login{{ isOrganizer ? '/organizer' : '' }}"
               class="text-blue underline hover:cursor-pointer"
               >Sign In</a
             >

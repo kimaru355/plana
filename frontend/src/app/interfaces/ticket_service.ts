@@ -1,11 +1,12 @@
-import { Ticket, TicketFinal } from "./ticket";
-import { Res } from "./res";
+import { Ticket, TicketFinal } from './ticket';
+import { Res } from './res';
+import { Observable } from 'rxjs';
 
 export interface TicketServices {
-  createTicket(ticket: Ticket): Promise<Res<null>>;
-  updateTicket(ticket: Ticket): Promise<Res<null>>;
-  getTicket(id: string): Promise<Res<TicketFinal | null>>;
-  getAllTickets(): Promise<Res<TicketFinal[] | null>>;
-  getTicketsByEventId(eventId: string): Promise<Res<TicketFinal[] | null>>;
-  getTicketsByUserId(userId: string): Promise<Res<TicketFinal[] | null>>;
+  createTicket(ticket: Ticket): Observable<Res<null>>;
+  updateTicket(ticket: Ticket): Observable<Res<null>>;
+  getTicket(id: string): Observable<Res<TicketFinal | null>>;
+  getAllTickets(): Observable<Res<TicketFinal[] | null>>;
+  getTicketsByEventId(eventId: string): Observable<Res<TicketFinal[] | null>>;
+  getTicketsByUserId(userId: string): Observable<Res<TicketFinal[] | null>>;
 }

@@ -6,7 +6,10 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserRegister } from '../../interfaces/auth';
+import { CountriesService } from '../../services/countries.service';
 
 @Component({
   selector: 'app-register',
@@ -17,12 +20,28 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  isOrganizer: boolean = false;
+  role: 'user' | 'organizer' = 'user';
+  countries: string[] = CountriesService.getCountries();
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private activateRoute: ActivatedRoute
+  ) {
+    this.isOrganizer = this.activateRoute.snapshot.url
+      .map((url) => url.path)
+      .includes('organizer');
+    if (this.isOrganizer) {
+      this.role = 'organizer';
+    }
     this.registerForm = this.fb.group(
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
+        phoneNumber: ['', Validators.required],
+        country: ['', Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
       },
@@ -42,6 +61,14 @@ export class RegisterComponent {
     return this.registerForm.get('password');
   }
 
+  get phoneNumber() {
+    return this.registerForm.get('phoneNumber');
+  }
+
+  get country() {
+    return this.registerForm.get('country');
+  }
+
   get confirmPassword() {
     return this.registerForm.get('confirmPassword');
   }
@@ -58,8 +85,25 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      localStorage.setItem('token', 'token');
-      this.router.navigate(['events']);
+      const user_register: UserRegister = this.registerForm.value;
+      user_register.country = 'Kenya';
+      console.log(user_register);
+
+      this.authService
+        .register(user_register, this.role)
+        .subscribe((response) => {
+          if (!response.success || !response.data) {
+            alert(response.message);
+            return;
+          }
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', response.data.role);
+          if (response.data.role === 'user') {
+            this.router.navigate(['events']);
+          } else if (response.data.role === 'organizer') {
+            this.router.navigate(['/dashboard/analytics']);
+          }
+        });
     }
   }
 }

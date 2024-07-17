@@ -13,7 +13,7 @@ const EventTicketRouter = Router();
 
 EventTicketRouter.post("/create", createEventTicket);
 EventTicketRouter.post("/create-many", createEventTickets);
-EventTicketRouter.put("/update", updateEventTicket);
+EventTicketRouter.put("/update/:id", updateEventTicket);
 EventTicketRouter.delete("/delete/:id", deleteEventTicket);
 EventTicketRouter.get("/all", getAllEventTickets);
 EventTicketRouter.get("/event/:eventId", getEventTicketsByEventId);

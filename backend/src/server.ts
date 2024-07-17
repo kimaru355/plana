@@ -11,6 +11,7 @@ import { verifyOrganizer } from "./middlewares/verifyOrganizer";
 import EventTicketRouter from "./routers/eventTicket.router";
 import EventRouter from "./routers/event.router";
 import TicketRouter from "./routers/ticket.router";
+import UsersRouter from "./routers/users.router";
 
 dotenv.config();
 const app = express();
@@ -46,6 +47,7 @@ app.use("/manage-events", verifyToken, verifyOrganizer, ManageEventRouter);
 app.use("/event-tickets", verifyToken, verifyOrganizer, EventTicketRouter);
 app.use("/events", EventRouter);
 app.use("/user", verifyToken, UserRouter);
+app.use("/users", verifyToken, UsersRouter);
 app.use("/categories", CategoryRouter);
 app.use("/tickets", verifyToken, TicketRouter);
 

@@ -1,4 +1,4 @@
-import { EventCategory } from "@prisma/client";
+import { EventCategory } from "../interfaces/category";
 import { Res } from "./res";
 
 export interface EventCategoryServices {
