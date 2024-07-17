@@ -17,7 +17,10 @@
       </div>
     </div>
   </div>
-  <div class="space-y-12 p-4 w-full max-w-[80rem]">
+  <div *ngIf="!userDetails">
+    <h2 class="text-center text-green-400 text-xl">Fetching your profile...</h2>
+  </div>
+  <div class="space-y-12 p-4 w-full max-w-[80rem]" *ngIf="userDetails">
     <form class="flex flex-col">
       <h2 class="text-2xl text-center">Manage Account Details</h2>
       <label for="number">Name:</label>
@@ -44,6 +47,19 @@
         id="number"
         [value]="userDetails.phoneNumber"
       />
+      <label for="country">Country</label>
+      <select
+        name="country"
+        id="country"
+        class="w-full"
+        formControlName="country"
+        [value]="userDetails.country"
+      >
+        <option value="" disabled selected>Select Country</option>
+        <option *ngFor="let country of countries" value="{{ country }}">
+          {{ country }}
+        </option>
+      </select>
       <div class="flex justify-center">
         <button
           type="button"

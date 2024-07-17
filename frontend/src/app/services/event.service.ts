@@ -11,7 +11,7 @@ import { eventServices } from '../interfaces/event_service';
 export class EventService implements eventServices {
   private api: string = 'http://localhost:3000/events';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class EventService implements eventServices {
       headers: this.headers,
     });
   }
-  getAllEvents(organizerId: string): Observable<Res<EventFinal[] | null>> {
+  getAllEvents(): Observable<Res<EventFinal[] | null>> {
     return this.http.get<Res<EventFinal[] | null>>(`${this.api}/all`, {
       headers: this.headers,
     });

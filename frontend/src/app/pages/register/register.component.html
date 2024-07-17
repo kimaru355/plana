@@ -65,7 +65,12 @@
         </div>
         <div class="mb-4">
           <label for="country">Country</label>
-          <select name="country" id="country" class="w-full">
+          <select
+            name="country"
+            id="country"
+            class="w-full"
+            formControlName="country"
+          >
             <option value="" disabled selected>Select Country</option>
             <option *ngFor="let country of countries" value="{{ country }}">
               {{ country }}

@@ -17,8 +17,6 @@ export class ManageEventService implements ManageEventServices {
         data: null,
       };
     } catch (error: any) {
-      console.log(error.message);
-
       return {
         success: false,
         message: "An Error Occurred",

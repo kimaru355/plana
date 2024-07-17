@@ -11,7 +11,7 @@ import { TicketServices } from '../interfaces/ticket_service';
 export class TicketService implements TicketServices {
   private api: string = 'http://localhost:3000/tickets';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}

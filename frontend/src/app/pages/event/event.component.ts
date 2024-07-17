@@ -1,22 +1,26 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { EventService } from '../../services/event.service';
+import { EventFinal } from '../../interfaces/event';
 
 @Component({
   selector: 'app-event',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, DatePipe, CurrencyPipe],
   templateUrl: './event.component.html',
   styleUrl: './event.component.css',
 })
 export class EventComponent {
+  id: string = this.activatedRoute.snapshot.params['id'] || '';
+  event!: EventFinal;
   token: string = localStorage.getItem('token') || '';
   selectedTicketId = 1;
   currentImageUrl = '/images/hosts_hero.jpg';
   selectedTicket = { id: 1, type: 'REGULAR', price: 1000, quantity: 200 };
   numberOfTickets = 1;
-  event = {
+  event1 = {
     id: 1,
     name: 'BURNING BOY: THE REVENGE OF THE FALLEN',
     description:
@@ -59,6 +63,18 @@ export class EventComponent {
     ],
   };
 
+  constructor(
+    private eventService: EventService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.eventService.getEvent(this.id).subscribe((response) => {
+      if (response.success && response.data) {
+        this.event = response.data;
+        console.log(this.event);
+      }
+    });
+  }
+
   increment() {
     if (this.numberOfTickets < this.selectedTicket.quantity) {
       this.numberOfTickets++;
@@ -72,7 +88,7 @@ export class EventComponent {
   }
 
   onTicketChange() {
-    const ticket = this.event.tickets.find(
+    const ticket = this.event1.tickets.find(
       (ticket) => ticket.id === +this.selectedTicketId
     );
     if (ticket) {

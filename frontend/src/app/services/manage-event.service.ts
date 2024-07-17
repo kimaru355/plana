@@ -11,7 +11,7 @@ import { ManageEventServices } from '../interfaces/manage_event_service';
 export class ManageEventService implements ManageEventServices {
   private api: string = 'http://localhost:3000/manage-events';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}

@@ -1,6 +1,11 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CountriesService } from '../../services/countries.service';
+import { EventService } from '../../services/event.service';
+import { EventFinal } from '../../interfaces/event';
+import { CategoryService } from '../../services/category.service';
+import { EventCategory } from '../../interfaces/category';
 
 @Component({
   selector: 'app-events',
@@ -10,166 +15,35 @@ import { RouterLink } from '@angular/router';
   styleUrl: './events.component.css',
 })
 export class EventsComponent {
-  countries = [
-    { id: 1, name: 'Kenya' },
-    { id: 2, name: 'Uganda' },
-    { id: 3, name: 'Tanzania' },
-    { id: 4, name: 'Rwanda' },
-  ];
-  categories = [
-    {
-      id: 1,
-      name: 'TECH',
-      imageUrl: '/images/tech_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MUSIC',
-      imageUrl: '/images/music_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MOVIE',
-      imageUrl: '/images/movies_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'SPORT',
-      imageUrl: '/images/sports_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'TECH',
-      imageUrl: '/images/tech_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MUSIC',
-      imageUrl: '/images/music_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MOVIE',
-      imageUrl: '/images/movies_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'SPORT',
-      imageUrl: '/images/sports_category.jpg',
-    },
-  ];
-  hosts = [
-    {
-      id: 1,
-      name: 'Maddox',
-      country: 'Kenya',
-      imageUrl: '/images/profile.jpg',
-    },
-    {
-      id: 1,
-      name: 'Maddox',
-      country: 'Kenya',
-      imageUrl: '/images/profile.jpg',
-    },
-    {
-      id: 1,
-      name: 'Maddox',
-      country: 'Kenya',
-      imageUrl: '/images/profile.jpg',
-    },
-    {
-      id: 1,
-      name: 'Maddox',
-      country: 'Kenya',
-      imageUrl: '/images/profile.jpg',
-    },
-    {
-      id: 1,
-      name: 'Maddox',
-      country: 'Kenya',
-      imageUrl: '/images/profile.jpg',
-    },
-  ];
-  events = [
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      country: 'Kenya',
-      imagesUrl: ['/images/music1.jpg'],
-      price: 6000,
-    },
-  ];
+  countries: string[] = [];
+  events: EventFinal[] = [];
+  categories: EventCategory[] = [];
+
+  constructor(
+    private eventService: EventService,
+    private categoryService: CategoryService
+  ) {
+    this.getAllEvents();
+    this.getAllCategories();
+  }
+
+  getAllEvents() {
+    this.eventService.getAllEvents().subscribe((response) => {
+      if (!response.success || !response.data) {
+        return;
+      }
+      this.events = response.data;
+      this.countries = this.events.map((event) => event.country);
+      console.log(this.events[0]);
+    });
+  }
+
+  getAllCategories() {
+    this.categoryService.getAllEventCategories().subscribe((response) => {
+      if (!response.success || !response.data) {
+        return;
+      }
+      this.categories = response.data;
+    });
+  }
 }

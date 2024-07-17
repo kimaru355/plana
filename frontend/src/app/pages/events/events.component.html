@@ -29,7 +29,7 @@
             {{ category.name }}
           </option>
         </select>
-        <select
+        <!-- <select
           name="host"
           id="host"
           class="border-2 border-gray-300 p-2 rounded-lg w-64"
@@ -38,15 +38,15 @@
           <option *ngFor="let host of hosts" value="host">
             {{ host.name }}
           </option>
-        </select>
+        </select> -->
         <select
           name="country"
           id="country"
           class="border-2 border-gray-300 p-2 rounded-lg w-64"
         >
           <option value="" disabled selected>Select Country</option>
-          <option *ngFor="let country of countries" value="country">
-            {{ country.name }}
+          <option *ngFor="let country of countries" value="{{ country }}">
+            {{ country }}
           </option>
         </select>
       </div>
@@ -61,12 +61,14 @@
         routerLink="/event/{{ event.id }}"
       >
         <img
-          src="{{ event.imagesUrl[0] }}"
-          alt="{{ event.name }} image"
+          src="{{ event.images[2] }}"
+          alt="{{ event.title }} image"
           class="w-full h-[16rem] object-center"
         />
-        <h3>{{ event.name }}</h3>
-        <h3 class="font-bold">From: {{ event.price | currency : "Ksh. " }}</h3>
+        <h3>{{ event.title }}</h3>
+        <h3 class="font-bold" *ngIf="event.eventTickets.length > 0">
+          From: {{ event.eventTickets[0].price | currency : "Ksh. " }}
+        </h3>
         <h3 class="font-semibold">{{ event.city }}</h3>
       </div>
     </div>

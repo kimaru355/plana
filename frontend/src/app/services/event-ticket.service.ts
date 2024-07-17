@@ -11,7 +11,7 @@ import { EventTicketServices } from '../interfaces/event_ticket_service';
 export class EventTicketService implements EventTicketServices {
   private api: string = 'http://localhost:3000/event-tickets';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}

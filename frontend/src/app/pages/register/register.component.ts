@@ -45,7 +45,9 @@ export class RegisterComponent {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
       },
-      { validator: this.passwordMatchValidator }
+      {
+        validator: this.mustMatch('password', 'confirmPassword'),
+      }
     );
   }
 
@@ -73,22 +75,28 @@ export class RegisterComponent {
     return this.registerForm.get('confirmPassword');
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password');
-    const confirmPassword = form.get('confirmPassword');
-    return password &&
-      confirmPassword &&
-      password.value === confirmPassword.value
-      ? null
-      : { mismatch: true };
+  mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors['mismatch']) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mismatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
 
   onSubmit() {
     if (this.registerForm.valid) {
       const user_register: UserRegister = this.registerForm.value;
-      user_register.country = 'Kenya';
-      console.log(user_register);
-
+      user_register.phoneNumber = user_register.phoneNumber.toString();
+      delete user_register.confirmPassword;
       this.authService
         .register(user_register, this.role)
         .subscribe((response) => {

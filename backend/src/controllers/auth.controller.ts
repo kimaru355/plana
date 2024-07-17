@@ -33,6 +33,7 @@ export const register = async (
     });
   }
   user_register.id = v4();
+
   const auth = new AuthService();
   const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
     await auth.register(user_register, role);

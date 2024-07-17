@@ -11,7 +11,7 @@ import { User } from '../interfaces/user';
 export class UsersService implements UsersServices {
   private api: string = 'http://localhost:3000/users';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}

@@ -16,7 +16,7 @@ import { Res } from '../interfaces/res';
 export class AuthService implements AuthServices {
   private api: string = 'http://localhost:3000/auth';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}

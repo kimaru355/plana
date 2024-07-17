@@ -1,10 +1,10 @@
 export interface UserRegister {
-  id: string;
   email: string;
   name: string;
   phoneNumber: string;
   country: string;
   password: string;
+  confirmPassword?: string;
 }
 
 export interface UserLogin {

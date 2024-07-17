@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class CategoryService implements EventCategoryServices {
   private api: string = 'http://localhost:3000/categories';
   headers = new HttpHeaders({
-    Authorization: localStorage.getItem('authToken') || '',
+    Authorization: localStorage.getItem('token') || '',
   });
 
   constructor(private http: HttpClient) {}
