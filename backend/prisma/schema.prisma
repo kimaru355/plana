@@ -34,6 +34,7 @@ model Organizer {
   Event         Event[]
   EventTicket   EventTicket[]
   DeletedEvent  DeletedEvent[]
+  Notification  Notification[]
 }
 
 model Admin {
@@ -50,24 +51,25 @@ model Admin {
 }
 
 model Event {
-  id          String        @id @unique
-  title       String
-  description String        @db.VarChar(8000)
-  startTime   DateTime
-  endTime     DateTime
-  country     String
-  city        String
-  location    String
-  capacity    Int
-  images      String        @db.VarChar(MAX)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @default(now()) @updatedAt
-  organizerId String
-  categoryId  String
-  organizer   Organizer     @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  category    EventCategory @relation(fields: [categoryId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  EventTicket EventTicket[]
-  Ticket      Ticket[]
+  id           String         @id @unique
+  title        String
+  description  String         @db.VarChar(8000)
+  startTime    DateTime
+  endTime      DateTime
+  country      String
+  city         String
+  location     String
+  capacity     Int
+  images       String         @db.VarChar(MAX)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  organizerId  String
+  categoryId   String
+  organizer    Organizer      @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  category     EventCategory  @relation(fields: [categoryId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  EventTicket  EventTicket[]
+  Ticket       Ticket[]
+  Notification Notification[]
 }
 
 model DeletedEvent {
@@ -164,4 +166,16 @@ model DeletedReview {
   ticketId    String   @unique
   user        User     @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   ticket      Ticket   @relation(fields: [ticketId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model Notification {
+  id          String    @id @unique
+  subject     String
+  message     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  organizerId String
+  eventId     String
+  organizer   Organizer @relation(fields: [organizerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  event       Event     @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: NoAction)
 }
