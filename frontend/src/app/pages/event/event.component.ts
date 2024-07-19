@@ -70,7 +70,6 @@ export class EventComponent {
     this.eventService.getEvent(this.id).subscribe((response) => {
       if (response.success && response.data) {
         this.event = response.data;
-        console.log(this.event);
       }
     });
   }

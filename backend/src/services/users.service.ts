@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { UsersServices } from "../interfaces/users_service";
 import { Res } from "../interfaces/res";
 import { User } from "../interfaces/user";
+import { TicketFinal } from "../interfaces/ticket";
+import { UserDetails } from "../interfaces/auth";
 
 export class UsersService implements UsersServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
@@ -9,6 +11,96 @@ export class UsersService implements UsersServices {
   async getUsers(): Promise<Res<User[] | null>> {
     try {
       const users = await this.prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          phoneNumber: true,
+          country: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Users successfully retrieved",
+        data: users,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getClients(organizerId: string): Promise<Res<UserDetails[] | null>> {
+    try {
+      const tickets: TicketFinal[] = await this.prisma.ticket.findMany({
+        include: {
+          event: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+          eventTicket: true,
+        },
+      });
+      const clients: UserDetails[] = [];
+      tickets.map((ticket) => {
+        if (
+          ticket.event.organizerId === organizerId &&
+          !clients.includes(ticket.user)
+        ) {
+          clients.push(ticket.user);
+        }
+      });
+      return {
+        success: true,
+        message: "Users successfully retrieved",
+        data: clients,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getOrganizers(): Promise<Res<User[] | null>> {
+    try {
+      const users = await this.prisma.organizer.findMany({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          phoneNumber: true,
+          country: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Users successfully retrieved",
+        data: users,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getAdmins(): Promise<Res<User[] | null>> {
+    try {
+      const users = await this.prisma.admin.findMany({
         select: {
           id: true,
           email: true,

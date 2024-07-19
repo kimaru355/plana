@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plana</title>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even),
+      th {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Host registration</h1>
+    <h3>
+      <%= name %> has registered as an organizer and is awaiting your approval
+    </h3>
+    <p>
+      Login to the platform to verify and optionally approve the verification
+    </p>
+
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Country</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= name %></td>
+          <td><%= email %></td>
+          <td><%= phoneNumber %></td>
+          <td><%= country %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <img
+      src="https://cdni.iconscout.com/illustration/premium/thumb/happy-customer-4118328-3414909.png"
+      alt="Happy client"
+      width="80%"
+      style="max-width: 40rem"
+      height="auto"
+    />
+    <p>Warm Regards,<br />>Plana Team</p>
+
+    <div>
+      <p>
+        Copyright © 2024 Plana. All Rights Reserved. <br />
+        Plana will always protect your security and privacy, Please read our
+        detailed <span style="color: #1155cc">Privacy Policy</span>. <br />
+        Please do not reply to this email. For support, you can
+        <span style="color: #1155cc">Contact Us</span>.
+      </p>
+      <p>
+        Contact Address: <br />
+
+        Chuka, Tharaka Nithi, Kenya
+      </p>
+    </div>
+  </body>
+</html>

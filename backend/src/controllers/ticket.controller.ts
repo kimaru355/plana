@@ -9,6 +9,9 @@ import {
 import { v4 } from "uuid";
 import { TicketService } from "../services/ticket.service";
 import { Res } from "../interfaces/res";
+import { sendTicketBookedEmail } from "../background-services/mailer";
+import { UsersService } from "../services/users.service";
+import { User } from "../interfaces/user";
 
 export const createTicket = async (
   req: Request,
@@ -45,6 +48,22 @@ export const createTicket = async (
   }
   const ticketService = new TicketService();
   const response: Res<null> = await ticketService.createTicket(ticket);
+  if (response.success) {
+    const usersService = new UsersService();
+    const userResponse: Res<User | null> = await usersService.getUser(
+      ticket.userId
+    );
+    const ticketResponse: Res<TicketFinal | null> =
+      await ticketService.getTicket(ticket.id);
+    if (
+      userResponse.success &&
+      userResponse.data &&
+      ticketResponse.success &&
+      ticketResponse.data
+    ) {
+      sendTicketBookedEmail(userResponse.data.email, ticketResponse.data);
+    }
+  }
   return res.status(200).json(response);
 };
 
@@ -63,7 +82,6 @@ export const updateTicket = async (
   }
   const ticket: Ticket = {
     ...ticketNamesArray,
-    id: v4(),
     names: ticketNamesArray.names.join(":::::"),
   };
   if (
@@ -160,6 +178,41 @@ export const getTicketsByEventId = async (
   const ticketService = new TicketService();
   const response: Res<TicketFinal[] | null> =
     await ticketService.getTicketsByEventId(eventId);
+  if (response.success && response.data) {
+    const data: TicketFinalImagesArray[] = response.data.map((ticket) => {
+      return {
+        ...ticket,
+        names: ticket.names.split(":::::"),
+        event: {
+          ...ticket.event,
+          images: ticket.event.images.split(":::::"),
+        },
+      };
+    });
+    const updatedResponse: Res<TicketFinalImagesArray[]> = {
+      ...response,
+      data,
+    };
+    return res.status(200).json(updatedResponse);
+  }
+  return res.status(200).json(response);
+};
+
+export const getOrganizerTickets = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const organizerId: string = getIdFromToken(req);
+  if (!organizerId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid token",
+      data: null,
+    });
+  }
+  const ticketService = new TicketService();
+  const response: Res<TicketFinal[] | null> =
+    await ticketService.getTicketsByOrganizerId(organizerId);
   if (response.success && response.data) {
     const data: TicketFinalImagesArray[] = response.data.map((ticket) => {
       return {

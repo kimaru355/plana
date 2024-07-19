@@ -246,6 +246,49 @@ export class TicketService implements TicketServices {
     }
   }
 
+  async getTicketsByOrganizerId(
+    organizerId: string
+  ): Promise<Res<TicketFinal[] | null>> {
+    try {
+      const events = await this.prisma.event.findMany({
+        where: {
+          organizerId,
+        },
+      });
+      const ticket: TicketFinal[] = await this.prisma.ticket.findMany({
+        where: {
+          eventId: {
+            in: events.map((event) => event.id),
+          },
+        },
+        include: {
+          event: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+          eventTicket: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Tickets successfully retrieved",
+        data: ticket,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
   async getTicketsByUserId(userId: string): Promise<Res<TicketFinal[] | null>> {
     try {
       const ticket: TicketFinal[] = await this.prisma.ticket.findMany({

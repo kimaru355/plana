@@ -34,7 +34,6 @@ export class EventsComponent {
       }
       this.events = response.data;
       this.countries = this.events.map((event) => event.country);
-      console.log(this.events[0]);
     });
   }
 

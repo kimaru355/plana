@@ -9,7 +9,14 @@ import {
   UserRegister,
 } from "../interfaces/auth";
 import { getIdFromToken } from "../helpers/get_id_from_token";
-import { sendWelcomeEmail } from "../background-services/mailer";
+import {
+  sendApproveOrganizerEmail,
+  sendWelcomeApprovedOrganizerEmail,
+  sendWelcomeNewOrganizerEmail,
+  sendWelcomeNewUsersEmail,
+} from "../background-services/mailer";
+import { UsersService } from "../services/users.service";
+import { User } from "../interfaces/user";
 
 export const register = async (
   req: Request,
@@ -37,8 +44,18 @@ export const register = async (
   const auth = new AuthService();
   const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
     await auth.register(user_register, role);
-  if (response.success) {
-    sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
+  if (response.success && role === "user") {
+    sendWelcomeNewUsersEmail(
+      user_register.email,
+      user_register.name.split(" ")[0]
+    );
+    return res.status(201).json(response);
+  } else if (response.success && role === "organizer") {
+    sendWelcomeNewOrganizerEmail(
+      user_register.email,
+      user_register.name.split(" ")[0]
+    );
+    sendApproveOrganizerEmail("alazemibedour@gmail.com", user_register);
     return res.status(201).json(response);
   }
   return res.status(200).json(response);
@@ -69,7 +86,6 @@ export const registerAdmin = async (
   const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
     await auth.register(user_register, "admin");
   if (response.success) {
-    sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
     return res.status(201).json(response);
   }
   return res.status(200).json(response);
@@ -168,8 +184,8 @@ export const updatePassword = async (
   const user_passwords: UserPasswords = req.body;
   if (
     !user_passwords.new_password ||
-    user_passwords.old_password ||
-    ["user", "organizer", "admin"].includes(role)
+    !user_passwords.old_password ||
+    !["user", "organizer", "admin"].includes(role)
   ) {
     return res.status(200).json({
       success: false,
@@ -198,8 +214,14 @@ export const verifyOrganizer = async (
     });
   }
   const auth = new AuthService();
-  const response: Res<null> = await auth.verifyOrganizer(organizerId);
-  if (response.success) {
+  const response: Res<UserDetails | null> = await auth.verifyOrganizer(
+    organizerId
+  );
+  if (response.success && response.data) {
+    sendWelcomeApprovedOrganizerEmail(
+      response.data.email,
+      response.data.name.split(" ")[0]
+    );
     return res.status(202).json(response);
   }
   return res.status(200).json(response);

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plana</title>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h4>Dear <b><%= user.name %></b>,</h4>
+    <h3>
+      Thank you for choosing Plana. Your ticket(s) have been successfully booked
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Event Name</th>
+          <th>Attendee Name</th>
+          <th>Ticket type</th>
+          <th>Ticket Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= event.title %></td>
+          <td><%= user.name %></td>
+          <td><%= eventTicket.type %></td>
+          <td><%= eventTicket.price %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Warm regards, <br />
+      Team
+    </p>
+
+    <div style="background-color: #f9f9f9">
+      <p>
+        Copyright © 2024 Plana. All Rights Reserved. <br />
+        Plana will always protect your security and privacy. Please read our
+        detailed <span style="color: #1155cc">Privacy Policy</span>. <br />
+        Please do not reply to this email. For support, you can
+        <span style="color: #1155cc">Contact Us</span>.
+      </p>
+      <p>
+        Contact Address: <br />
+        Chuka, Tharaka Nithi, Kenya
+      </p>
+    </div>
+  </body>
+</html>

@@ -59,6 +59,20 @@ export class EventCategoryService implements EventCategoryServices {
         data: null,
       };
     } catch (error: any) {
+      if (
+        error.message &&
+        typeof error.message === "string" &&
+        error.message.includes(
+          "An operation failed because it depends on one or more records that were required but not found."
+        )
+      ) {
+        return {
+          success: false,
+          message: "Category has some events, cannot delete",
+          data: null,
+        };
+      }
+
       return {
         success: false,
         message: "An Error Occurred",

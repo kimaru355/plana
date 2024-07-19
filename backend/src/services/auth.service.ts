@@ -381,7 +381,7 @@ export class AuthService implements AuthServices {
       }
       return {
         success: true,
-        message: "Profile successfully updated",
+        message: "Password successfully updated",
         data: null,
       };
     } catch (error: any) {
@@ -393,7 +393,7 @@ export class AuthService implements AuthServices {
     }
   }
 
-  async verifyOrganizer(organizerId: string): Promise<Res<null>> {
+  async verifyOrganizer(organizerId: string): Promise<Res<UserDetails | null>> {
     try {
       await this.prisma.organizer.update({
         where: {
@@ -403,10 +403,23 @@ export class AuthService implements AuthServices {
           isVerified: true,
         },
       });
+      const organizer: UserDetails | null =
+        await this.prisma.organizer.findUnique({
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phoneNumber: true,
+            country: true,
+          },
+          where: {
+            id: organizerId,
+          },
+        });
       return {
         success: true,
         message: "Organizer verified",
-        data: null,
+        data: organizer,
       };
     } catch {
       return {

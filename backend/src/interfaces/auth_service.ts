@@ -23,7 +23,7 @@ export interface AuthServices {
     user_passwords: UserPasswords,
     role: "user" | "organizer" | "admin"
   ): Promise<Res<null>>;
-  verifyOrganizer(organizerId: string): Promise<Res<null>>;
+  verifyOrganizer(organizerId: string): Promise<Res<UserDetails | null>>;
   activateUser(userId: string): Promise<Res<null>>;
   deactivateUser(userId: string): Promise<Res<null>>;
   activateOrganizer(organizerId: string): Promise<Res<null>>;

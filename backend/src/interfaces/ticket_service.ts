@@ -7,5 +7,8 @@ export interface TicketServices {
   getTicket(id: string): Promise<Res<TicketFinal | null>>;
   getAllTickets(): Promise<Res<TicketFinal[] | null>>;
   getTicketsByEventId(eventId: string): Promise<Res<TicketFinal[] | null>>;
+  getTicketsByOrganizerId(
+    organizerId: string
+  ): Promise<Res<TicketFinal[] | null>>;
   getTicketsByUserId(userId: string): Promise<Res<TicketFinal[] | null>>;
 }
