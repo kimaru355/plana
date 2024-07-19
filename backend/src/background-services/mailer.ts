@@ -36,7 +36,7 @@ const sendEmail = (
 };
 
 export const sendTicketBookedEmail = (email: string, ticket: TicketFinal) => {
-  const subject = "Organizer Registration Approval";
+  const subject = "Ticket(s) booked successfully";
   sendEmail("ticket", ticket, email, subject);
 };
 
@@ -64,13 +64,4 @@ export const sendWelcomeNewOrganizerEmail = (email: string, name: string) => {
 export const sendWelcomeNewUsersEmail = (email: string, name: string) => {
   const subject = "Welcome to Plana";
   sendEmail("welcomeNewUsers", { name: name }, email, subject);
-};
-
-export const sendOrderPlacedEmail = (
-  email: string,
-  name: string
-  // order: Cart[]
-) => {
-  const subject = "Order placed Successfully";
-  sendEmail("orderPlaced", { name }, email, subject);
 };
