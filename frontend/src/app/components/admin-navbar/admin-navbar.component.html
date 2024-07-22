@@ -19,7 +19,7 @@
         />Analytics</a
       >
       <a
-        *ngIf="token === 'organizer'"
+        *ngIf="role === 'organizer'"
         routerLink="event/create"
         (click)="currentRoute = 'event/create'"
         class="{{
@@ -76,7 +76,7 @@
         />Clients</a
       >
       <a
-        *ngIf="token === 'admin'"
+        *ngIf="role === 'admin'"
         routerLink="hosts"
         (click)="currentRoute = 'hosts'"
         class="{{
@@ -91,7 +91,7 @@
         />Hosts</a
       >
       <a
-        *ngIf="token === 'organizer'"
+        *ngIf="role === 'organizer'"
         routerLink="notifications"
         (click)="currentRoute = 'notifications'"
         class="{{

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NotificationComponent } from './components/notification/notification.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'plana';
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

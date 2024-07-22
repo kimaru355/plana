@@ -1,9 +1,11 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { EventFinal } from '../../interfaces/event';
+import { EventTicket, Ticket } from '../../interfaces/ticket';
+import { TicketService } from '../../services/ticket.service';
 
 @Component({
   selector: 'app-event',
@@ -16,60 +18,30 @@ export class EventComponent {
   id: string = this.activatedRoute.snapshot.params['id'] || '';
   event!: EventFinal;
   token: string = localStorage.getItem('token') || '';
-  selectedTicketId = 1;
-  currentImageUrl = '/images/hosts_hero.jpg';
-  selectedTicket = { id: 1, type: 'REGULAR', price: 1000, quantity: 200 };
+  selectedTicketId!: string;
+  currentImageUrl!: string;
+  selectedTicket!: EventTicket;
   numberOfTickets = 1;
-  event1 = {
-    id: 1,
-    name: 'BURNING BOY: THE REVENGE OF THE FALLEN',
-    description:
-      'The most anticipated movie of the year is here! Maddox Enga is back with a bang! Burning Boy is a TV-MA drama series that ran from 2015 to 2019 and follows Elliot Alderson, a young cybersecurity engineer and vigilante hacker who struggles with social anxiety, dissociative identity disorder, and clinical depression. Elliot works for the cybersecurity company Allsafe during the day, but at night he connects with people by hacking them, which often leads him to act as a cyber-vigilante. When Elliot is recruited by an underground hacker group led by the mysterious insurrectionary anarchist "Mr. Robot" to help bring down corporate America, he must decide whether to resist or take the chance to take down the multinational CEOs he believes are ruining the world.',
-    country: 'Kenya',
-    city: 'Nairobi',
-    date: '17th July 2024',
-    time: '4:00 PM',
-    address: 'Mlimani City Conference Hall',
-    imagesUrl: [
-      '/images/hosts_hero.jpg',
-      '/images/music1.jpg',
-      '/images/movies_category.jpg',
-      '/images/event.jpg',
-    ],
-    host: {
-      name: 'Maddox Enga',
-      imageUrl: '/images/profile.jpg',
-      country: 'Kenya',
-    },
-    tickets: [
-      {
-        id: 1,
-        type: 'Regular',
-        price: 3000,
-        quantity: 200,
-      },
-      {
-        id: 2,
-        type: 'VIP',
-        price: 6000,
-        quantity: 100,
-      },
-      {
-        id: 3,
-        type: 'Economy',
-        price: 1500,
-        quantity: 300,
-      },
-    ],
-  };
+  inputName: string = '';
+  names: string[] = [];
 
   constructor(
     private eventService: EventService,
-    private activatedRoute: ActivatedRoute
+    private ticketService: TicketService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.eventService.getEvent(this.id).subscribe((response) => {
       if (response.success && response.data) {
         this.event = response.data;
+        if (this.event.images.length !== 4) {
+          for (let i = 0; i <= 4 - this.event.images.length; i++) {
+            this.event.images.push(this.currentImageUrl);
+          }
+        }
+        this.currentImageUrl = this.event.images[0];
+        this.selectedTicketId = this.event.eventTickets[0].id;
+        this.selectedTicket = this.event.eventTickets[0];
       }
     });
   }
@@ -83,15 +55,81 @@ export class EventComponent {
   decrement() {
     if (this.numberOfTickets > 1) {
       this.numberOfTickets--;
+      if (
+        this.names.length >
+        this.numberOfTickets * this.selectedTicket.persons
+      ) {
+        this.names = this.names.slice(
+          0,
+          this.numberOfTickets * this.selectedTicket.persons
+        );
+      }
     }
   }
 
   onTicketChange() {
-    const ticket = this.event1.tickets.find(
-      (ticket) => ticket.id === +this.selectedTicketId
+    const ticket = this.event.eventTickets.find(
+      (ticket) => ticket.id === this.selectedTicketId
     );
     if (ticket) {
       this.selectedTicket = ticket;
     }
+  }
+
+  addName() {
+    if (!this.inputName) {
+      alert('Please enter a name');
+      return;
+    }
+    if (this.inputName.split(' ').length < 2) {
+      alert('Please provide the full name');
+      return;
+    }
+    if (
+      this.names.length >=
+      this.numberOfTickets * this.selectedTicket.persons
+    ) {
+      alert('You have reached the maximum number of names');
+      return;
+    }
+    this.names.push(this.inputName);
+    this.inputName = '';
+  }
+
+  bookTicket() {
+    if (!this.token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    if (
+      this.names.length <
+      this.numberOfTickets * this.selectedTicket.persons
+    ) {
+      alert('Please provide all the names');
+      return;
+    }
+    const confirmed = confirm(
+      `Book ${this.numberOfTickets} ticket(s) for ${this.event.title} at ${
+        this.selectedTicket.price * this.numberOfTickets
+      }?`
+    );
+    if (!confirmed) {
+      return;
+    }
+    const ticket: Ticket = {
+      id: this.selectedTicket.id,
+      names: this.names,
+      quantity: this.numberOfTickets,
+      eventTicketId: this.selectedTicket.id,
+      eventId: this.event.id,
+    };
+    this.ticketService.createTicket(ticket).subscribe((response) => {
+      if (response.success) {
+        alert('Ticket booked successfully');
+        this.router.navigate(['/reservations']);
+      } else {
+        alert('Failed to book ticket');
+      }
+    });
   }
 }

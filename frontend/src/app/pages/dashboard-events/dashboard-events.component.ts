@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class DashboardEventsComponent {
   token: string = localStorage.getItem('token') || '';
+  role: string = localStorage.getItem('role') || '';
   events = [
     {
       id: 1,

@@ -133,7 +133,7 @@ export class AuthService implements AuthServices {
         { id: user_register.id, role },
         process.env.JWT_SECRET as string,
         {
-          expiresIn: "30m",
+          expiresIn: "1h",
         }
       );
       return {
@@ -228,7 +228,7 @@ export class AuthService implements AuthServices {
         };
       }
       const token = jwt.sign({ id, role }, process.env.JWT_SECRET as string, {
-        expiresIn: "30m",
+        expiresIn: "1h",
       });
       return {
         success: true,

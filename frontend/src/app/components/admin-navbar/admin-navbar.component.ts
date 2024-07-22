@@ -11,11 +11,13 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class AdminNavbarComponent {
   token: string = localStorage.getItem('token') || '';
+  role: string = localStorage.getItem('role') || '';
   currentRoute: string = 'analytics';
   constructor(private router: Router) {}
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     window.location.href = '/';
   }
 }

@@ -1,13 +1,12 @@
-import { UserDetails } from "./auth";
-import { Event, EventCreate, EventImagesArray } from "./event";
+import { UserDetails } from './auth';
+import { Event, EventCreate, EventImagesArray } from './event';
 
 export interface Ticket {
   id: string;
-  names: string;
+  names: string[];
   quantity: number;
   eventTicketId: string;
   eventId: string;
-  userId: string;
   createdAt?: Date;
   updateAt?: Date;
 }

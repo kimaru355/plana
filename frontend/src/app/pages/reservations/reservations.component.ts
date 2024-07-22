@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface Reservation {
-  id: number;
-  eventName: string;
-  startDate: string;
-  time: string;
-  tickets: number;
-  price: number;
-  imageUrl: string;
-}
+import { TicketService } from '../../services/ticket.service';
+import { TicketFinal } from '../../interfaces/ticket';
 
 @Component({
   selector: 'app-reservations',
@@ -19,7 +11,8 @@ interface Reservation {
   styleUrl: './reservations.component.css',
 })
 export class ReservationsComponent {
-  reservations: Reservation[] = [
+  tickets: TicketFinal[] = [];
+  reservations = [
     {
       id: 1,
       eventName: 'Sauti Sol Back to Earth',
@@ -39,6 +32,17 @@ export class ReservationsComponent {
       imageUrl: '/images/reservation.jpg',
     },
   ];
+
+  constructor(private ticketService: TicketService) {}
+
+  getReservations() {
+    this.ticketService.getTicketsByUserId().subscribe((response) => {
+      if (response.success && response.data) {
+        this.tickets = response.data;
+        console.log(this.tickets);
+      }
+    });
+  }
 
   cancelReservation(id: number) {
     console.log(`Cancelling reservation with id: ${id}`);

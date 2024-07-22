@@ -46,8 +46,8 @@ export class TicketService implements TicketServices {
     });
   }
 
-  getTicketsByUserId(userId: string): Observable<Res<TicketFinal[] | null>> {
-    return this.http.get<Res<null>>(`${this.api}/user/${userId}`, {
+  getTicketsByUserId(): Observable<Res<TicketFinal[] | null>> {
+    return this.http.get<Res<null>>(`${this.api}/user`, {
       headers: this.headers,
     });
   }
