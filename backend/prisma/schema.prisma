@@ -14,6 +14,7 @@ model User {
   phoneNumber   String          @unique
   country       String
   password      String
+  imageUrl      String          @default("")
   isDeactivated Boolean         @default(false)
   Ticket        Ticket[]
   Review        Review[]
@@ -27,6 +28,7 @@ model Organizer {
   phoneNumber   String         @unique
   country       String
   password      String
+  imageUrl      String         @default("")
   isDeactivated Boolean        @default(false)
   isVerified    Boolean        @default(false)
   createdAt     DateTime       @default(now())
@@ -44,6 +46,7 @@ model Admin {
   phoneNumber   String          @unique
   country       String
   password      String
+  imageUrl      String          @default("")
   isDeactivated Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @default(now()) @updatedAt

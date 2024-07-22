@@ -34,6 +34,12 @@ export class TicketService implements TicketServices {
     });
   }
 
+  getTicketsByOrganizerId(): Observable<Res<TicketFinal[] | null>> {
+    return this.http.get<Res<null>>(`${this.api}/organizer`, {
+      headers: this.headers,
+    });
+  }
+
   getAllTickets(): Observable<Res<TicketFinal[] | null>> {
     return this.http.get<Res<null>>(`${this.api}/all`, {
       headers: this.headers,

@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Event } from '../../interfaces/event';
+import { ManageEventService } from '../../services/manage-event.service';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-dashboard-events',
@@ -11,97 +14,34 @@ import { RouterLink } from '@angular/router';
 })
 export class DashboardEventsComponent {
   token: string = localStorage.getItem('token') || '';
-  role: string = localStorage.getItem('role') || '';
-  events = [
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-    {
-      id: 1,
-      category: 'tech',
-      title: 'TECH EVENTS',
-      date: '2021-09-01 4:00 PM',
-      capacity: 1000,
-      imagesUrl: ['/images/music1.jpg'],
-      country: 'Kenya',
-    },
-  ];
+  role: 'organizer' | 'admin' =
+    (localStorage.getItem('role') as 'organizer' | 'admin') || '';
+  events!: Event[];
+
+  constructor(
+    private manageEventService: ManageEventService,
+    private eventService: EventService
+  ) {
+    if (this.role === 'organizer') {
+      this.getEvents();
+    } else if (this.role === 'admin') {
+      this.getEvents();
+    }
+  }
+
+  getEvents() {
+    this.manageEventService.getAllEvents().subscribe((response) => {
+      if (response.success && response.data) {
+        this.events = response.data;
+      }
+    });
+  }
+
+  getAllEvents() {
+    this.eventService.getAllEvents().subscribe((response) => {
+      if (response.success && response.data) {
+        this.events = response.data;
+      }
+    });
+  }
 }

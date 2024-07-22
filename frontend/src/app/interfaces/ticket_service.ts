@@ -8,5 +8,6 @@ export interface TicketServices {
   getTicket(id: string): Observable<Res<TicketFinal | null>>;
   getAllTickets(): Observable<Res<TicketFinal[] | null>>;
   getTicketsByEventId(eventId: string): Observable<Res<TicketFinal[] | null>>;
+  getTicketsByOrganizerId(): Observable<Res<TicketFinal[] | null>>;
   getTicketsByUserId(userId: string): Observable<Res<TicketFinal[] | null>>;
 }

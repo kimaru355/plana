@@ -34,7 +34,9 @@
         <tr *ngFor="let event of events">
           <td class="border-stroke border">{{ event.title }}</td>
           <td class="border-stroke border">{{ event.capacity }}</td>
-          <td class="border-stroke border">{{ event.date }}</td>
+          <td class="border-stroke border">
+            {{ event.startTime | date : "medium" }}
+          </td>
           <td class="border-stroke border">{{ event.country }}</td>
           <td class="flex gap-2 border-stroke px-2 border">
             <img

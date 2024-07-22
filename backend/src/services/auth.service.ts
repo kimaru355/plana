@@ -409,6 +409,7 @@ export class AuthService implements AuthServices {
             id: true,
             name: true,
             email: true,
+            imageUrl: true,
             phoneNumber: true,
             country: true,
           },

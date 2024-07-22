@@ -26,9 +26,9 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private activateRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {
-    this.isOrganizer = this.activateRoute.snapshot.url
+    this.isOrganizer = this.activatedRoute.snapshot.url
       .map((url) => url.path)
       .includes('organizer');
     if (this.isOrganizer) {

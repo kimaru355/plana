@@ -55,8 +55,11 @@
         formControlName="country"
         [value]="userDetails.country"
       >
-        <option value="" disabled selected>Select Country</option>
-        <option *ngFor="let country of countries" value="{{ country }}">
+        <option
+          *ngFor="let country of countries"
+          value="{{ country }}"
+          [selected]="country === userDetails.country"
+        >
           {{ country }}
         </option>
       </select>

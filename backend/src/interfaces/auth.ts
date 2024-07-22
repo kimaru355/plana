@@ -16,6 +16,7 @@ export interface UserDetails {
   id: string;
   email: string;
   name: string;
+  imageUrl: string;
   phoneNumber: string;
   country: string;
 }

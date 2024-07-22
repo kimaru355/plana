@@ -36,17 +36,17 @@ export class UsersService implements UsersServices {
   }
 
   getOrganizers(): Observable<Res<User[] | null>> {
-    return this.http.get<Res<User[] | null>>(`${this.api}/admin`, {
+    return this.http.get<Res<User[] | null>>(`${this.api}/hosts`, {
       headers: this.headers,
     });
   }
   getAdmins(): Observable<Res<User[] | null>> {
-    return this.http.get<Res<User[] | null>>(`${this.api}/admin`, {
+    return this.http.get<Res<User[] | null>>(`${this.api}/admins`, {
       headers: this.headers,
     });
   }
   getClients(): Observable<Res<UserDetails[] | null>> {
-    return this.http.get<Res<UserDetails[] | null>>(`${this.api}/admin`, {
+    return this.http.get<Res<UserDetails[] | null>>(`${this.api}/clients`, {
       headers: this.headers,
     });
   }

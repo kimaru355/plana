@@ -30,12 +30,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let booking of bookings">
-          <td class="border-stroke border">{{ booking.ticketName }}</td>
-          <td class="border-stroke border">{{ booking.eventName }}</td>
-          <td class="border-stroke border">{{ booking.clientName }}</td>
-          <td class="border-stroke border">{{ booking.clientEmail }}</td>
-          <td class="border-stroke border">{{ booking.price }}</td>
-          <td class="border-stroke border">{{ booking.createdAt }}</td>
+          <td class="border-stroke border">{{ booking.eventTicket.type }}</td>
+          <td class="border-stroke border">{{ booking.event.title }}</td>
+          <td class="border-stroke border">{{ booking.user.name }}</td>
+          <td class="border-stroke border">{{ booking.user.email }}</td>
+          <td class="border-stroke border">
+            {{
+              booking.eventTicket.price * booking.quantity | currency : "Ksh. "
+            }}
+          </td>
+          <td class="border-stroke border">
+            {{ booking.createdAt | date : "mediumDate" }}
+            {{ booking.createdAt | date : "shortTime" }}
+          </td>
         </tr>
       </tbody>
     </table>

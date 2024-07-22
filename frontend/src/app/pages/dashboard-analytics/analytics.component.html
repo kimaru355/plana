@@ -1,0 +1,95 @@
+<section class="bg-gray-bg w-[80vw] min-h-screen text-xl">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">ANALYTICS</h1>
+  </div>
+  <div
+    class="grid grid-cols-1 xl:grid-cols-2 grid-rows-4 xl:grid-rows-2 p-4 w-full"
+  >
+    <div class="w-full">
+      <div class="flex flex-wrap gap-4">
+        <div
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
+        >
+          <img
+            src="icons/tickets_analytics.png"
+            alt="Tickets image"
+            class="w-12 h-12"
+          />
+          <p>Total Tickets</p>
+          <p>{{ analytics.totalTickets }}</p>
+        </div>
+        <div
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
+        >
+          <img
+            src="icons/events_analytics.png"
+            alt="Tickets image"
+            class="w-12 h-12"
+          />
+          <p>Total Events</p>
+          <p>{{ analytics.totalEvents }}</p>
+        </div>
+        <div
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
+        >
+          <img
+            src="icons/sales_analytics.png"
+            alt="Tickets image"
+            class="w-12 h-12"
+          />
+          <p>Total Sales</p>
+          <p>{{ analytics.totalRevenue | currency : "Ksh. " }}</p>
+        </div>
+        <div
+          class="flex flex-col justify-around items-center bg-white1 rounded-md w-72 h-44"
+        >
+          <img
+            src="icons/clients_analytics.png"
+            alt="Tickets image"
+            class="w-12 h-12"
+          />
+          <p>Total Clients</p>
+          <p>{{ analytics.totalClients }}</p>
+        </div>
+      </div>
+      <div class="bg-white1 mt-4 p-4 pb-6">
+        <h2 class="pb-2 font-semibold text-2xl">Most Booked Events</h2>
+        <div *ngFor="let event of analytics.topTenBookedEvents">
+          <p class="text-lg">{{ event.title }}</p>
+          <div class="bg-gray-200 dark:bg-gray-700 rounded-full w-full h-2.5">
+            <div
+              class="bg-blue-600 h-2.5 rounded-full w-[{{
+                (event.eventTickets[0].capacity -
+                  event.eventTickets[0].quantity) /
+                  event.eventTickets[0].capacity
+              }}]"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white1 mt-4 p-4 pb-6">
+        <h2 class="pb-2 font-semibold text-2xl">Recent Bookings</h2>
+        <table class="bg-gray1 p-2 w-full">
+          <thead>
+            <th class="border-stroke border text-start">Event Name</th>
+            <th class="border-stroke border text-start">Customer Name</th>
+            <th class="border-stroke border text-start">Date</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of analytics.topTenRecentBookings">
+              <td class="border-stroke border">{{ booking.event.title }}</td>
+              <td class="border-stroke border">{{ booking.user.name }}</td>
+              <td class="border-stroke border">
+                {{ booking.createdAt | date : "mediumDate" }}
+                {{ booking.createdAt | date : "shortTime" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="w-full">
+      <app-chart></app-chart>
+    </div>
+  </div>
+</section>

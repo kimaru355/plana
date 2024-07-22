@@ -62,12 +62,14 @@
         formControlName="address"
         class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
       >
-        <option value="" *ngIf="!isEditing" disabled selected>
-          Event country
+        <option
+          value="{{ country }}"
+          *ngFor="let country of countries"
+          [selected]="country === event.country"
+        >
+          {{ country }}
         </option>
-        <option value="kenya" *ngIf="isEditing" selected>Kenya</option>
-        <option value="rwanda">Rwanda</option>
-        <option value="uk">UK</option>
+        >
       </select>
       <div *ngIf="country?.dirty && country?.invalid">
         <small *ngIf="country?.errors?.['required']" class="text-red-500"
@@ -91,12 +93,12 @@
     <div class="mb-4">
       <input
         type="text"
-        formControlName="address"
-        placeholder="Event address"
+        formControlName="location"
+        placeholder="Event location"
         class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
       />
-      <div *ngIf="address?.dirty && address?.invalid">
-        <small *ngIf="address?.errors?.['required']" class="text-red-500"
+      <div *ngIf="location?.dirty && location?.invalid">
+        <small *ngIf="location?.errors?.['required']" class="text-red-500"
           >Name is required.</small
         >
       </div>
@@ -131,7 +133,7 @@
       <select
         name="category"
         id="category"
-        formControlName="address"
+        formControlName="location"
         class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
       >
         <option *ngIf="!isEditing" value="" disabled selected>
@@ -141,8 +143,8 @@
         <option value="tech">Tech</option>
         <option value="tech">Tech</option>
       </select>
-      <div *ngIf="address?.dirty && address?.invalid">
-        <small *ngIf="address?.errors?.['required']" class="text-red-500"
+      <div *ngIf="location?.dirty && location?.invalid">
+        <small *ngIf="location?.errors?.['required']" class="text-red-500"
           >Name is required.</small
         >
       </div>

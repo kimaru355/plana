@@ -141,8 +141,9 @@ export const updateDetails = async (
     !user_details.email ||
     !user_details.name ||
     !user_details.phoneNumber ||
+    !user_details.imageUrl ||
     !user_details.country ||
-    Object.keys(user_details).length !== 4 ||
+    Object.keys(user_details).length !== 5 ||
     !["user", "organizer", "admin"].includes(role)
   ) {
     return res.status(200).json({
