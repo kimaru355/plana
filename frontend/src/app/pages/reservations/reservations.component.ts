@@ -39,12 +39,7 @@ export class ReservationsComponent {
     this.ticketService.getTicketsByUserId().subscribe((response) => {
       if (response.success && response.data) {
         this.tickets = response.data;
-        console.log(this.tickets);
       }
     });
-  }
-
-  cancelReservation(id: number) {
-    console.log(`Cancelling reservation with id: ${id}`);
   }
 }

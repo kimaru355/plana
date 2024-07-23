@@ -26,31 +26,29 @@
         <th class="border-stroke border text-start">Phone Number</th>
         <th class="border-stroke border text-start">Profile Photo</th>
         <th class="border-stroke border text-start">Country</th>
+        <th class="border-stroke border text-start">Status</th>
         <th class="border-stroke border text-start">Actions</th>
       </thead>
       <tbody>
-        <tr *ngFor="let client of clients">
-          <td class="border-stroke border">{{ client.name }}</td>
-          <td class="border-stroke border">{{ client.email }}</td>
-          <td class="border-stroke border">{{ client.phoneNumber }}</td>
+        <tr *ngFor="let host of hosts">
+          <td class="border-stroke border">{{ host.name }}</td>
+          <td class="border-stroke border">{{ host.email }}</td>
+          <td class="border-stroke border">{{ host.phoneNumber }}</td>
           <td class="border-stroke border">
             <img
-              src="{{ client.imageUrl }}"
+              src="{{ host.imageUrl }}"
               alt=""
-              class="rounded-full w-8 h-8"
+              class="rounded-full w-10 h-10"
             />
           </td>
-          <td class="border-stroke border">{{ client.country }}</td>
+          <td class="border-stroke border">{{ host.country }}</td>
+          <td class="border-stroke border">{{ host.country }}</td>
           <td class="flex gap-2 border-stroke px-2 border">
             <img
-              class="w-8 h-8 hover:cursor-pointer"
-              src="/icons/edit.png"
-              alt="edit button"
-            />
-            <img
-              class="w-8 h-8 hover:cursor-pointer"
-              src="/icons/delete.png"
+              class="w-12 h-12 hover:cursor-pointer"
+              src="/icons/delete.svg"
               alt="delete button"
+              (click)="deactivateHost(host.id)"
             />
           </td>
         </tr>

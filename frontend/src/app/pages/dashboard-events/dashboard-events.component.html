@@ -1,4 +1,4 @@
-<section class="bg-gray-bg w-[80vw] min-h-screen">
+<section class="bg-gray-bg pb-8 w-[80vw] min-h-screen">
   <div class="bg-white1 p-4">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>
@@ -28,7 +28,12 @@
         <th class="border-stroke border text-start">Capacity</th>
         <th class="border-stroke border text-start">Date</th>
         <th class="border-stroke border text-start">Country</th>
-        <th class="border-stroke border text-start">Actions</th>
+        <th
+          class="border-stroke border text-start"
+          *ngIf="role === 'organizer'"
+        >
+          Actions
+        </th>
       </thead>
       <tbody>
         <tr *ngFor="let event of events">
@@ -38,7 +43,10 @@
             {{ event.startTime | date : "medium" }}
           </td>
           <td class="border-stroke border">{{ event.country }}</td>
-          <td class="flex gap-2 border-stroke px-2 border">
+          <td
+            class="flex gap-2 border-stroke px-2 border"
+            *ngIf="role === 'organizer'"
+          >
             <img
               class="w-8 h-8 hover:cursor-pointer"
               src="/icons/edit.png"

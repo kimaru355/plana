@@ -13,11 +13,12 @@ export class UserService {
   headers = new HttpHeaders({
     Authorization: localStorage.getItem('token') || '',
   });
+  role: string = localStorage.getItem('role') || '';
 
   constructor(private http: HttpClient) {}
 
   getUserDetails(): Observable<Res<User | null>> {
-    return this.http.get<Res<User | null>>(`${this.api}/details`, {
+    return this.http.get<Res<User | null>>(`${this.api}/details/${this.role}`, {
       headers: this.headers,
     });
   }

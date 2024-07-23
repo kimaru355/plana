@@ -25,7 +25,7 @@ export class DashboardEventsComponent {
     if (this.role === 'organizer') {
       this.getEvents();
     } else if (this.role === 'admin') {
-      this.getEvents();
+      this.getAllEvents();
     }
   }
 

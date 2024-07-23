@@ -96,6 +96,8 @@ export class AuthService implements AuthServices {
     );
   }
   deactivateOrganizer(organizerId: string): Observable<Res<null>> {
+    console.log(this.api);
+
     return this.http.post<Res<null>>(
       `${this.api}/deactivate/organizer/${organizerId}`,
       {

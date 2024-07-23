@@ -24,7 +24,7 @@ export class UsersService implements UsersServices {
   }
 
   getUsers(): Observable<Res<User[] | null>> {
-    return this.http.get<Res<User[] | null>>(`${this.api}/all`, {
+    return this.http.get<Res<User[] | null>>(`${this.api}`, {
       headers: this.headers,
     });
   }

@@ -26,6 +26,9 @@
         <th class="border-stroke border text-start">Phone Number</th>
         <th class="border-stroke border text-start">Profile Photo</th>
         <th class="border-stroke border text-start">Country</th>
+        <th class="border-stroke border text-start" *ngIf="role === 'admin'">
+          Actions
+        </th>
       </thead>
       <tbody>
         <tr *ngFor="let client of clients">
@@ -40,6 +43,14 @@
             />
           </td>
           <td class="border-stroke border">{{ client.country }}</td>
+          <td class="flex gap-2 border-stroke px-2 border">
+            <img
+              class="w-12 h-12 hover:cursor-pointer"
+              src="/icons/delete.svg"
+              alt="delete button"
+              (click)="deactivateClient(client.id)"
+            />
+          </td>
         </tr>
       </tbody>
     </table>
