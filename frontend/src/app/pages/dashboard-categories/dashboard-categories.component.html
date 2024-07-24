@@ -1,0 +1,107 @@
+<section class="bg-gray-bg pb-8 w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4">
+    <h1 class="font-bold text-4xl text-center">EVENTS</h1>
+  </div>
+  <div class="flex justify-between px-4 py-4">
+    <input
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search Category"
+      class="bg-white1 px-8 py-2 rounded-3xl w-80"
+    />
+    <button
+      class="bg-white1 hover:bg-blue px-8 py-2 rounded-2xl"
+      (click)="createState = 'create'"
+    >
+      Create Category
+    </button>
+  </div>
+  <div
+    *ngIf="createState"
+    class="top-0 right-0 bottom-0 left-0 fixed flex justify-center items-center bg-[rgba(0,0,0,0.4)]"
+  >
+    <form
+      class="relative flex flex-col gap-1 bg-white rounded-xl w-[20rem] h-[30rem]"
+    >
+      <img
+        src="/icons/cancel.png"
+        alt="Cancel button"
+        class="top-[-1rem] right-[-1rem] absolute w-12 h-12 hover:cursor-pointer hover:scale-110"
+        (click)="createState = ''"
+      />
+      <h2
+        class="bg-[rgba(2,77,223,0.4)] py-2 rounded-xl w-full font-bold text-2xl text-center"
+      >
+        Category
+      </h2>
+      <label class="mx-4" for="name">Category Name</label>
+      <input
+        class="border-2 border-slate-400 mx-4 mb-4"
+        type="text"
+        name="name"
+        id="name"
+        [(ngModel)]="category.name"
+        autocomplete="off"
+        placeholder="Category name"
+      />
+      <input
+        class="mx-4"
+        type="file"
+        src=""
+        alt=""
+        (change)="uploadFiles($event)"
+      />
+      <div class="mx-4 mt-4">
+        <img
+          src="{{ category.imageUrl }}"
+          alt="{{ category.name }} image"
+          class="bg-gray-200 w-40 h-40"
+        />
+      </div>
+      <div class="flex justify-center px-4 w-full">
+        <button
+          type="button"
+          (click)="handleCreateCategory()"
+          class="bg-blue mt-10 py-2 rounded-lg w-full text-lg text-white"
+        >
+          Create Category
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="px-4">
+    <table class="bg-white1 p-2 w-full">
+      <thead>
+        <th class="border-stroke border text-start">Category Name</th>
+        <th class="border-stroke border text-start">Image</th>
+        <th class="border-stroke border text-start">Creation DAte</th>
+        <th class="border-stroke border text-start">Actions</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td class="border-stroke border">{{ category.name }}</td>
+          <td class="border-stroke border">
+            <img src="{{ category.imageUrl }}" alt="" class="w-8 h-8" />
+          </td>
+          <td class="border-stroke border">
+            {{ category.createdAt | date : "short" }}
+          </td>
+          <td class="flex gap-2 border-stroke px-2 border">
+            <!-- <img
+              class="w-8 h-8 hover:cursor-pointer"
+              src="/icons/edit.png"
+              alt="edit button"
+            /> -->
+            <img
+              class="w-8 h-8 hover:cursor-pointer"
+              src="/icons/delete.png"
+              (click)="category.id ? deleteCategory(category.id) : ''"
+              alt="delete button"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

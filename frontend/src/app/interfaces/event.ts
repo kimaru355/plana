@@ -14,7 +14,7 @@ export interface Event {
   images: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  organizerId: string;
+  organizerId?: string;
   categoryId: string;
 }
 

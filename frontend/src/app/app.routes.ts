@@ -12,12 +12,13 @@ import { ClientsComponent } from './pages/dashboard-clients/clients.component';
 import { BookingsComponent } from './pages/dashboard-bookings/bookings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HostsComponent } from './pages/hosts/hosts.component';
-import { CreateEventComponent } from './pages/create-event/create-event.component';
+import { CreateEventComponent } from './pages/dashboard-create-event/create-event.component';
 import { NotificationsComponent } from './pages/dashboard-notifications/notifications.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { ReservationsComponent } from './pages/reservations/reservations.component';
 import { DashboardHostsComponent } from './pages/dashboard-hosts/dashboard-hosts.component';
+import { DashboardCategoriesComponent } from './pages/dashboard-categories/dashboard-categories.component';
 
 export const routes: Routes = [
   {
@@ -50,6 +51,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'analytics', pathMatch: 'full' },
       { path: 'analytics', component: AnalyticsComponent },
+      { path: 'categories', component: DashboardCategoriesComponent },
       { path: 'events', component: DashboardEventsComponent },
       { path: 'clients', component: ClientsComponent },
       { path: 'bookings', component: BookingsComponent },

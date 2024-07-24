@@ -108,6 +108,25 @@
         />Notifications</a
       >
       <a
+        *ngIf="role === 'admin'"
+        routerLink="/dashboard/categories"
+        (click)="currentRoute = '/dashboard/categories'"
+        class="{{
+          currentRoute === '/dashboard/categories'
+            ? 'text-[#FF1074]'
+            : 'text-white'
+        }} flex items-center"
+        ><img
+          src="icons/{{
+            currentRoute === '/dashboard/categories'
+              ? 'categories_active'
+              : 'categories'
+          }}.png"
+          alt=""
+          class="mr-1 xl:mr-4 h-8"
+        />Categories</a
+      >
+      <a
         routerLink="profile"
         (click)="currentRoute = 'profile'"
         class="{{

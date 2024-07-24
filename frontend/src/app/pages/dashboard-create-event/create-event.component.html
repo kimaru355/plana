@@ -1,0 +1,166 @@
+<section class="flex flex-col items-center bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4 w-full">
+    <h1 class="font-bold text-4xl text-center">EVENTS</h1>
+  </div>
+  <form
+    (ngSubmit)="onSubmit()"
+    class="flex flex-wrap justify-center gap-4 px-4"
+  >
+    <div class="bg-[rgba(75,85,99,0.5)] mt-8 p-4 rounded-xl w-[40rem]">
+      <h2 class="py-2 font-bold text-2xl text-center">Create Event</h2>
+      <div class="mb-4">
+        <label for="title" class="font-semibold text-white">Event Title</label>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="Event title"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="description" class="font-semibold text-white"
+          >Event Description</label
+        >
+        <textarea
+          type="text"
+          formControlName="description"
+          placeholder="Event description..."
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        ></textarea>
+      </div>
+      <div class="mb-4">
+        <select
+          name="country"
+          id="country"
+          formControlName="country"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        >
+          <option
+            value="{{ country }}"
+            *ngFor="let country of countries"
+            [selected]="country === event.country"
+          >
+            {{ country }}
+          </option>
+          >
+        </select>
+      </div>
+      <div class="mb-4">
+        <input
+          type="text"
+          formControlName="city"
+          placeholder="Event city"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        />
+      </div>
+      <div class="mb-4">
+        <input
+          type="text"
+          formControlName="location"
+          placeholder="Event location"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        />
+      </div>
+      <div class="mb-4">
+        <input
+          type="number"
+          formControlName="capacity"
+          placeholder="Event capacity"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        />
+      </div>
+      <div class="mb-4">
+        <select
+          name="category"
+          id="category"
+          formControlName="location"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+        >
+          <option *ngIf="!isEditing" value="" disabled selected>
+            Event category
+          </option>
+          <option *ngFor="let category of categories" value="{{ category.id }}">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="bg-[rgba(75,85,99,0.5)] mt-8 p-4 rounded-xl w-[40rem]">
+      <div class="flex mb-4">
+        <div class="w-1/2">
+          <label for="startDate" class="font-semibold text-white"
+            >Start Date</label
+          >
+          <input
+            type="date"
+            formControlName="startDate"
+            placeholder="Start Date"
+            class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          />
+        </div>
+        <div class="w-1/2">
+          <label for="startTime" class="font-semibold text-white"
+            >Start Time</label
+          >
+          <input
+            type="time"
+            formControlName="startTime"
+            placeholder="Start Time"
+            class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          />
+        </div>
+      </div>
+      <div class="flex mb-4">
+        <div class="w-1/2">
+          <label for="startDate" class="font-semibold text-white"
+            >Start Date</label
+          >
+          <input
+            type="date"
+            formControlName="endDate"
+            placeholder="End Date"
+            class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          />
+        </div>
+        <div class="w-1/2">
+          <label for="startDate" class="font-semibold text-white"
+            >Start Date</label
+          >
+          <input
+            type="time"
+            formControlName="endTime"
+            placeholder="End Time"
+            class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          />
+        </div>
+      </div>
+      <div class="mb-4">
+        <input
+          type="file"
+          formControlName="image"
+          placeholder="Event image"
+          class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+          (change)="uploadFiles($event)"
+          src=""
+          alt=""
+        />
+        <div class="mx-4 mt-4">
+          <img
+            *ngFor="let imageUrl of eventCreate.images"
+            src="{{ imageUrl }}"
+            alt="{{ event.title }} image"
+            class="bg-gray-200 w-40 h-40"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center w-full">
+      <button
+        type="submit"
+        class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full max-w-[40rem] text-white"
+      >
+        {{ isEditing ? "Update Event" : "Create Event" }}
+      </button>
+    </div>
+  </form>
+</section>

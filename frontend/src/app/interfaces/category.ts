@@ -1,8 +1,8 @@
 export interface EventCategory {
-  id: string;
+  id?: string;
   name: string;
   imageUrl: string;
-  adminId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  adminId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
