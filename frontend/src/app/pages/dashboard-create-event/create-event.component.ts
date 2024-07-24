@@ -4,19 +4,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { CountriesService } from '../../services/countries.service';
 import { Event as EventCreate } from '../../interfaces/event';
-import { FormsModule } from '@angular/forms';
 import { EventCategory } from '../../interfaces/category';
 import { CategoryService } from '../../services/category.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.css',
 })
 export class CreateEventComponent {
   isEditing = false;
+  isUploading: boolean = false;
   countries: string[] = CountriesService.getCountries();
   categories!: EventCategory[];
   id!: string;
@@ -67,9 +68,12 @@ export class CreateEventComponent {
     });
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log(this.eventCreate);
+  }
 
   async uploadFiles(event: Event): Promise<void> {
+    this.isUploading = true;
     const input = event.target as HTMLInputElement;
     const files = input.files;
     if (files && files.length > 0) {
@@ -92,6 +96,7 @@ export class CreateEventComponent {
         const data = await response.json();
         urls.push(data.url);
         this.event.images.push(data.url); // Set the imageUrl to display the uploaded image
+        this.isUploading = false;
       }
     }
   }

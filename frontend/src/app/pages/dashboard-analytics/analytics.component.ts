@@ -1,13 +1,12 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { ChartComponent } from '../../components/chart/chart.component';
 import { AnalyticService } from '../../services/analytic.service';
 import { AdminAnalytic, OrganizerAnalytic } from '../../interfaces/analytic';
 
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule, ChartComponent, CurrencyPipe],
+  imports: [CommonModule, CurrencyPipe],
   templateUrl: './analytics.component.html',
   styleUrl: './analytics.component.css',
 })

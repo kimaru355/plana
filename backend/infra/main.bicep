@@ -14,9 +14,6 @@ param databasePassword string
 param backendExists bool
 @secure()
 param backendDefinition object
-param frontendExists bool
-@secure()
-param frontendDefinition object
 
 @description('Id of the user or app to assign application roles')
 param principalId string
@@ -128,28 +125,6 @@ module backend './app/backend.bicep' = {
     databaseHost: postgresDb.outputs.databaseHost
     databaseUser: postgresDb.outputs.databaseUser
     databasePassword: vault.getSecret(postgresDb.outputs.databaseConnectionKey)
-    allowedOrigins: [
-      'https://${abbrs.appContainerApps}frontend-${resourceToken}.${appsEnv.outputs.domain}'
-    ]
-  }
-  scope: rg
-}
-
-module frontend './app/frontend.bicep' = {
-  name: 'frontend'
-  params: {
-    name: '${abbrs.appContainerApps}frontend-${resourceToken}'
-    location: location
-    tags: tags
-    identityName: '${abbrs.managedIdentityUserAssignedIdentities}frontend-${resourceToken}'
-    applicationInsightsName: monitoring.outputs.applicationInsightsName
-    containerAppsEnvironmentName: appsEnv.outputs.name
-    containerRegistryName: registry.outputs.name
-    exists: frontendExists
-    appDefinition: frontendDefinition
-    apiUrls: [
-      backend.outputs.uri
-    ]
   }
   scope: rg
 }

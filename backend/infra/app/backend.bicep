@@ -11,7 +11,6 @@ param databaseUser string
 param databaseName string
 @secure()
 param databasePassword string
-param allowedOrigins array
 param exists bool
 @secure()
 param appDefinition object
@@ -79,11 +78,6 @@ resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
         external: true
         targetPort: 3000
         transport: 'auto'
-        corsPolicy: {
-          allowedOrigins: union(allowedOrigins, [
-            // define additional allowed origins here
-          ])
-        }
       }
       registries: [
         {

@@ -48,7 +48,7 @@ To describe the infrastructure and application, `azure.yaml` along with Infrastr
 Each bicep file declares resources to be provisioned. The resources are provisioned when running `azd up` or `azd provision`.
 
 - [app/backend.bicep](./infra/app/backend.bicep) - Azure Container Apps resources to host the 'backend' service.
-- [app/db-postgre.bicep](./infra/app/db-postgre.bicep) - Azure Postgres Flexible Server to host the 'planadatabase' database.
+- [app/db-postgre.bicep](./infra/app/db-postgre.bicep) - Azure Postgres Flexible Server to host the 'plana' database.
 - [shared/keyvault.bicep](./infra/shared/keyvault.bicep) - Azure KeyVault to store secrets.
 - [shared/monitoring.bicep](./infra/shared/monitoring.bicep) - Azure Log Analytics workspace and Application Insights to log and store instrumentation logs.
 - [shared/registry.bicep](./infra/shared/registry.bicep) - Azure Container Registry to store docker images.

@@ -2,18 +2,15 @@
   <div class="bg-white1 p-4 w-full">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>
-  <form
-    (ngSubmit)="onSubmit()"
-    class="flex flex-wrap justify-center gap-4 px-4"
-  >
+  <form class="flex flex-wrap justify-center gap-4 p-4">
     <div class="bg-[rgba(75,85,99,0.5)] mt-8 p-4 rounded-xl w-[40rem]">
       <h2 class="py-2 font-bold text-2xl text-center">Create Event</h2>
       <div class="mb-4">
         <label for="title" class="font-semibold text-white">Event Title</label>
         <input
           type="text"
-          formControlName="title"
           placeholder="Event title"
+          [(ngModel)]="eventCreate.title"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
       </div>
@@ -23,7 +20,7 @@
         >
         <textarea
           type="text"
-          formControlName="description"
+          [(ngModel)]="eventCreate.description"
           placeholder="Event description..."
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         ></textarea>
@@ -32,13 +29,16 @@
         <select
           name="country"
           id="country"
-          formControlName="country"
+          [(ngModel)]="eventCreate.country"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         >
+          <option *ngIf="!isEditing" value="" disabled selected>
+            Event Country
+          </option>
           <option
             value="{{ country }}"
             *ngFor="let country of countries"
-            [selected]="country === event.country"
+            [selected]="country === eventCreate.country"
           >
             {{ country }}
           </option>
@@ -48,7 +48,7 @@
       <div class="mb-4">
         <input
           type="text"
-          formControlName="city"
+          [(ngModel)]="eventCreate.city"
           placeholder="Event city"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
@@ -56,7 +56,7 @@
       <div class="mb-4">
         <input
           type="text"
-          formControlName="location"
+          [(ngModel)]="eventCreate.location"
           placeholder="Event location"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
@@ -64,8 +64,8 @@
       <div class="mb-4">
         <input
           type="number"
-          formControlName="capacity"
           placeholder="Event capacity"
+          [(ngModel)]="eventCreate.capacity"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
       </div>
@@ -73,7 +73,7 @@
         <select
           name="category"
           id="category"
-          formControlName="location"
+          [(ngModel)]="eventCreate.categoryId"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         >
           <option *ngIf="!isEditing" value="" disabled selected>
@@ -93,7 +93,7 @@
           >
           <input
             type="date"
-            formControlName="startDate"
+            [(ngModel)]="eventCreate.startDate"
             placeholder="Start Date"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
@@ -104,7 +104,7 @@
           >
           <input
             type="time"
-            formControlName="startTime"
+            [(ngModel)]="eventCreate.startTime"
             placeholder="Start Time"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
@@ -117,8 +117,8 @@
           >
           <input
             type="date"
-            formControlName="endDate"
             placeholder="End Date"
+            [(ngModel)]="eventCreate.endDate"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
         </div>
@@ -128,23 +128,30 @@
           >
           <input
             type="time"
-            formControlName="endTime"
             placeholder="End Time"
+            [(ngModel)]="eventCreate.endTime"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
         </div>
       </div>
       <div class="mb-4">
+        <label for="imageUrl">Upload Image</label>
         <input
           type="file"
-          formControlName="image"
           placeholder="Event image"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           (change)="uploadFiles($event)"
           src=""
           alt=""
         />
-        <div class="mx-4 mt-4">
+        <p
+          *ngIf="isUploading"
+          class="bg-lime-50 mt-1 px-4 rounded-lg w-full font-semibold text-green-400"
+        >
+          Uploading Image...
+        </p>
+        <p class="text-white">Images {{ eventCreate.images.length }}/4</p>
+        <div class="border-white bg-red-200 mx-4 mt-4 w-full h-40">
           <img
             *ngFor="let imageUrl of eventCreate.images"
             src="{{ imageUrl }}"
@@ -156,7 +163,8 @@
     </div>
     <div class="flex justify-center w-full">
       <button
-        type="submit"
+        type="button"
+        (click)="onSubmit()"
         class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full max-w-[40rem] text-white"
       >
         {{ isEditing ? "Update Event" : "Create Event" }}
