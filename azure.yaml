@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: plana
+metadata:
+    template: azd-init@1.9.5
+services:
+    backend:
+        project: backend
+        host: containerapp
+        language: js
+        docker:
+            path: Dockerfile
+    frontend:
+        project: frontend
+        host: containerapp
+        language: ts
+        dist: dist/frontend
+        docker:
+            path: Dockerfile

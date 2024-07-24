@@ -1,5 +1,5 @@
-import { EventFinal, EventFinalImagesArray } from "./event";
-import { TicketFinal, TicketFinalImagesArray } from "./ticket";
+import { EventFinal } from "./event";
+import { TicketFinal } from "./ticket";
 
 export interface OrganizerAnalytic {
   totalClients: number;

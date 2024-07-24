@@ -6,6 +6,12 @@ param identityName string
 param containerRegistryName string
 param containerAppsEnvironmentName string
 param applicationInsightsName string
+param databaseHost string
+param databaseUser string
+param databaseName string
+@secure()
+param databasePassword string
+param allowedOrigins array
 param exists bool
 @secure()
 param appDefinition object
@@ -60,7 +66,7 @@ module fetchLatestImage '../modules/fetch-container-image.bicep' = {
 resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
   name: name
   location: location
-  tags: union(tags, {'azd-service-name':  'frontend' })
+  tags: union(tags, {'azd-service-name':  'backend' })
   dependsOn: [ acrPullRole ]
   identity: {
     type: 'UserAssigned'
@@ -71,8 +77,13 @@ resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
     configuration: {
       ingress:  {
         external: true
-        targetPort: 80
+        targetPort: 3000
         transport: 'auto'
+        corsPolicy: {
+          allowedOrigins: union(allowedOrigins, [
+            // define additional allowed origins here
+          ])
+        }
       }
       registries: [
         {
@@ -81,6 +92,10 @@ resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
         }
       ]
       secrets: union([
+        {
+          name: 'db-pass'
+          value: databasePassword
+        }
       ],
       map(secrets, secret => {
         name: secret.secretRef
@@ -98,8 +113,28 @@ resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
               value: applicationInsights.properties.ConnectionString
             }
             {
+              name: 'POSTGRES_HOST'
+              value: databaseHost
+            }
+            {
+              name: 'POSTGRES_USERNAME'
+              value: databaseUser
+            }
+            {
+              name: 'POSTGRES_DATABASE'
+              value: databaseName
+            }
+            {
+              name: 'POSTGRES_PASSWORD'
+              secretRef: 'db-pass'
+            }
+            {
+              name: 'POSTGRES_PORT'
+              value: '5432'
+            }
+            {
               name: 'PORT'
-              value: '80'
+              value: '3000'
             }
           ],
           env,

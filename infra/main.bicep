@@ -9,6 +9,11 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
+@secure()
+param databasePassword string
+param backendExists bool
+@secure()
+param backendDefinition object
 param frontendExists bool
 @secure()
 param frontendDefinition object
@@ -89,6 +94,47 @@ module appsEnv './shared/apps-env.bicep' = {
   scope: rg
 }
 
+resource vault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+  name: keyVault.outputs.name
+  scope: rg
+}
+
+module postgresDb './app/db-postgres.bicep' = {
+  name: 'postgresDb'
+  params: {
+    serverName: '${abbrs.dBforPostgreSQLServers}${resourceToken}'
+    location: location
+    tags: tags
+    databasePassword: databasePassword
+    keyVaultName: keyVault.outputs.name
+    allowAllIPsFirewall: true
+  }
+  scope: rg
+}
+
+module backend './app/backend.bicep' = {
+  name: 'backend'
+  params: {
+    name: '${abbrs.appContainerApps}backend-${resourceToken}'
+    location: location
+    tags: tags
+    identityName: '${abbrs.managedIdentityUserAssignedIdentities}backend-${resourceToken}'
+    applicationInsightsName: monitoring.outputs.applicationInsightsName
+    containerAppsEnvironmentName: appsEnv.outputs.name
+    containerRegistryName: registry.outputs.name
+    exists: backendExists
+    appDefinition: backendDefinition
+    databaseName: postgresDb.outputs.databaseName
+    databaseHost: postgresDb.outputs.databaseHost
+    databaseUser: postgresDb.outputs.databaseUser
+    databasePassword: vault.getSecret(postgresDb.outputs.databaseConnectionKey)
+    allowedOrigins: [
+      'https://${abbrs.appContainerApps}frontend-${resourceToken}.${appsEnv.outputs.domain}'
+    ]
+  }
+  scope: rg
+}
+
 module frontend './app/frontend.bicep' = {
   name: 'frontend'
   params: {
@@ -101,6 +147,9 @@ module frontend './app/frontend.bicep' = {
     containerRegistryName: registry.outputs.name
     exists: frontendExists
     appDefinition: frontendDefinition
+    apiUrls: [
+      backend.outputs.uri
+    ]
   }
   scope: rg
 }

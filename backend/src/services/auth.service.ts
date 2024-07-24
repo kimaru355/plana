@@ -139,10 +139,13 @@ export class AuthService implements AuthServices {
       return {
         success: true,
         message: "Account successfully created",
-        data: {
-          token: token,
-          role,
-        },
+        data:
+          role === "user"
+            ? {
+                token: token,
+                role,
+              }
+            : null,
       };
     } catch {
       return {
