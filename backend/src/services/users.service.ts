@@ -161,6 +161,74 @@ export class UsersService implements UsersServices {
     }
   }
 
+  async getOrganizer(id: string): Promise<Res<User | null>> {
+    try {
+      const user = await this.prisma.organizer.findUnique({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          imageUrl: true,
+          phoneNumber: true,
+          country: true,
+        },
+        where: { id, isDeactivated: false },
+      });
+      if (!user) {
+        return {
+          success: false,
+          message: "User not found",
+          data: null,
+        };
+      }
+      return {
+        success: true,
+        message: "User successfully retrieved",
+        data: user,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getAdmin(id: string): Promise<Res<User | null>> {
+    try {
+      const user = await this.prisma.organizer.findUnique({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          imageUrl: true,
+          phoneNumber: true,
+          country: true,
+        },
+        where: { id, isDeactivated: false },
+      });
+      if (!user) {
+        return {
+          success: false,
+          message: "User not found",
+          data: null,
+        };
+      }
+      return {
+        success: true,
+        message: "User successfully retrieved",
+        data: user,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
   // async isAdmin(id: string): Promise<Res<boolean>> {
   //   try {
   //     const user = await this.prisma.user.findUnique({

@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  planadatabase:
+    container_name: plana_database
+    image: postgres
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: plana
+    ports:
+      - "5436:5432"
+    volumes:
+      - planadata:/var/lib/postgres
+
+  planapgadmin:
+    container_name: plana_pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - planadatabase
+    ports:
+      - "5052:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: Jokes@15213
+    restart: unless-stopped
+
+  planaserver:
+    container_name: plana_server
+    depends_on:
+      - planapgadmin
+    build: ./
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    command: ["sh", "-c", "npx prisma db push && npm start"]
+
+volumes:
+  planadata:

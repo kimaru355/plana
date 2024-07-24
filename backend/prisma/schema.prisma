@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlserver"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -63,7 +63,7 @@ model Event {
   city         String
   location     String
   capacity     Int
-  images       String         @db.VarChar(MAX)
+  images       String[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now()) @updatedAt
   organizerId  String
@@ -85,7 +85,7 @@ model DeletedEvent {
   city        String
   location    String
   capacity    Int
-  images      String        @db.VarChar(MAX)
+  images      String[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now()) @updatedAt
   organizerId String

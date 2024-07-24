@@ -54,7 +54,7 @@ app.use("/tickets", verifyToken, TicketRouter);
 app.use("/analytics", verifyToken, AnalyticRouter);
 
 app.use("**", (req: Request, res: Response) => {
-  return res.status(404).json({
+  return res.status(200).json({
     success: false,
     message: "Route not found",
     data: null,

@@ -7,8 +7,8 @@ export interface OrganizerAnalytic {
   totalEventTickets: number;
   totalEvents: number;
   totalRevenue: number;
-  topTenBookedEvents: EventFinal[] | EventFinalImagesArray[];
-  topTenRecentBookings: TicketFinal[] | TicketFinalImagesArray[];
+  topTenBookedEvents: EventFinal[];
+  topTenRecentBookings: TicketFinal[];
 }
 
 export interface AdminAnalytic {
@@ -18,6 +18,6 @@ export interface AdminAnalytic {
   totalEventTickets: number;
   totalEvents: number;
   totalRevenue: number;
-  topTenBookedEvents: EventFinal[] | EventFinalImagesArray[];
-  topTenRecentBookings: TicketFinal[] | TicketFinalImagesArray[];
+  topTenBookedEvents: EventFinal[];
+  topTenRecentBookings: TicketFinal[];
 }

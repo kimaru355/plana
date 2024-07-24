@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Res } from "../interfaces/res";
-import { EventFinal, EventFinalImagesArray } from "../interfaces/event";
+import { EventFinal } from "../interfaces/event";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 import { EventService } from "../services/event.service";
 
@@ -11,18 +11,6 @@ export const getEvent = async (
   const eventService = new EventService();
   const id: string = req.params.id;
   const response: Res<EventFinal | null> = await eventService.getEvent(id);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray> = {
-      ...response,
-      data: {
-        ...response.data,
-        images: response.data.images.split(":::::"),
-      },
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -32,21 +20,6 @@ export const getAllEvents = async (
 ): Promise<Response> => {
   const eventService = new EventService();
   const response: Res<EventFinal[] | null> = await eventService.getAllEvents();
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -59,21 +32,6 @@ export const getEventsByCategory = async (
   const organizerId = getIdFromToken(req);
   const response: Res<EventFinal[] | null> =
     await eventService.getEventsByCategory(eventCategory);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -87,21 +45,6 @@ export const getEventsByName = async (
   const response: Res<EventFinal[] | null> = await eventService.getEventsByName(
     eventName
   );
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -121,21 +64,6 @@ export const getEventsByCountry = async (
   const organizerId = getIdFromToken(req);
   const response: Res<EventFinal[] | null> =
     await eventService.getEventsByCountry(eventCountry);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -155,21 +83,6 @@ export const getEventsByTicketPrice = async (
   const organizerId = getIdFromToken(req);
   const response: Res<EventFinal[] | null> =
     await eventService.getEventsByTicketPrice(min, max);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
 
@@ -189,20 +102,5 @@ export const getEventsByTimeRange = async (
   const organizerId = getIdFromToken(req);
   const response: Res<EventFinal[] | null> =
     await eventService.getEventsByTimeRange(min, max);
-  if (response.success && response.data) {
-    const updatedResponse: Res<EventFinalImagesArray[]> = {
-      success: response.success,
-      message: response.message,
-      data: response.data.map((event) => {
-        return {
-          ...event,
-          images: event.images.split(":::::"),
-        };
-      }),
-    };
-    return res.status(200).json(updatedResponse);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
   return res.status(200).json(response);
 };
