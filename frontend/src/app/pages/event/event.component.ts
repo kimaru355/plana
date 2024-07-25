@@ -27,6 +27,8 @@ export class EventComponent {
   errorMessage: string = '';
   successMessage: string = '';
   showMessage: boolean = false;
+  showConfirmation: boolean = false;
+  isConfirmed = false;
 
   constructor(
     private eventService: EventService,
@@ -117,6 +119,20 @@ export class EventComponent {
     this.inputName = '';
   }
 
+  showConfirmDialog() {
+    this.showConfirmation = true;
+  }
+
+  confirmDialog(status: boolean) {
+    if (!status) {
+      this.isConfirmed = false;
+      this.showConfirmation = false;
+      return;
+    }
+    this.showConfirmation = false;
+    this.bookTicket();
+  }
+
   bookTicket() {
     if (!this.token) {
       this.router.navigate(['/login']);
@@ -133,14 +149,6 @@ export class EventComponent {
         this.errorMessage = '';
         this.successMessage = '';
       }, 2000);
-      return;
-    }
-    const confirmed = confirm(
-      `Book ${this.numberOfTickets} ticket(s) for ${this.event.title} at ${
-        this.selectedTicket.price * this.numberOfTickets
-      }?`
-    );
-    if (!confirmed) {
       return;
     }
     const ticket: Ticket = {

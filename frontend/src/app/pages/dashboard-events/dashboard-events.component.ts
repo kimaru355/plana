@@ -20,6 +20,9 @@ export class DashboardEventsComponent {
   errorMessage: string = '';
   successMessage: string = '';
   showMessage: boolean = false;
+  showConfirmation: boolean = false;
+  isConfirmed = false;
+  eventId!: string;
 
   constructor(
     private manageEventService: ManageEventService,
@@ -48,13 +51,23 @@ export class DashboardEventsComponent {
     });
   }
 
-  deleteEvent(eventId: string) {
-    const isConfirmed: boolean = confirm(
-      'Are you sure you want to delete this event?'
-    );
-    if (!isConfirmed) {
+  showConfirmDialog(eventId: string) {
+    this.eventId = eventId;
+    this.showConfirmation = true;
+  }
+
+  confirmDialog(status: boolean) {
+    if (!status) {
+      this.isConfirmed = false;
+      this.showConfirmation = false;
+      this.eventId = '';
       return;
     }
+    this.showConfirmation = false;
+    this.deleteEvent(this.eventId);
+  }
+
+  deleteEvent(eventId: string) {
     this.manageEventService.deleteEvent(eventId).subscribe((response) => {
       if (response.success) {
         this.getEvents();

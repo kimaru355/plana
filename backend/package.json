@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "start:build": "tsc -w",
-    "start:dev": "node --watch --trace-warnings dist/server.js",
+    "start:dev": "nodemon dist/server.js",
     "start": "concurrently npm:start:*"
   },
   "keywords": [],
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.0",
     "nodemailer": "^6.9.14",
+    "nodemon": "^3.1.4",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

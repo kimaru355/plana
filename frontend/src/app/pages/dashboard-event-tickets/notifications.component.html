@@ -124,7 +124,10 @@
         <th class="border-stroke border text-start">Price</th>
       </thead>
       <tbody>
-        <tr *ngFor="let eventTicket of eventTickets">
+        <tr
+          *ngFor="let eventTicket of eventTickets"
+          class="odd:bg-white1 even:bg-blue1"
+        >
           <td class="border-stroke border">{{ eventTicket.name }}</td>
           <td class="border-stroke border">{{ eventTicket.type }}</td>
           <td class="border-stroke border">{{ eventTicket.persons }}</td>

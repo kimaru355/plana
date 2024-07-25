@@ -13,13 +13,25 @@
   <nav class="flex justify-between">
     <a routerLink="/" class="text-3xl">Plana</a>
     <menu class="flex gap-4 md:text-2xl">
-      <a routerLink="/">Home</a>
-      <a routerLink="/events">Events</a>
-      <a *ngIf="!token" routerLink="/about-us">About</a>
-      <a *ngIf="token" routerLink="/reservations">Reservations</a>
-      <a *ngIf="!token" routerLink="/contact-us">Contact Us</a>
-      <a *ngIf="token" routerLink="/profile">Profile</a>
-      <a *ngIf="token" (click)="logout()" class="hover:cursor-pointer"
+      <a class="hover:text-[#FF1074]" routerLink="/">Home</a>
+      <a class="hover:text-[#FF1074]" routerLink="/events">Events</a>
+      <a class="hover:text-[#FF1074]" *ngIf="!token" routerLink="/about-us"
+        >About</a
+      >
+      <a class="hover:text-[#FF1074]" *ngIf="token" routerLink="/reservations"
+        >Reservations</a
+      >
+      <a class="hover:text-[#FF1074]" *ngIf="!token" routerLink="/contact-us"
+        >Contact Us</a
+      >
+      <a class="hover:text-[#FF1074]" *ngIf="token" routerLink="/profile"
+        >Profile</a
+      >
+      <a
+        class="hover:text-[#FF1074]"
+        *ngIf="token"
+        (click)="logout()"
+        class="hover:cursor-pointer"
         >Logout</a
       >
     </menu>

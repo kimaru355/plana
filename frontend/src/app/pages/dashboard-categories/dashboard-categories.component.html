@@ -35,7 +35,7 @@
       <img
         src="/icons/cancel.png"
         alt="Cancel button"
-        class="top-[-1rem] right-[-1rem] absolute w-12 h-12 hover:cursor-pointer hover:scale-110"
+        class="top-[-1rem] right-[-1rem] absolute w-12 h-12 hover:cursor-pointer hover:scale-110 duration-200"
         (click)="createState = ''"
       />
       <h2
@@ -80,14 +80,17 @@
   </div>
   <div class="px-4">
     <table class="bg-white1 p-2 w-full">
-      <thead>
+      <thead class="bg-yellow-300">
         <th class="border-stroke border text-start">Category Name</th>
         <th class="border-stroke border text-start">Image</th>
         <th class="border-stroke border text-start">Creation DAte</th>
         <th class="border-stroke border text-start">Actions</th>
       </thead>
       <tbody>
-        <tr *ngFor="let category of categories" class="even:bg-blue-400">
+        <tr
+          *ngFor="let category of categories"
+          class="odd:bg-white1 even:bg-blue1"
+        >
           <td class="border-stroke border">{{ category.name }}</td>
           <td class="border-stroke border">
             <img src="{{ category.imageUrl }}" alt="" class="w-8 h-8" />

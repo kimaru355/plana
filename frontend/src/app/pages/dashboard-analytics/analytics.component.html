@@ -74,7 +74,10 @@
             <th class="border-stroke border text-start">Date</th>
           </thead>
           <tbody>
-            <tr *ngFor="let booking of analytics.topTenRecentBookings">
+            <tr
+              *ngFor="let booking of analytics.topTenRecentBookings"
+              class="odd:bg-white1 even:bg-blue1"
+            >
               <td class="border-stroke border">{{ booking.event.title }}</td>
               <td class="border-stroke border">{{ booking.user.name }}</td>
               <td class="border-stroke border">

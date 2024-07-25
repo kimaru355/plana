@@ -7,6 +7,28 @@
       {{ successMessage }}
     </p>
   </div>
+  <div
+    class="top-0 right-0 bottom-0 left-0 z-40 fixed flex justify-center items-center bg-[rgba(0,0,0,0.4)]"
+    *ngIf="showConfirmation"
+  >
+    <div class="bg-white p-4 rounded-xl w-80 h-60">
+      <h2 class="py-1 font-bold text-4xl text-center">Confirmation</h2>
+      <p class="text-xl">Are you sure want to delete the event?</p>
+      <div class="flex justify-between my-8">
+        <button
+          class="bg-red-400 px-12 py-2 rounded-lg text-xl"
+          (click)="confirmDialog(false)"
+        >
+          No</button
+        ><button
+          class="bg-green-400 px-12 py-2 rounded-lg text-xl"
+          (click)="confirmDialog(true)"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="bg-white1 p-4">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>
@@ -44,7 +66,7 @@
         </th>
       </thead>
       <tbody>
-        <tr *ngFor="let event of events">
+        <tr *ngFor="let event of events" class="odd:bg-white1 even:bg-blue1">
           <td class="border-stroke border">{{ event.title }}</td>
           <td class="border-stroke border">{{ event.capacity }}</td>
           <td class="border-stroke border">
@@ -62,7 +84,7 @@
               routerLink="/dashboard/event/edit/{{ event.id }}"
             />
             <img
-              (click)="deleteEvent(event.id)"
+              (click)="showConfirmDialog(event.id)"
               class="w-8 h-8 hover:cursor-pointer"
               src="/icons/delete.png"
               alt="delete button"

@@ -61,17 +61,17 @@
     </div>
   </div>
   <div class="px-4 md:px-8 xl:px-12">
-    <h2 class="pb-4 font-bold text-2xl">Events</h2>
-    <div class="flex flex-wrap justify-center gap-4 w-full text-semibold">
+    <h2 class="ml-24 pb-4 font-bold text-4xl">Events</h2>
+    <div class="flex flex-wrap justify-center gap-8 w-full text-semibold">
       <div
         *ngFor="let event of events"
-        class="w-[24rem] h-[22rem] hover:cursor-pointer"
+        class="w-96 h-96 hover:cursor-pointer hover:scale-105 hover:shadow-lg hover:rounded-xl duration-300"
         routerLink="/event/{{ event.id }}"
       >
         <img
           src="{{ event.images[2] }}"
           alt="{{ event.title }} image"
-          class="w-full h-[16rem] object-center"
+          class="rounded-xl w-full h-72 object-center"
         />
         <h3>{{ event.title }}</h3>
         <h3 class="font-bold" *ngIf="event.eventTickets.length > 0">

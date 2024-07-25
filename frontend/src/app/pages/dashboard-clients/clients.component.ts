@@ -18,6 +18,9 @@ export class ClientsComponent {
   errorMessage: string = '';
   successMessage: string = '';
   showMessage: boolean = false;
+  showConfirmation: boolean = false;
+  isConfirmed = false;
+  clientId!: string;
 
   constructor(
     private usersService: UsersService,
@@ -46,13 +49,23 @@ export class ClientsComponent {
     });
   }
 
-  deactivateClient(clientId: string) {
-    const isConfirmed: boolean = confirm(
-      'Are you sure you want to deactivate this host?'
-    );
-    if (!isConfirmed) {
+  showConfirmDialog(clientId: string) {
+    this.clientId = clientId;
+    this.showConfirmation = true;
+  }
+
+  confirmDialog(status: boolean) {
+    if (!status) {
+      this.isConfirmed = false;
+      this.showConfirmation = false;
+      this.clientId = '';
       return;
     }
+    this.showConfirmation = false;
+    this.deactivateClient(this.clientId);
+  }
+
+  deactivateClient(clientId: string) {
     this.authService.deactivateUser(clientId).subscribe((response) => {
       if (response.success) {
         this.getUsers();
