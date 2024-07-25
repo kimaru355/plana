@@ -1,7 +1,10 @@
 <section
   class="flex flex-col items-center bg-gray-bg w-full min-w-[79vw] min-h-screen"
 >
-  <div class="top-8 fixed" *ngIf="showMessage">
+  <div
+    class="top-8 fixed flex justify-center items-center w-full"
+    *ngIf="showMessage"
+  >
     <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
