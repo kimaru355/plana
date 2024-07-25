@@ -1,0 +1,131 @@
+<section class="flex flex-col items-center bg-gray-bg w-[80vw] min-h-screen">
+  <div class="bg-white1 p-4 w-full">
+    <h1 class="font-bold text-4xl text-center">EVENT TICKETS</h1>
+  </div>
+  <form
+    [formGroup]="notificationForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white1 mx-12 my-8 p-8 w-[40rem] h-fit"
+  >
+    <div class="mb-4">
+      <select
+        name="categoryId"
+        id="categoryId"
+        formControlName="categoryId"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      >
+        <option value="" disabled selected>Choose Event</option>
+        <option
+          *ngFor="let eventTicket of eventTickets"
+          value="{{ eventTicket.id }}"
+        >
+          {{ eventTicket.name }}
+        </option>
+      </select>
+      <div *ngIf="categoryId?.dirty && categoryId?.invalid">
+        <small *ngIf="categoryId?.errors?.['required']" class="text-red-500"
+          >Category is required.</small
+        >
+        <small *ngIf="categoryId?.errors?.['categoryId']" class="text-red-500"
+          >Category is invalid.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="name">Ticket Name</label>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Couple"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="name?.dirty && name?.invalid">
+        <small *ngIf="name?.errors?.['required']" class="text-red-500"
+          >Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="type">Ticket Type</label>
+      <input
+        type="text"
+        formControlName="type"
+        placeholder="VIP"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="type?.dirty && type?.invalid">
+        <small *ngIf="type?.errors?.['required']" class="text-red-500"
+          >Type is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="price">Ticket Price</label>
+      <input
+        type="number"
+        formControlName="price"
+        placeholder="Price"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="price?.dirty && price?.invalid">
+        <small *ngIf="price?.errors?.['required']" class="text-red-500"
+          >price is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="persons">No. of Attendees</label>
+      <input
+        type="number"
+        formControlName="persons"
+        placeholder="Number of attendees"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="persons?.dirty && persons?.invalid">
+        <small *ngIf="persons?.errors?.['required']" class="text-red-500"
+          >persons is required.</small
+        >
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="quantity">No. of Attendees</label>
+      <input
+        type="number"
+        formControlName="quantity"
+        placeholder="Number of attendees"
+        class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
+      />
+      <div *ngIf="quantity?.dirty && quantity?.invalid">
+        <small *ngIf="quantity?.errors?.['required']" class="text-red-500"
+          >quantity is required.</small
+        >
+      </div>
+    </div>
+    <button
+      type="submit"
+      [disabled]="notificationForm.invalid"
+      class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full text-white"
+    >
+      Create Event Ticket
+    </button>
+  </form>
+  <div class="bg-white1 p-4 pb-6 w-full">
+    <h2 class="pb-2 font-semibold text-2xl">Event Tickets</h2>
+    <table class="bg-gray1 p-2 w-full">
+      <thead>
+        <th class="border-stroke border text-start">Name</th>
+        <th class="border-stroke border text-start">Type</th>
+        <th class="border-stroke border text-start">Persons</th>
+        <th class="border-stroke border text-start">Price</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventTicket of eventTickets">
+          <td class="border-stroke border">{{ eventTicket.name }}</td>
+          <td class="border-stroke border">{{ eventTicket.type }}</td>
+          <td class="border-stroke border">{{ eventTicket.persons }}</td>
+          <td class="border-stroke border">{{ eventTicket.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

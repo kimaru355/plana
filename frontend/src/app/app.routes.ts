@@ -13,7 +13,7 @@ import { BookingsComponent } from './pages/dashboard-bookings/bookings.component
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HostsComponent } from './pages/hosts/hosts.component';
 import { CreateEventComponent } from './pages/dashboard-create-event/create-event.component';
-import { NotificationsComponent } from './pages/dashboard-notifications/notifications.component';
+import { NotificationsComponent } from './pages/dashboard-event-tickets/notifications.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { ReservationsComponent } from './pages/reservations/reservations.component';
@@ -58,7 +58,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'event/create', component: CreateEventComponent },
       { path: 'event/edit/:id', component: CreateEventComponent },
-      { path: 'notifications', component: NotificationsComponent },
+      { path: 'eventTicket', component: NotificationsComponent },
       { path: 'hosts', component: DashboardHostsComponent },
     ],
   },

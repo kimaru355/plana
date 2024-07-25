@@ -92,20 +92,18 @@
       >
       <a
         *ngIf="role === 'organizer'"
-        routerLink="notifications"
-        (click)="currentRoute = 'notifications'"
+        routerLink="eventTicket"
+        (click)="currentRoute = 'eventTicket'"
         class="{{
-          currentRoute === 'notifications' ? 'text-[#FF1074]' : 'text-white'
+          currentRoute === 'eventTicket' ? 'text-[#FF1074]' : 'text-white'
         }} flex items-center"
         ><img
           src="icons/{{
-            currentRoute === 'notifications'
-              ? 'notifications_active'
-              : 'notifications'
+            currentRoute === 'eventTicket' ? 'ticket_active' : 'ticket'
           }}.png"
           alt=""
           class="mr-1 xl:mr-4 h-8"
-        />Notifications</a
+        />Event Tickets</a
       >
       <a
         *ngIf="role === 'admin'"
