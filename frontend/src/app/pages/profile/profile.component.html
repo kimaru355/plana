@@ -66,6 +66,7 @@
       <div class="flex justify-center">
         <button
           type="button"
+          (click)="updateUserDetails()"
           class="bg-blue mt-8 px-8 py-1 rounded-md text-white"
         >
           Update Profile
@@ -80,6 +81,7 @@
         type="password"
         name="oldPassword"
         id="oldPassword"
+        [(value)]="userPasswords.old_password"
         placeholder="********"
       />
       <label for="password">New Password:</label>
@@ -88,6 +90,7 @@
         type="password"
         name="password"
         id="password"
+        [(value)]="userPasswords.new_password"
         placeholder="********"
       />
       <label for="confirmPassword">Confirm Password:</label>
@@ -96,10 +99,12 @@
         type="password"
         name="confirmPassword"
         id="confirmPassword"
+        [(value)]="userPasswords.confirm_password"
         placeholder="********"
       />
       <div class="flex justify-center">
         <button
+          (click)="updatePassword()"
           type="button"
           class="bg-blue mt-8 px-8 py-1 rounded-md text-white"
         >

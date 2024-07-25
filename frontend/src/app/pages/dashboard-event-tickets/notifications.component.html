@@ -9,25 +9,22 @@
   >
     <div class="mb-4">
       <select
-        name="categoryId"
-        id="categoryId"
-        formControlName="categoryId"
+        name="eventId"
+        id="eventId"
+        formControlName="eventId"
         class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
       >
         <option value="" disabled selected>Choose Event</option>
-        <option
-          *ngFor="let eventTicket of eventTickets"
-          value="{{ eventTicket.id }}"
-        >
-          {{ eventTicket.name }}
+        <option *ngFor="let event of events" value="{{ event.id }}">
+          {{ event.title }}
         </option>
       </select>
-      <div *ngIf="categoryId?.dirty && categoryId?.invalid">
-        <small *ngIf="categoryId?.errors?.['required']" class="text-red-500"
-          >Category is required.</small
+      <div *ngIf="eventId?.dirty && eventId?.invalid">
+        <small *ngIf="eventId?.errors?.['required']" class="text-red-500"
+          >Event is required.</small
         >
-        <small *ngIf="categoryId?.errors?.['categoryId']" class="text-red-500"
-          >Category is invalid.</small
+        <small *ngIf="eventId?.errors?.['eventId']" class="text-red-500"
+          >Event is invalid.</small
         >
       </div>
     </div>
@@ -88,11 +85,11 @@
       </div>
     </div>
     <div class="mb-4">
-      <label for="quantity">No. of Attendees</label>
+      <label for="quantity">Quantity Available</label>
       <input
         type="number"
         formControlName="quantity"
-        placeholder="Number of attendees"
+        placeholder="Number of tickets available"
         class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
       />
       <div *ngIf="quantity?.dirty && quantity?.invalid">

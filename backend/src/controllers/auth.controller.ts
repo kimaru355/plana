@@ -137,13 +137,15 @@ export const updateDetails = async (
     | "organizer"
     | "admin";
   const user_details: UserDetails = req.body;
+  user_details.id = id;
   if (
+    !user_details.id ||
     !user_details.email ||
     !user_details.name ||
     !user_details.phoneNumber ||
-    !user_details.imageUrl ||
+    !Object.keys(user_details).includes("imageUrl") ||
     !user_details.country ||
-    Object.keys(user_details).length !== 5 ||
+    Object.keys(user_details).length !== 6 ||
     !["user", "organizer", "admin"].includes(role)
   ) {
     return res.status(200).json({

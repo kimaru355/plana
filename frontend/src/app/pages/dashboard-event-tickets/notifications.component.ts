@@ -21,6 +21,7 @@ import { Event } from '../../interfaces/event';
 })
 export class NotificationsComponent {
   notificationForm: FormGroup;
+  eventTicket!: EventTicket;
   eventTickets!: EventTicket[];
   events!: Event[];
 
@@ -31,8 +32,9 @@ export class NotificationsComponent {
     private manageEventService: ManageEventService
   ) {
     this.getOrganizerEventTickets();
+    this.getOrganizerEvents();
     this.notificationForm = this.fb.group({
-      categoryId: ['', [Validators.required]],
+      eventId: ['', [Validators.required]],
       name: ['', [Validators.required]],
       type: ['', [Validators.required]],
       price: ['', [Validators.required]],
@@ -41,8 +43,8 @@ export class NotificationsComponent {
     });
   }
 
-  get categoryId() {
-    return this.notificationForm.get('categoryId');
+  get eventId() {
+    return this.notificationForm.get('eventId');
   }
 
   get name() {
@@ -83,6 +85,18 @@ export class NotificationsComponent {
 
   onSubmit() {
     if (this.notificationForm.valid) {
+      this.eventTicket = {
+        ...this.notificationForm.value,
+      };
+      this.eventTicket.capacity = this.eventTicket.quantity;
+      this.eventTicketService
+        .createEventTicket(this.eventTicket)
+        .subscribe((response) => {
+          if (response.success && response.data) {
+            this.getOrganizerEventTickets();
+          }
+          alert(response.message);
+        });
     }
   }
 }

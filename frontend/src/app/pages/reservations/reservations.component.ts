@@ -33,7 +33,9 @@ export class ReservationsComponent {
     },
   ];
 
-  constructor(private ticketService: TicketService) {}
+  constructor(private ticketService: TicketService) {
+    this.getReservations();
+  }
 
   getReservations() {
     this.ticketService.getTicketsByUserId().subscribe((response) => {

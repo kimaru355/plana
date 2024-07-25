@@ -28,7 +28,7 @@ export class ManageEventService implements ManageEventServices {
   }
 
   updateEvent(event: Event): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/update/${event.id}`, event, {
+    return this.http.put<Res<null>>(`${this.api}/update`, event, {
       headers: this.headers,
     });
   }

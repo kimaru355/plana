@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserDetails } from '../../interfaces/auth';
+import { UserDetails, UserPasswords } from '../../interfaces/auth';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { CountriesService } from '../../services/countries.service';
@@ -14,6 +14,11 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ProfileComponent {
   userDetails!: UserDetails;
+  userPasswords: UserPasswords = {
+    old_password: '',
+    new_password: '',
+    confirm_password: '',
+  };
   role: 'user' | 'organizer' | 'admin' =
     (localStorage.getItem('role') as 'user' | 'organizer' | 'admin') || 'user';
   countries: string[] = CountriesService.getCountries();
@@ -36,9 +41,7 @@ export class ProfileComponent {
     this.authService
       .updateDetails(this.userDetails, this.role)
       .subscribe((response) => {
-        if (response.success) {
-          alert('User details updated successfully');
-        }
+        alert(response.message);
       });
   }
   updatePassword() {}

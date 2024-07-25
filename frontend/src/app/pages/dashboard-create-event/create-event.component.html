@@ -2,87 +2,143 @@
   <div class="bg-white1 p-4 w-full">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>
-  <form class="flex flex-wrap justify-center gap-4 p-4">
+  <form
+    [formGroup]="eventForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-wrap justify-center gap-4 p-4"
+  >
     <div class="bg-[rgba(75,85,99,0.5)] mt-8 p-4 rounded-xl w-[40rem]">
       <h2 class="py-2 font-bold text-2xl text-center">Create Event</h2>
       <div class="mb-4">
         <label for="title" class="font-semibold text-white">Event Title</label>
         <input
+          formControlName="title"
           type="text"
           placeholder="Event title"
-          [(ngModel)]="eventCreate.title"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
+        <div
+          *ngIf="
+            eventForm.get('title')?.invalid && eventForm.get('title')?.touched
+          "
+          class="text-red-500"
+        >
+          Event title is required.
+        </div>
       </div>
       <div class="mb-4">
         <label for="description" class="font-semibold text-white"
           >Event Description</label
         >
         <textarea
+          formControlName="description"
           type="text"
-          [(ngModel)]="eventCreate.description"
           placeholder="Event description..."
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         ></textarea>
+        <div
+          *ngIf="
+            eventForm.get('description')?.invalid &&
+            eventForm.get('description')?.touched
+          "
+          class="text-red-500"
+        >
+          Event description is required.
+        </div>
       </div>
       <div class="mb-4">
         <select
+          formControlName="country"
           name="country"
           id="country"
-          [(ngModel)]="eventCreate.country"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         >
-          <option *ngIf="!isEditing" value="" disabled selected>
-            Event Country
-          </option>
-          <option
-            value="{{ country }}"
-            *ngFor="let country of countries"
-            [selected]="country === eventCreate.country"
-          >
+          <option value="" disabled selected>Event Country</option>
+          <option *ngFor="let country of countries" [value]="country">
             {{ country }}
           </option>
-          >
         </select>
+        <div
+          *ngIf="
+            eventForm.get('country')?.invalid &&
+            eventForm.get('country')?.touched
+          "
+          class="text-red-500"
+        >
+          Event country is required.
+        </div>
       </div>
       <div class="mb-4">
         <input
+          formControlName="city"
           type="text"
-          [(ngModel)]="eventCreate.city"
           placeholder="Event city"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
+        <div
+          *ngIf="
+            eventForm.get('city')?.invalid && eventForm.get('city')?.touched
+          "
+          class="text-red-500"
+        >
+          Event city is required.
+        </div>
       </div>
       <div class="mb-4">
         <input
+          formControlName="location"
           type="text"
-          [(ngModel)]="eventCreate.location"
           placeholder="Event location"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
+        <div
+          *ngIf="
+            eventForm.get('location')?.invalid &&
+            eventForm.get('location')?.touched
+          "
+          class="text-red-500"
+        >
+          Event location is required.
+        </div>
       </div>
       <div class="mb-4">
         <input
+          formControlName="capacity"
           type="number"
           placeholder="Event capacity"
-          [(ngModel)]="eventCreate.capacity"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         />
+        <div
+          *ngIf="
+            eventForm.get('capacity')?.invalid &&
+            eventForm.get('capacity')?.touched
+          "
+          class="text-red-500"
+        >
+          Event capacity is required and must be a positive number.
+        </div>
       </div>
       <div class="mb-4">
         <select
+          formControlName="categoryId"
           name="category"
           id="category"
-          [(ngModel)]="eventCreate.categoryId"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
         >
-          <option *ngIf="!isEditing" value="" disabled selected>
-            Event category
-          </option>
-          <option *ngFor="let category of categories" value="{{ category.id }}">
+          <option value="" disabled selected>Event category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
             {{ category.name }}
           </option>
         </select>
+        <div
+          *ngIf="
+            eventForm.get('categoryId')?.invalid &&
+            eventForm.get('categoryId')?.touched
+          "
+          class="text-red-500"
+        >
+          Event category is required.
+        </div>
       </div>
     </div>
     <div class="bg-[rgba(75,85,99,0.5)] mt-8 p-4 rounded-xl w-[40rem]">
@@ -92,57 +148,89 @@
             >Start Date</label
           >
           <input
+            formControlName="startDate"
             type="date"
-            [(ngModel)]="eventCreate.startDate"
             placeholder="Start Date"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
+          <div
+            *ngIf="
+              eventForm.get('startDate')?.invalid &&
+              eventForm.get('startDate')?.touched
+            "
+            class="text-red-500"
+          >
+            Start date is required.
+          </div>
         </div>
         <div class="w-1/2">
           <label for="startTime" class="font-semibold text-white"
             >Start Time</label
           >
           <input
+            formControlName="startTime"
             type="time"
-            [(ngModel)]="eventCreate.startTime"
             placeholder="Start Time"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
+          <div
+            *ngIf="
+              eventForm.get('startTime')?.invalid &&
+              eventForm.get('startTime')?.touched
+            "
+            class="text-red-500"
+          >
+            Start time is required.
+          </div>
         </div>
       </div>
       <div class="flex mb-4">
         <div class="w-1/2">
-          <label for="startDate" class="font-semibold text-white"
-            >Start Date</label
-          >
+          <label for="endDate" class="font-semibold text-white">End Date</label>
           <input
+            formControlName="endDate"
             type="date"
             placeholder="End Date"
-            [(ngModel)]="eventCreate.endDate"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
+          <div
+            *ngIf="
+              eventForm.get('endDate')?.invalid &&
+              eventForm.get('endDate')?.touched
+            "
+            class="text-red-500"
+          >
+            End date is required.
+          </div>
         </div>
         <div class="w-1/2">
-          <label for="startDate" class="font-semibold text-white"
-            >Start Date</label
-          >
+          <label for="endTime" class="font-semibold text-white">End Time</label>
           <input
+            formControlName="endTime"
             type="time"
             placeholder="End Time"
-            [(ngModel)]="eventCreate.endTime"
             class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           />
+          <div
+            *ngIf="
+              eventForm.get('endTime')?.invalid &&
+              eventForm.get('endTime')?.touched
+            "
+            class="text-red-500"
+          >
+            End time is required.
+          </div>
         </div>
       </div>
       <div class="mb-4">
-        <label for="imageUrl">Upload Image</label>
+        <label for="imageUrl" class="font-semibold text-white"
+          >Upload Image</label
+        >
         <input
           type="file"
           placeholder="Event image"
           class="p-3 border focus:border-blue-300 rounded-lg w-full focus:outline-none focus:ring"
           (change)="uploadFiles($event)"
-          src=""
-          alt=""
         />
         <p
           *ngIf="isUploading"
@@ -150,22 +238,24 @@
         >
           Uploading Image...
         </p>
-        <p class="text-white">Images {{ eventCreate.images.length }}/4</p>
-        <div class="border-white bg-red-200 mx-4 mt-4 w-full h-40">
+        <p class="text-white">
+          Images {{ eventForm.get("images")?.value.length }}/4
+        </p>
+        <div class="flex flex-wrap border-white mx-4 mt-4 w-full">
           <img
-            *ngFor="let imageUrl of eventCreate.images"
-            src="{{ imageUrl }}"
-            alt="{{ event.title }} image"
-            class="bg-gray-200 w-40 h-40"
+            *ngFor="let imageUrl of eventForm.get('images')?.value"
+            [src]="imageUrl"
+            alt="{{ eventForm.get('title')?.value }} image"
+            class="bg-gray-200 m-2 w-40 h-40"
           />
         </div>
       </div>
     </div>
     <div class="flex justify-center w-full">
       <button
-        type="button"
-        (click)="onSubmit()"
-        class="bg-blue disabled:bg-gray-300 p-3 rounded-lg w-full max-w-[40rem] text-white"
+        type="submit"
+        [disabled]="eventForm.invalid"
+        class="bg-blue disabled:bg-gray-400 p-3 rounded-lg w-full max-w-[40rem] text-white"
       >
         {{ isEditing ? "Update Event" : "Create Event" }}
       </button>

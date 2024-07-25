@@ -10,28 +10,31 @@
 
   <div class="space-y-4">
     <div
-      *ngFor="let reservation of reservations"
+      *ngFor="let ticket of tickets"
       class="flex items-center bg-white shadow-md p-4 rounded-lg"
     >
       <img
-        [src]="reservation.imageUrl"
-        alt="{{ reservation.eventName }}"
+        [src]="ticket.event.images[0]"
+        alt="{{ ticket.event.title }}"
         class="mr-4 rounded-lg w-24 h-24 object-cover"
       />
       <div class="flex-grow">
-        <h2 class="font-semibold text-xl">{{ reservation.eventName }}</h2>
+        <h2 class="font-semibold text-xl">{{ ticket.event.title }}</h2>
         <p class="text-gray-600">
-          Start Date: {{ reservation.startDate }} Time: {{ reservation.time }}
+          Start Date: {{ ticket.event.startTime | date : "mediumDate" }} Time:
+          {{ ticket.event.startTime | date : "shortTime" }}
         </p>
-        <p class="text-gray-600">Ksh {{ reservation.price }}</p>
+        <p class="text-gray-600">
+          {{ ticket.eventTicket.price * ticket.quantity | currency : "Ksh. " }}
+        </p>
       </div>
       <div class="text-right">
-        <p class="mb-2 text-gray-600">Tickets: {{ reservation.tickets }}</p>
-        <button
+        <p class="mb-2 text-gray-600">Tickets: {{ ticket.quantity }}</p>
+        <!-- <button
           class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg text-gray-700 transition duration-300"
         >
-          Cancel Reservation
-        </button>
+          Cancel ticket
+        </button> -->
       </div>
     </div>
   </div>

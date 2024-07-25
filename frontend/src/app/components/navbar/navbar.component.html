@@ -15,7 +15,6 @@
     <menu class="flex gap-4 md:text-2xl">
       <a routerLink="/">Home</a>
       <a routerLink="/events">Events</a>
-      <a routerLink="/hosts">Hosts</a>
       <a *ngIf="!token" routerLink="/about-us">About</a>
       <a *ngIf="token" routerLink="/reservations">Reservations</a>
       <a *ngIf="!token" routerLink="/contact-us">Contact Us</a>

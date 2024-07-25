@@ -47,7 +47,7 @@ export class AuthService implements AuthServices {
     user_details: UserDetails,
     role: 'user' | 'organizer' | 'admin'
   ): Observable<Res<null>> {
-    return this.http.post<Res<null>>(
+    return this.http.put<Res<null>>(
       `${this.api}/update_details/${role}`,
       user_details,
       {
@@ -60,7 +60,7 @@ export class AuthService implements AuthServices {
     user_passwords: UserPasswords,
     role: 'user' | 'organizer' | 'admin'
   ): Observable<Res<null>> {
-    return this.http.post<Res<null>>(
+    return this.http.put<Res<null>>(
       `${this.api}/update_password/${role}`,
       user_passwords,
       {
@@ -96,8 +96,6 @@ export class AuthService implements AuthServices {
     );
   }
   deactivateOrganizer(organizerId: string): Observable<Res<null>> {
-    console.log(this.api);
-
     return this.http.post<Res<null>>(
       `${this.api}/deactivate/organizer/${organizerId}`,
       {
