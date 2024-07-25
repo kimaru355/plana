@@ -9,17 +9,7 @@ export const createEvent = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventInput: any = req.body;
-  eventInput.startTime = eventInput.startDate;
-  eventInput.endTime = eventInput.endDate;
-  delete eventInput.startDate;
-  delete eventInput.endDate;
-
-  const event: Event = {
-    ...eventInput,
-    startTime: new Date(eventInput.startTime),
-    endTime: new Date(eventInput.endTime),
-  };
+  const event: Event = req.body;
 
   event.organizerId = getIdFromToken(req);
   event.id = v4();

@@ -27,6 +27,7 @@ export class BookingsComponent {
     this.ticketService.getTicketsByOrganizerId().subscribe((response) => {
       if (response.success && response.data) {
         this.bookings = response.data;
+        console.log(this.bookings);
       }
     });
   }

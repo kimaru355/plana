@@ -12,26 +12,7 @@ import { TicketFinal } from '../../interfaces/ticket';
 })
 export class ReservationsComponent {
   tickets: TicketFinal[] = [];
-  reservations = [
-    {
-      id: 1,
-      eventName: 'Sauti Sol Back to Earth',
-      startDate: '12 Aug 2024',
-      time: '4:00 pm',
-      tickets: 4,
-      price: 1000,
-      imageUrl: '/images/reservation.jpg',
-    },
-    {
-      id: 2,
-      eventName: 'Black Patheon 2',
-      startDate: '12 Aug 2024',
-      time: '4:00 pm',
-      tickets: 2,
-      price: 1000,
-      imageUrl: '/images/reservation.jpg',
-    },
-  ];
+  // ticket!: TicketFinal;
 
   constructor(private ticketService: TicketService) {
     this.getReservations();
@@ -41,6 +22,7 @@ export class ReservationsComponent {
     this.ticketService.getTicketsByUserId().subscribe((response) => {
       if (response.success && response.data) {
         this.tickets = response.data;
+        // this.ticket = this.tickets[0];
       }
     });
   }

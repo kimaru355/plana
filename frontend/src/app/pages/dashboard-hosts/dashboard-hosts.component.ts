@@ -16,6 +16,10 @@ export class DashboardHostsComponent {
   errorMessage: string = '';
   successMessage: string = '';
   showMessage: boolean = false;
+  showConfirmation: boolean = false;
+  isConfirmed = false;
+  hostId!: string;
+  warningMessage: string = '';
 
   constructor(
     private usersService: UsersService,
@@ -33,12 +37,6 @@ export class DashboardHostsComponent {
   }
 
   deactivateHost(hostId: string) {
-    const isConfirmed: boolean = confirm(
-      'Are you sure you want to deactivate this host?'
-    );
-    if (!isConfirmed) {
-      return;
-    }
     this.authService.deactivateOrganizer(hostId).subscribe((response) => {
       if (response.success) {
         this.getHosts();
@@ -55,13 +53,7 @@ export class DashboardHostsComponent {
     });
   }
 
-  activateHost(hostId: string) {
-    const isConfirmed: boolean = confirm(
-      'Are you sure you want to verify this host?'
-    );
-    if (!isConfirmed) {
-      return;
-    }
+  verifyHost(hostId: string) {
     this.authService.verifyOrganizer(hostId).subscribe((response) => {
       if (response.success) {
         this.getHosts();
@@ -76,5 +68,35 @@ export class DashboardHostsComponent {
         this.successMessage = '';
       }, 2000);
     });
+  }
+
+  showVerifyConfirmDialog(hostId: string) {
+    this.showConfirmation = true;
+    this.hostId = hostId;
+    this.warningMessage = 'Are you sure you want to verify this user?';
+  }
+
+  showDeleteConfirmDialog(hostId: string) {
+    this.showConfirmation = true;
+    this.hostId = hostId;
+    this.warningMessage = 'Are you sure you want to deactivate this host?';
+  }
+
+  confirmDialog(status: boolean) {
+    if (!status) {
+      this.isConfirmed = false;
+      this.showConfirmation = false;
+      return;
+    }
+    this.showConfirmation = false;
+    if (
+      this.warningMessage === 'Are you sure you want to deactivate this host?'
+    ) {
+      this.deactivateHost(this.hostId);
+    } else if (
+      this.warningMessage === 'Are you sure you want to verify this user?'
+    ) {
+      this.verifyHost(this.hostId);
+    }
   }
 }

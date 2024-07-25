@@ -76,7 +76,10 @@
             />
           </td>
           <td class="border-stroke border">{{ client.country }}</td>
-          <td class="flex gap-2 border-stroke px-2 border">
+          <td
+            class="flex gap-2 border-stroke px-2 border"
+            *ngIf="role === 'admin'"
+          >
             <img
               class="w-12 h-12 hover:cursor-pointer"
               src="/icons/delete.svg"

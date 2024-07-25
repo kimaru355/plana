@@ -8,6 +8,23 @@
     <button class="font-semibold text-gray-500 text-lg">Past</button>
   </div>
 
+  <!-- <div
+    *ngIf="ticket"
+    class="top-0 right-0 bottom-0 left-0 z-40 fixed flex justify-center items-center bg-[rgba(0,0,0,0.2)]"
+  >
+    <div class="relative bg-white p-4 rounded-lg w-72">
+      <button class="right-0 absolute">
+        <img src="/icons/cancel.png" alt="close button" />
+      </button>
+      <h2 class="text-2xl">Event Details</h2>
+      <p>Event: {{ ticket.event.title }}</p>
+      <p>Ticket: {{ ticket.eventTicket.name }}</p>
+      <p>Type: {{ ticket.eventTicket.type }}</p>
+      <p>Price: {{ ticket.eventTicket.price | currency : "Ksh. " }}</p>
+      <p>Attendees: {{ ticket.eventTicket.persons * ticket.quantity }}</p>
+    </div>
+  </div> -->
+
   <div class="space-y-4">
     <div
       *ngFor="let ticket of tickets"
@@ -30,11 +47,11 @@
       </div>
       <div class="text-right">
         <p class="mb-2 text-gray-600">Tickets: {{ ticket.quantity }}</p>
-        <!-- <button
+        <button
           class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg text-gray-700 transition duration-300"
         >
-          Cancel ticket
-        </button> -->
+          View Details
+        </button>
       </div>
     </div>
   </div>

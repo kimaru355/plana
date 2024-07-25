@@ -72,25 +72,34 @@ export class AuthService implements AuthServices {
   verifyOrganizer(organizerId: string): Observable<Res<null>> {
     return this.http.put<Res<null>>(
       `${this.api}/verify/${organizerId}`,
-      {},
+      { headers: this.headers },
       {
         headers: this.headers,
       }
     );
   }
   activateUser(userId: string): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/activate/user/${userId}`, {
-      headers: this.headers,
-    });
+    return this.http.put<Res<null>>(
+      `${this.api}/activate/user/${userId}`,
+      { headers: this.headers },
+      {
+        headers: this.headers,
+      }
+    );
   }
   deactivateUser(userId: string): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/deactivate/user/${userId}`, {
-      headers: this.headers,
-    });
+    return this.http.put<Res<null>>(
+      `${this.api}/deactivate/user/${userId}`,
+      { headers: this.headers },
+      {
+        headers: this.headers,
+      }
+    );
   }
   activateOrganizer(organizerId: string): Observable<Res<null>> {
     return this.http.put<Res<null>>(
       `${this.api}/activate/organizer/${organizerId}`,
+      { headers: this.headers },
       {
         headers: this.headers,
       }
@@ -99,19 +108,28 @@ export class AuthService implements AuthServices {
   deactivateOrganizer(organizerId: string): Observable<Res<null>> {
     return this.http.put<Res<null>>(
       `${this.api}/deactivate/organizer/${organizerId}`,
+      { headers: this.headers },
       {
         headers: this.headers,
       }
     );
   }
   activateAdmin(adminId: string): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/activate/admin/${adminId}`, {
-      headers: this.headers,
-    });
+    return this.http.put<Res<null>>(
+      `${this.api}/activate/admin/${adminId}`,
+      { headers: this.headers },
+      {
+        headers: this.headers,
+      }
+    );
   }
   deactivateAdmin(adminId: string): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/deactivate/admin/${adminId}`, {
-      headers: this.headers,
-    });
+    return this.http.put<Res<null>>(
+      `${this.api}/deactivate/admin/${adminId}`,
+      { headers: this.headers },
+      {
+        headers: this.headers,
+      }
+    );
   }
 }

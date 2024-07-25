@@ -52,7 +52,7 @@ export class CreateEventComponent {
       city: ['', Validators.required],
       location: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.min(1)]],
-      images: [[]],
+      images: [[], Validators.required],
       categoryId: ['', Validators.required],
     });
     this.getCategories();
@@ -139,10 +139,8 @@ export class CreateEventComponent {
     const formValues = this.eventForm.value;
     const startDate = new Date(
       formValues.startDate + 'T' + formValues.startTime
-    ).toISOString();
-    const endDate = new Date(
-      formValues.endDate + 'T' + formValues.endTime
-    ).toISOString();
+    );
+    const endDate = new Date(formValues.endDate + 'T' + formValues.endTime);
     delete formValues.startDate;
     delete formValues.endDate;
     if (this.id) {
@@ -150,6 +148,7 @@ export class CreateEventComponent {
     }
     formValues.startTime = startDate;
     formValues.endTime = endDate;
+    console.log(formValues);
 
     return formValues;
   }
