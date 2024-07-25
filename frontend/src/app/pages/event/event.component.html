@@ -1,4 +1,12 @@
 <section class="bg-white1 px-2 py-4 w-full" *ngIf="event">
+  <div class="top-8 fixed" *ngIf="showMessage">
+    <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+    <p class="bg-green-400 px-12 py-2 rounded-lg" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+  </div>
   <div class="gap-4 grid grid-cols-2 w-full">
     <div class="w-full h-[50vh]">
       <img

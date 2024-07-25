@@ -13,6 +13,9 @@ import { AuthService } from '../../services/auth.service';
 })
 export class DashboardHostsComponent {
   hosts!: User[];
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private usersService: UsersService,
@@ -39,8 +42,39 @@ export class DashboardHostsComponent {
     this.authService.deactivateOrganizer(hostId).subscribe((response) => {
       if (response.success) {
         this.getHosts();
+        this.successMessage = response.message;
+      } else {
+        this.errorMessage = response.message;
       }
-      alert(response.message);
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
+    });
+  }
+
+  activateHost(hostId: string) {
+    const isConfirmed: boolean = confirm(
+      'Are you sure you want to verify this host?'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    this.authService.verifyOrganizer(hostId).subscribe((response) => {
+      if (response.success) {
+        this.getHosts();
+        this.successMessage = response.message;
+      } else {
+        this.errorMessage = response.message;
+      }
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
     });
   }
 }

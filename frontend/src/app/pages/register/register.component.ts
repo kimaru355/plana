@@ -20,6 +20,9 @@ import { CountriesService } from '../../services/countries.service';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
   isOrganizer: boolean = false;
   role: 'user' | 'organizer' = 'user';
   countries: string[] = CountriesService.getCountries();
@@ -100,17 +103,30 @@ export class RegisterComponent {
       this.authService
         .register(user_register, this.role)
         .subscribe((response) => {
-          if (!response.success || !response.data) {
-            alert(response.message);
+          if (!response.success) {
+            this.showMessage = true;
+            this.errorMessage = response.message;
+            setTimeout(() => {
+              this.showMessage = false;
+              this.successMessage = '';
+              this.errorMessage = '';
+            }, 2000);
             return;
           }
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('role', response.data.role);
-          if (response.data.role === 'user') {
-            this.router.navigate(['events']);
-          } else if (response.data.role === 'organizer') {
-            this.router.navigate(['/dashboard/analytics']);
-          }
+          this.showMessage = true;
+          this.successMessage = response.message;
+          localStorage.setItem('token', response.data?.token || '');
+          localStorage.setItem('role', response.data?.role || '');
+          setTimeout(() => {
+            this.showMessage = false;
+            this.successMessage = '';
+            this.errorMessage = '';
+            if (response.data?.role === 'user') {
+              this.router.navigate(['events']);
+            } else if (response.data?.role === 'organizer') {
+              this.router.navigate(['/dashboard/analytics']);
+            }
+          }, 2000);
         });
     }
   }

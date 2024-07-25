@@ -1,81 +1,47 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Event } from '../../interfaces/event';
+import { EventCategory } from '../../interfaces/category';
+import { EventService } from '../../services/event.service';
+import { CategoryService } from '../../services/category.service';
+import { AboutUsComponent } from '../about-us/about-us.component';
+import { ContactUsComponent } from '../contact-us/contact-us.component';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AboutUsComponent, ContactUsComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
 })
 export class LandingComponent {
-  categories = [
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      imageUrl: '/images/tech_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MUSIC EVENTS',
-      imageUrl: '/images/music_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MOVIE EVENTS',
-      imageUrl: '/images/movies_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'SPORT EVENTS',
-      imageUrl: '/images/sports_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      imageUrl: '/images/tech_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MUSIC EVENTS',
-      imageUrl: '/images/music_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'MOVIE EVENTS',
-      imageUrl: '/images/movies_category.jpg',
-    },
-    {
-      id: 1,
-      name: 'SPORT EVENTS',
-      imageUrl: '/images/sports_category.jpg',
-    },
-  ];
-  events = [
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      imagesUrl: ['/images/music1.jpg'],
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      imagesUrl: ['/images/music1.jpg'],
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      imagesUrl: ['/images/music1.jpg'],
-    },
-    {
-      id: 1,
-      name: 'TECH EVENTS',
-      city: 'Nairobi',
-      imagesUrl: ['/images/music1.jpg'],
-    },
-  ];
+  events!: Event[];
+  categories!: EventCategory[];
+  constructor(
+    private eventService: EventService,
+    private categoryService: CategoryService
+  ) {
+    this.getEvents();
+    this.getCategories();
+  }
+
+  getEvents() {
+    this.eventService.getAllEvents().subscribe((response) => {
+      if (response.success && response.data) {
+        this.events = response.data;
+        if (this.events.length > 4) {
+          this.events.splice(4);
+        }
+      }
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getAllEventCategories().subscribe((response) => {
+      if (response.success && response.data) {
+        this.categories = response.data;
+      }
+    });
+  }
 }

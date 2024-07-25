@@ -1,6 +1,14 @@
 <section
   class="flex flex-col items-center bg-gray-bg w-full min-w-[79vw] min-h-screen"
 >
+  <div class="top-8 fixed" *ngIf="showMessage">
+    <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+    <p class="bg-green-400 px-12 py-2 rounded-lg" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+  </div>
   <div class="bg-white1 p-4 w-full">
     <h1 class="font-bold text-4xl text-center">PROFILE</h1>
   </div>
@@ -52,7 +60,6 @@
         name="country"
         id="country"
         class="w-full"
-        formControlName="country"
         [value]="userDetails.country"
       >
         <option
@@ -73,40 +80,83 @@
         </button>
       </div>
     </form>
-    <form class="flex flex-col">
+    <form
+      [formGroup]="passwordForm"
+      class="flex flex-col"
+      (ngSubmit)="updatePassword()"
+    >
       <h2 class="text-2xl text-center">Manage Password</h2>
+
       <label for="oldPassword">Old Password:</label>
       <input
         class="mb-4 px-4 py-1"
         type="password"
-        name="oldPassword"
         id="oldPassword"
-        [(value)]="userPasswords.old_password"
+        formControlName="old_password"
         placeholder="********"
       />
+      <div
+        *ngIf="
+          passwordForm.get('old_password')?.invalid &&
+          passwordForm.get('old_password')?.touched
+        "
+        class="text-red-500"
+      >
+        Old password is required.
+      </div>
+
       <label for="password">New Password:</label>
       <input
         class="mb-4 px-4 py-1"
         type="password"
-        name="password"
         id="password"
-        [(value)]="userPasswords.new_password"
+        formControlName="new_password"
         placeholder="********"
       />
+      <div
+        *ngIf="
+          passwordForm.get('new_password')?.invalid &&
+          passwordForm.get('new_password')?.touched
+        "
+        class="text-red-500"
+      >
+        <div *ngIf="passwordForm.get('new_password')?.errors?.['required']">
+          New password is required.
+        </div>
+        <div *ngIf="passwordForm.get('new_password')?.errors?.['minlength']">
+          Password must be at least 6 characters long.
+        </div>
+      </div>
+
       <label for="confirmPassword">Confirm Password:</label>
       <input
         class="mb-4 px-4 py-1"
         type="password"
-        name="confirmPassword"
         id="confirmPassword"
-        [(value)]="userPasswords.confirm_password"
+        formControlName="confirm_password"
         placeholder="********"
       />
+      <div
+        *ngIf="
+          passwordForm.get('confirm_password')?.invalid &&
+          passwordForm.get('confirm_password')?.touched
+        "
+        class="text-red-500"
+      >
+        Confirm password is required.
+      </div>
+      <div
+        *ngIf="passwordForm.errors?.['mismatch'] && passwordForm.get('confirm_password')?.touched"
+        class="text-red-500"
+      >
+        Passwords do not match.
+      </div>
+
       <div class="flex justify-center">
         <button
-          (click)="updatePassword()"
-          type="button"
+          type="submit"
           class="bg-blue mt-8 px-8 py-1 rounded-md text-white"
+          [disabled]="passwordForm.invalid"
         >
           Update Password
         </button>

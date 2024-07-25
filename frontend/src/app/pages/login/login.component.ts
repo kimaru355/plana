@@ -19,6 +19,9 @@ import { UserLogin } from '../../interfaces/auth';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
   isOrganizer: boolean = false;
   role: 'user' | 'organizer' | 'admin' = 'user';
 
@@ -58,19 +61,32 @@ export class LoginComponent {
       const user_login: UserLogin = this.loginForm.value;
       this.authService.login(user_login, this.role).subscribe((response) => {
         if (!response.success || !response.data) {
-          alert(response.message);
+          this.errorMessage = response.message;
+          this.showMessage = true;
+          setTimeout(() => {
+            this.showMessage = false;
+            this.successMessage = '';
+            this.errorMessage = '';
+          }, 2000);
           return;
         }
+        this.successMessage = response.message;
+        this.showMessage = true;
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role', response.data.role);
-        if (response.data.role === 'user') {
-          this.router.navigate(['events']);
-        } else if (
-          response.data.role === 'organizer' ||
-          response.data.role === 'admin'
-        ) {
-          this.router.navigate(['/dashboard/analytics']);
-        }
+        setTimeout(() => {
+          this.showMessage = false;
+          this.successMessage = '';
+          this.errorMessage = '';
+          if (response.data?.role === 'user') {
+            this.router.navigate(['events']);
+          } else if (
+            response.data?.role === 'organizer' ||
+            response.data?.role === 'admin'
+          ) {
+            this.router.navigate(['/dashboard/analytics']);
+          }
+        }, 2000);
       });
     }
   }

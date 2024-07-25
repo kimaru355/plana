@@ -1,4 +1,12 @@
 <section class="bg-gray-bg w-[80vw] min-h-screen">
+  <div class="top-8 fixed" *ngIf="showMessage">
+    <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+    <p class="bg-green-400 px-12 py-2 rounded-lg" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+  </div>
   <div class="bg-white1 p-4">
     <h1 class="font-bold text-4xl text-center">HOSTS</h1>
   </div>
@@ -20,7 +28,7 @@
   </div>
   <div class="px-4">
     <table class="bg-white1 p-2 w-full">
-      <thead>
+      <thead class="bg-yellow-300">
         <th class="border-stroke border text-start">Name</th>
         <th class="border-stroke border text-start">Email</th>
         <th class="border-stroke border text-start">Phone Number</th>
@@ -44,6 +52,12 @@
           <td class="border-stroke border">{{ host.country }}</td>
           <td class="border-stroke border">{{ host.country }}</td>
           <td class="flex gap-2 border-stroke px-2 border">
+            <img
+              class="w-12 h-12 hover:cursor-pointer"
+              src="/icons/verify.png"
+              alt="verify button"
+              (click)="activateHost(host.id)"
+            />
             <img
               class="w-12 h-12 hover:cursor-pointer"
               src="/icons/delete.svg"

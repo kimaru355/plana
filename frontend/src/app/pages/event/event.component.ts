@@ -24,6 +24,9 @@ export class EventComponent {
   numberOfTickets = 1;
   inputName: string = '';
   names: string[] = [];
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private eventService: EventService,
@@ -78,18 +81,36 @@ export class EventComponent {
 
   addName() {
     if (!this.inputName) {
-      alert('Please enter a name');
+      this.errorMessage = 'Please enter a name';
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
       return;
     }
     if (this.inputName.split(' ').length < 2) {
-      alert('Please provide the full name');
+      this.errorMessage = 'Please provide the full name';
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
       return;
     }
     if (
       this.names.length >=
       this.numberOfTickets * this.selectedTicket.persons
     ) {
-      alert('You have reached the maximum number of names');
+      this.errorMessage = 'You have reached the maximum number of names';
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
       return;
     }
     this.names.push(this.inputName);
@@ -105,7 +126,13 @@ export class EventComponent {
       this.names.length <
       this.numberOfTickets * this.selectedTicket.persons
     ) {
-      alert('Please provide all the names');
+      this.errorMessage = 'Please provide all the names';
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
       return;
     }
     const confirmed = confirm(
@@ -125,10 +152,22 @@ export class EventComponent {
     };
     this.ticketService.createTicket(ticket).subscribe((response) => {
       if (response.success) {
-        alert('Ticket booked successfully');
-        this.router.navigate(['/reservations']);
+        this.successMessage = response.message;
+        this.showMessage = true;
+        setTimeout(() => {
+          this.showMessage = false;
+          this.errorMessage = '';
+          this.successMessage = '';
+          this.router.navigate(['/reservations']);
+        }, 2000);
       } else {
-        alert('Failed to book ticket');
+        this.errorMessage = response.message;
+        this.showMessage = true;
+        setTimeout(() => {
+          this.showMessage = false;
+          this.errorMessage = '';
+          this.successMessage = '';
+        }, 2000);
       }
     });
   }

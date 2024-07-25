@@ -26,31 +26,29 @@ export class EventTicketService implements EventTicketServices {
     });
   }
   updateEventTicket(ticket: EventTicket): Observable<Res<null>> {
-    return this.http.post<Res<null>>(
-      `${this.api}/update/${ticket.id}`,
-      ticket,
-      { headers: this.headers }
-    );
+    return this.http.put<Res<null>>(`${this.api}/update/${ticket.id}`, ticket, {
+      headers: this.headers,
+    });
   }
   deleteEventTicket(ticketId: string): Observable<Res<null>> {
-    return this.http.post<Res<null>>(`${this.api}/delete/${ticketId}`, {
+    return this.http.delete<Res<null>>(`${this.api}/delete/${ticketId}`, {
       headers: this.headers,
     });
   }
   getEventTicket(ticketId: string): Observable<Res<EventTicket | null>> {
-    return this.http.post<Res<null>>(`${this.api}/${ticketId}`, {
+    return this.http.get<Res<null>>(`${this.api}/${ticketId}`, {
       headers: this.headers,
     });
   }
   getAllEventTickets(): Observable<Res<EventTicket[] | null>> {
-    return this.http.post<Res<null>>(`${this.api}/all`, {
+    return this.http.get<Res<null>>(`${this.api}/all`, {
       headers: this.headers,
     });
   }
   getEventTicketsByEventId(
     eventId: string
   ): Observable<Res<EventTicket[] | null>> {
-    return this.http.post<Res<null>>(`${this.api}/event/${eventId}`, {
+    return this.http.get<Res<null>>(`${this.api}/event/${eventId}`, {
       headers: this.headers,
     });
   }

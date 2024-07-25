@@ -23,7 +23,7 @@ AuthRouter.post("/register/:role", register);
 AuthRouter.post("/login/:role", login);
 AuthRouter.put("/update_details/:role", verifyToken, updateDetails);
 AuthRouter.put("/update_password/:role", verifyToken, updatePassword);
-AuthRouter.put("/verify/organizer/:organizerId", verifyAdmin, verifyOrganizer);
+AuthRouter.put("/verify/:organizerId", verifyAdmin, verifyOrganizer);
 AuthRouter.put("/activate/user/:userId", verifyAdmin, activateUser);
 AuthRouter.put("/deactivate/user/:userId", verifyAdmin, deactivateUser);
 AuthRouter.put(

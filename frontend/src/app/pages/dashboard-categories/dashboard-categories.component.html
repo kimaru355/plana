@@ -1,4 +1,12 @@
 <section class="bg-gray-bg pb-8 w-[80vw] min-h-screen">
+  <div class="top-8 fixed" *ngIf="showMessage">
+    <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+    <p class="bg-green-400 px-12 py-2 rounded-lg" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+  </div>
   <div class="bg-white1 p-4">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>
@@ -79,7 +87,7 @@
         <th class="border-stroke border text-start">Actions</th>
       </thead>
       <tbody>
-        <tr *ngFor="let category of categories">
+        <tr *ngFor="let category of categories" class="even:bg-blue-400">
           <td class="border-stroke border">{{ category.name }}</td>
           <td class="border-stroke border">
             <img src="{{ category.imageUrl }}" alt="" class="w-8 h-8" />

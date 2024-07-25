@@ -24,6 +24,9 @@ export class NotificationsComponent {
   eventTicket!: EventTicket;
   eventTickets!: EventTicket[];
   events!: Event[];
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -92,10 +95,18 @@ export class NotificationsComponent {
       this.eventTicketService
         .createEventTicket(this.eventTicket)
         .subscribe((response) => {
-          if (response.success && response.data) {
+          if (response.success) {
             this.getOrganizerEventTickets();
+            this.successMessage = response.message;
+          } else {
+            this.errorMessage = response.message;
           }
-          alert(response.message);
+          this.showMessage = true;
+          setTimeout(() => {
+            this.showMessage = false;
+            this.errorMessage = '';
+            this.successMessage = '';
+          }, 2000);
         });
     }
   }

@@ -1,4 +1,12 @@
 <section class="flex flex-col items-center bg-gray-bg w-[80vw] min-h-screen">
+  <div class="top-8 fixed" *ngIf="showMessage">
+    <p class="bg-red-400 px-12 py-2 rounded-lg" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+    <p class="bg-green-400 px-12 py-2 rounded-lg" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+  </div>
   <div class="bg-white1 p-4 w-full">
     <h1 class="font-bold text-4xl text-center">EVENTS</h1>
   </div>

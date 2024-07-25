@@ -17,6 +17,9 @@ export class DashboardEventsComponent {
   role: 'organizer' | 'admin' =
     (localStorage.getItem('role') as 'organizer' | 'admin') || '';
   events!: Event[];
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private manageEventService: ManageEventService,
@@ -42,6 +45,29 @@ export class DashboardEventsComponent {
       if (response.success && response.data) {
         this.events = response.data;
       }
+    });
+  }
+
+  deleteEvent(eventId: string) {
+    const isConfirmed: boolean = confirm(
+      'Are you sure you want to delete this event?'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    this.manageEventService.deleteEvent(eventId).subscribe((response) => {
+      if (response.success) {
+        this.getEvents();
+        this.successMessage = response.message;
+      } else {
+        this.errorMessage = response.message;
+      }
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
     });
   }
 }

@@ -88,7 +88,7 @@ export class ManageEventService implements ManageEventServices {
       if (orders.length > 0) {
         return {
           success: false,
-          message: "There are orders for this event that are not completed",
+          message: "There are tickets for this event that have been booked",
           data: null,
         };
       }

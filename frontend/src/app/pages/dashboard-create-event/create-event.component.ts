@@ -29,6 +29,9 @@ export class CreateEventComponent {
   id!: string;
   event!: EventCreate;
   eventForm: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +70,7 @@ export class CreateEventComponent {
       if (response.success && response.data) {
         this.event = response.data;
         const tmpEvent = this.reverseEventCreate(this.event);
+
         this.eventForm.patchValue(tmpEvent);
       }
     });
@@ -90,25 +94,42 @@ export class CreateEventComponent {
         this.manageEventService
           .createEvent(eventCreate)
           .subscribe((response) => {
-            if (response.success && response.data) {
+            if (response.success) {
               this.eventForm.reset();
+              this.successMessage = response.message;
+              this.showMessage = true;
               setTimeout(() => {
                 this.router.navigate(['/dashboard/eventTicket']);
               }, 3000);
+            } else {
+              this.errorMessage = response.message;
+              this.showMessage = true;
             }
-            alert(response.message);
+            setTimeout(() => {
+              this.showMessage = false;
+              this.errorMessage = '';
+              this.successMessage = '';
+            }, 2000);
           });
       } else {
         this.manageEventService
           .updateEvent(eventCreate)
           .subscribe((response) => {
-            if (response.success && response.data) {
+            if (response.success) {
               this.eventForm.reset();
+              this.successMessage = response.message;
               setTimeout(() => {
-                this.router.navigate(['/dashboard/eventTicket']);
+                this.router.navigate(['/dashboard/events']);
               }, 3000);
+            } else {
+              this.errorMessage = response.message;
             }
-            alert(response.message);
+            this.showMessage = true;
+            setTimeout(() => {
+              this.showMessage = false;
+              this.errorMessage = '';
+              this.successMessage = '';
+            }, 2000);
           });
       }
     }
@@ -122,12 +143,15 @@ export class CreateEventComponent {
     const endDate = new Date(
       formValues.endDate + 'T' + formValues.endTime
     ).toISOString();
+    delete formValues.startDate;
+    delete formValues.endDate;
+    if (this.id) {
+      formValues.id = this.id;
+    }
+    formValues.startTime = startDate;
+    formValues.endTime = endDate;
 
-    return {
-      ...formValues,
-      startDate,
-      endDate,
-    };
+    return formValues;
   }
 
   reverseEventCreate(event: EventCreate) {
@@ -150,12 +174,16 @@ export class CreateEventComponent {
         ? '0' + tmpStartTime.getMinutes()
         : tmpStartTime.getMinutes()
     }`;
-    const tmpEndTime = new Date(event.startTime);
+    const tmpEndTime = new Date(event.endTime);
     const endDate = `${tmpEndTime.getFullYear()}-${
       tmpEndTime.getMonth() + 1 < 10
         ? '0' + (tmpEndTime.getMonth() + 1)
         : tmpEndTime.getMonth() + 1
-    }-${tmpEndTime.getDate()}`;
+    }-${
+      tmpEndTime.getDate() < 10
+        ? '0' + tmpEndTime.getDate()
+        : tmpEndTime.getDate()
+    }`;
     const endTime = `${
       tmpEndTime.getHours() < 10
         ? '0' + tmpEndTime.getHours()

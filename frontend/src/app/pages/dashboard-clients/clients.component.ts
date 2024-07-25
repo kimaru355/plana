@@ -15,6 +15,9 @@ export class ClientsComponent {
   role: 'organizer' | 'admin' =
     (localStorage.getItem('role') as 'organizer' | 'admin') || '';
   clients!: User[];
+  errorMessage: string = '';
+  successMessage: string = '';
+  showMessage: boolean = false;
 
   constructor(
     private usersService: UsersService,
@@ -53,8 +56,16 @@ export class ClientsComponent {
     this.authService.deactivateUser(clientId).subscribe((response) => {
       if (response.success) {
         this.getUsers();
+        this.successMessage = response.message;
+      } else {
+        this.errorMessage = response.message;
       }
-      alert(response.message);
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
     });
   }
 }

@@ -1,10 +1,8 @@
-<div
-  class="top-8 z-50 fixed flex justify-center items-center w-full"
-  *ngIf="isVisible"
->
+<div class="top-8 z-50 fixed flex justify-center items-center w-full">
   <div
     class="flex justify-center items-center bg-green-400 rounded-full w-80 h-12"
   >
-    <p>Account successfully updated</p>
+    <div id="snackbar">Some text some message..</div>
+    <button (click)="display()">Display</button>
   </div>
 </div>

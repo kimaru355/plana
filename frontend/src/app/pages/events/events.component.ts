@@ -17,7 +17,10 @@ import { EventCategory } from '../../interfaces/category';
 export class EventsComponent {
   countries: string[] = [];
   events: EventFinal[] = [];
+  allEvents: EventFinal[] = [];
   categories: EventCategory[] = [];
+  categoryId: string = '';
+  country: string = '';
 
   constructor(
     private eventService: EventService,
@@ -33,6 +36,7 @@ export class EventsComponent {
         return;
       }
       this.events = response.data;
+      this.allEvents = response.data;
       this.countries = this.events.map((event) => event.country);
     });
   }
@@ -44,5 +48,11 @@ export class EventsComponent {
       }
       this.categories = response.data;
     });
+  }
+
+  filterByCategory() {
+    this.events = this.allEvents.filter(
+      (event) => event.categoryId == this.categoryId
+    );
   }
 }

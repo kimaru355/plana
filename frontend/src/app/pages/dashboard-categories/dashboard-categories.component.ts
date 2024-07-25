@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class DashboardCategoriesComponent {
   categories!: EventCategory[];
+  successMessage: string = '';
+  errorMessage: string = '';
+  showMessage: boolean = false;
   category: EventCategory = {
     name: '',
     imageUrl: '',
@@ -36,9 +39,17 @@ export class DashboardCategoriesComponent {
       .deleteEventCategory(categoryId)
       .subscribe((response) => {
         if (response.success) {
+          this.successMessage = response.message;
+          this.showMessage = true;
           this.getCategories();
+        } else {
+          this.errorMessage = response.message;
         }
-        alert(response.message);
+        setTimeout(() => {
+          this.showMessage = false;
+          this.errorMessage = '';
+          this.successMessage = '';
+        }, 2000);
       });
   }
 
@@ -73,7 +84,14 @@ export class DashboardCategoriesComponent {
 
   createCategory() {
     if (!this.category.name || !this.category.imageUrl) {
-      alert('Please provide category name and upload image');
+      this.errorMessage = 'Please provide category name and upload image';
+      this.showMessage = true;
+
+      setTimeout(() => {
+        this.showMessage = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 2000);
       return;
     }
 
@@ -82,8 +100,16 @@ export class DashboardCategoriesComponent {
       .subscribe((response) => {
         if (response.success) {
           this.getCategories();
+          this.successMessage = response.message;
+        } else {
+          this.errorMessage = response.message;
         }
-        alert(response.message);
+        this.showMessage = true;
+        setTimeout(() => {
+          this.showMessage = false;
+          this.errorMessage = '';
+          this.successMessage = '';
+        }, 2000);
       });
     this.createState = '';
     this.resetCategory();
@@ -98,8 +124,16 @@ export class DashboardCategoriesComponent {
       .subscribe((response) => {
         if (response.success) {
           this.getCategories();
+          this.successMessage = response.message;
+        } else {
+          this.errorMessage = response.message;
         }
-        alert(response.message);
+        this.showMessage = true;
+        setTimeout(() => {
+          this.showMessage = false;
+          this.errorMessage = '';
+          this.successMessage = '';
+        }, 2000);
       });
     this.createState = '';
     this.resetCategory();
