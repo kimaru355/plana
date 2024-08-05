@@ -15,8 +15,6 @@ import {
   sendWelcomeNewOrganizerEmail,
   sendWelcomeNewUsersEmail,
 } from "../background-services/mailer";
-import { UsersService } from "../services/users.service";
-import { User } from "../interfaces/user";
 
 export const register = async (
   req: Request,
@@ -58,6 +56,43 @@ export const register = async (
     sendApproveOrganizerEmail("alazemibedour@gmail.com", user_register);
     return res.status(201).json(response);
   }
+  return res.status(200).json(response);
+};
+
+export const createDefaultAdmin = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const user_register: UserRegister = {
+    id: v4(),
+    email: process.env.ADMIN_EMAIL as string,
+    name: "Emmanuel Kimaru",
+    phoneNumber: "1234567876543",
+    country: "Kenya",
+    password: process.env.ADMIN_PASSWORD as string,
+  };
+  const role = "admin";
+  console.log(user_register);
+
+  if (
+    !user_register.id ||
+    !user_register.email ||
+    !user_register.password ||
+    !user_register.name ||
+    !user_register.phoneNumber ||
+    !user_register.country ||
+    Object.keys(user_register).length !== 6
+  ) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+
+  const auth = new AuthService();
+  const response: Res<{ role: "user" | "organizer" | "admin" } | null> =
+    await auth.register(user_register, role);
   return res.status(200).json(response);
 };
 

@@ -13,6 +13,7 @@ import EventRouter from "./routers/event.router";
 import TicketRouter from "./routers/ticket.router";
 import UsersRouter from "./routers/users.router";
 import AnalyticRouter from "./routers/analytic.router";
+import { checkErrors, testDBConnection } from "./services/testDB.service";
 
 dotenv.config();
 const app = express();
@@ -62,6 +63,9 @@ app.use("**", (req: Request, res: Response) => {
 });
 
 const port = 3000;
+
+testDBConnection();
+checkErrors();
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

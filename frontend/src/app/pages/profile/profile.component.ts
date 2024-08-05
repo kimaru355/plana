@@ -55,6 +55,7 @@ export class ProfileComponent {
       if (response.success && response.data) {
         this.userDetails = response.data;
       }
+      alert(response.message);
     });
   }
 

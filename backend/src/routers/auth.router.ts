@@ -3,6 +3,7 @@ import {
   activateAdmin,
   activateOrganizer,
   activateUser,
+  createDefaultAdmin,
   deactivateAdmin,
   deactivateOrganizer,
   deactivateUser,
@@ -18,6 +19,7 @@ import { verifyAdmin } from "../middlewares/verifyAdmin";
 
 const AuthRouter = Router();
 
+AuthRouter.post("/create-default-admin", createDefaultAdmin);
 AuthRouter.post("/register/admin", verifyToken, verifyAdmin, registerAdmin);
 AuthRouter.post("/register/:role", register);
 AuthRouter.post("/login/:role", login);

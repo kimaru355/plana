@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   planadatabase:
     container_name: plana_database

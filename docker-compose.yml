@@ -1,45 +1,45 @@
-version: "3.8"
-services:
-  planadatabase:
-    container_name: plana_database
-    image: postgres
-    restart: unless-stopped
-    env_file: ./backend/.env
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: plana
-    ports:
-      - "5436:5432"
-    volumes:
-      - ./backend/planadata:/var/lib/postgres
+# version: "3.8"
+# services:
+#   planadatabase:
+#     container_name: plana_database
+#     image: postgres
+#     restart: unless-stopped
+#     env_file: ./backend/.env
+#     environment:
+#       POSTGRES_USER: root
+#       POSTGRES_PASSWORD: root
+#       POSTGRES_DB: plana
+#     ports:
+#       - "5436:5432"
+#     volumes:
+#       - ./backend/planadata:/var/lib/postgres
 
-  planaserver:
-    build: ./backend
-    container_name: plana_server
-    depends_on:
-      - planadatabase
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    stdin_open: true
-    tty: true
-    command: ["sh", "-c", "npx prisma db push && npm start"]
+#   planaserver:
+#     build: ./backend
+#     container_name: plana_server
+#     depends_on:
+#       - planadatabase
+#     restart: unless-stopped
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./backend:/app
+#       - /app/node_modules
+#     stdin_open: true
+#     tty: true
+#     command: ["sh", "-c", "npx prisma db push && npm start"]
 
-  planaclient:
-    container_name: plana_client
-    build: ./frontend
-    ports:
-      - "4200:4200"
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./frontend/src:/app/src
-    depends_on:
-      - planaserver
+#   planaclient:
+#     container_name: plana_client
+#     build: ./frontend
+#     ports:
+#       - "4200:4200"
+#     stdin_open: true
+#     tty: true
+#     volumes:
+#       - ./frontend/src:/app/src
+#     depends_on:
+#       - planaserver
 
-volumes:
-  planadata:
+# volumes:
+#   planadata:
